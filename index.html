@@ -462,11 +462,15 @@ async function loadAllData(){
       sb.from('ca_history').select('*'),
       sb.from('client_notes').select('*')
     ]);
+    if(cr.error) throw new Error('clients: '+cr.error.message);
+    if(hr.error) throw new Error('ca_history: '+hr.error.message);
+    if(nr.error) throw new Error('notes: '+nr.error.message);
     clients=cr.data||[];
     caHistory={};(hr.data||[]).forEach(r=>{if(!caHistory[r.client_id])caHistory[r.client_id]=[];caHistory[r.client_id].push({mois:r.mois,annee:r.annee,ca:parseFloat(r.ca)||0});});
     clientNotes={};(nr.data||[]).forEach(r=>{clientNotes[r.client_id]=r.note;});
     saveCache();
-  }catch(e){toast('Erreur chargement — mode cache','e');loadFromCache();}
+    toast(clients.length+' clients chargés','s');
+  }catch(e){toast('Erreur chargement — mode cache : '+e.message,'e');loadFromCache();}
 }
 
 function loadFromCache(){
@@ -537,7 +541,7 @@ function initMap(){
   if(map) return;
   map=L.map('map',{center:[46.7,2.5],zoom:6});
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:19}).addTo(map);
-  markersLayer=L.markerClusterGroup({maxClusterRadius:50,iconCreateFunction:c=>{
+  markersLayer=L.markerClusterGroup({maxClusterRadius:50,disableClusteringAtZoom:8,iconCreateFunction:c=>{
     const n=c.getChildCount();
     return L.divIcon({html:`<div style="background:rgba(27,94,166,.78);color:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.2);border:2px solid rgba(255,255,255,.8);">${n}</div>`,className:'',iconSize:[36,36]});
   }});
@@ -546,7 +550,7 @@ function initMap(){
 
 function renderMarkers(){
   markersLayer.clearLayers();
-  getFiltered().forEach(cl=>{if(cl.lat&&cl.lng)markersLayer.addLayer(mkMarker(cl));});
+  getFiltered().forEach(cl=>{if(cl.lat!=null&&cl.lng!=null&&(cl.lat!==0||cl.lng!==0))markersLayer.addLayer(mkMarker(cl));});
 }
 
 function mkMarker(cl){
