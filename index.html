@@ -215,6 +215,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
     <button id="btn-view-toggle" style="display:none;">📋 Vue Liste</button>
     <span id="nav-user"></span>
     <button id="btn-logout" class="btn btn-sm btn-o" style="display:none;">Déconnexion</button>
+    <button id="btn-debug" class="btn btn-sm" style="background:#f59e0b;color:#fff;font-size:11px;" onclick="debugState()">🔍 Debug</button>
   </div>
 </nav>
 
@@ -542,16 +543,33 @@ function initMap(){
   if(map) return;
   map=L.map('map',{center:[46.7,2.5],zoom:6});
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:19}).addTo(map);
-  markersLayer=L.markerClusterGroup({maxClusterRadius:50,disableClusteringAtZoom:8,iconCreateFunction:c=>{
+  markersLayer=L.markerClusterGroup({maxClusterRadius:40,disableClusteringAtZoom:6,spiderfyOnMaxZoom:true,iconCreateFunction:c=>{
     const n=c.getChildCount();
-    return L.divIcon({html:`<div style="background:rgba(27,94,166,.78);color:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.2);border:2px solid rgba(255,255,255,.8);">${n}</div>`,className:'',iconSize:[36,36]});
+    return L.divIcon({html:`<div style="background:rgba(27,94,166,.85);color:#fff;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.3);border:3px solid #fff;">${n}</div>`,className:'',iconSize:[40,40]});
   }});
   markersLayer.addTo(map);
 }
 
 function renderMarkers(){
   markersLayer.clearLayers();
-  getFiltered().forEach(cl=>{if(cl.lat!=null&&cl.lng!=null&&(cl.lat!==0||cl.lng!==0))markersLayer.addLayer(mkMarker(cl));});
+  const filtered=getFiltered();
+  const withCoords=filtered.filter(cl=>cl.lat!=null&&cl.lng!=null&&(cl.lat!==0||cl.lng!==0));
+  withCoords.forEach(cl=>markersLayer.addLayer(mkMarker(cl)));
+  document.title=`[${clients.length}c ${filtered.length}f ${withCoords.length}m] SPK SAM`;
+  // Empty state overlay
+  let overlay=document.getElementById('map-empty');
+  if(!overlay){
+    overlay=document.createElement('div');
+    overlay.id='map-empty';
+    overlay.style.cssText='position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,.92);padding:20px 28px;border-radius:8px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.15);z-index:500;pointer-events:none;';
+    document.getElementById('map-container').appendChild(overlay);
+  }
+  if(filtered.length===0&&clients.length>0){
+    overlay.innerHTML=`<div style="font-size:28px;">🔍</div><div style="font-weight:700;color:#1B5EA6;margin:4px 0;">Aucun client</div><div style="font-size:12px;color:#666;">Modifie ou réinitialise les filtres</div>`;
+    overlay.style.display='block';
+  } else {
+    overlay.style.display='none';
+  }
 }
 
 function mkMarker(cl){
@@ -906,6 +924,24 @@ function exportCSV(){
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='spk_filtres.csv';document.body.appendChild(a);a.click();a.remove();
   toast(`${f.length} client(s) exporté(s)`,'s');
 }
+
+// ─── DEBUG ────────────────────────────────────────────────
+window.debugState=function(){
+  const filtered=getFiltered();
+  const avecCoords=filtered.filter(cl=>cl.lat!=null&&cl.lng!=null&&(cl.lat!==0||cl.lng!==0));
+  const msg=
+    `CLIENTS TOTAL : ${clients.length}\n`+
+    `FILTRE TYPE   : ${activeTypeFilter}\n`+
+    `FILTRE TAILLE : ${activeSizeFilter}\n`+
+    `RECHERCHE     : "${searchQuery}"\n`+
+    `FILTRÉS       : ${filtered.length}\n`+
+    `AVEC COORDS   : ${avecCoords.length}\n`+
+    `CA HISTORY    : ${Object.keys(caHistory).length} clients\n`+
+    `EN LIGNE      : ${isOnline}\n\n`+
+    `--- 3 premiers clients ---\n`+
+    clients.slice(0,3).map(c=>`${c.nom} | lat=${c.lat} lng=${c.lng} | type=${c.type}`).join('\n');
+  alert(msg);
+};
 
 // ─── PWA ──────────────────────────────────────────────────
 if('serviceWorker' in navigator){
