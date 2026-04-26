@@ -434,12 +434,12 @@ async function doAuth(){
   currentUser=result.data.user;
   document.getElementById('auth-modal').classList.remove('show');
   await loadAllData();
-  renderApp();
+  await renderApp();
 }
 
 async function checkAuth(){
   const {data:{session}}=await sb.auth.getSession();
-  if(session){currentUser=session.user;await loadAllData();renderApp();}
+  if(session){currentUser=session.user;await loadAllData();await renderApp();}
   else{showAuthModal();}
   sb.auth.onAuthStateChange((_,sess)=>{
     if(!sess&&currentUser){currentUser=null;showAuthModal();}
@@ -534,6 +534,7 @@ async function seedDemoIfEmpty(){
 
 // ─── MAP ─────────────────────────────────────────────────
 function initMap(){
+  if(map) return;
   map=L.map('map',{center:[46.7,2.5],zoom:6});
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:19}).addTo(map);
   markersLayer=L.markerClusterGroup({maxClusterRadius:50,iconCreateFunction:c=>{
@@ -907,12 +908,13 @@ if('serviceWorker' in navigator){
 }
 
 // ─── RENDER APP ───────────────────────────────────────────
-function renderApp(){
+async function renderApp(){
   document.getElementById('nav-user').textContent=currentUser?.email||'';
   document.getElementById('btn-logout').style.display='inline-flex';
   document.getElementById('btn-view-toggle').style.display='inline-block';
-  initMap();renderFilters();renderMarkers();updateStats();
-  seedDemoIfEmpty();
+  initMap();
+  await seedDemoIfEmpty();
+  renderFilters();renderMarkers();updateStats();
 }
 
 // ─── INIT ─────────────────────────────────────────────────
