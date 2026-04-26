@@ -1,0 +1,17 @@
+{
+  "name": "SPK Sales Area Manager",
+  "short_name": "SPK SAM",
+  "description": "Gestion commerciale terrain CeramTec",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1B5EA6",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='16' fill='%231B5EA6'/><rect width='192' height='12' fill='%23E2001A'/><text x='96' y='130' font-family='Arial' font-weight='bold' font-size='80' fill='white' text-anchor='middle'>SPK</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
