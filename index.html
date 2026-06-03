@@ -209,13 +209,14 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 <nav id="navbar">
   <div class="nav-logo-box"><span class="nav-logo-text">SPK</span></div>
   <span class="nav-title">Sales Area Manager</span>
-  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v3</span>
+  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v4</span>
   <div class="nav-right">
     <span id="offline-badge">✈ Hors-ligne</span>
+    <span id="demo-badge" style="display:none;font-size:11px;font-weight:700;background:#f59e0b;color:#fff;padding:2px 8px;border-radius:10px;">MODE DÉMO</span>
     <button id="btn-view-toggle" style="display:none;">📋 Vue Liste</button>
-    <span id="nav-user"></span>
+    <span id="nav-user" style="font-size:12px;color:#666;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+    <button id="btn-login" class="btn btn-sm" style="display:none;">🔐 Connexion</button>
     <button id="btn-logout" class="btn btn-sm btn-o" style="display:none;">Déconnexion</button>
-    <button id="btn-debug" class="btn btn-sm" style="background:#f59e0b;color:#fff;font-size:11px;" onclick="debugState()">🔍 Debug</button>
   </div>
 </nav>
 
@@ -441,22 +442,29 @@ async function doAuth(){
 
 async function checkAuth(){
   const {data:{session}}=await sb.auth.getSession();
-  if(session){currentUser=session.user;await loadAllData();await renderApp();}
-  else{showAuthModal();}
-  sb.auth.onAuthStateChange((_,sess)=>{
-    if(!sess&&currentUser){currentUser=null;showAuthModal();}
+  if(session){currentUser=session.user;await loadAllData();}
+  else{await startDemoMode();}
+  await renderApp();
+  sb.auth.onAuthStateChange(async(_,sess)=>{
+    if(sess&&!currentUser){currentUser=sess.user;await loadAllData();await renderApp();}
+    if(!sess&&currentUser){currentUser=null;await startDemoMode();await renderApp();}
   });
 }
 
+async function startDemoMode(){
+  currentUser=null;
+  loadFromCache();
+  if(!clients.length){seedDemoLocal();saveCache();}
+}
+
 function showAuthModal(){
-  document.getElementById('auth-modal').classList.add('show');
-  document.getElementById('btn-view-toggle').style.display='none';
-  document.getElementById('btn-logout').style.display='none';
   switchAuthTab('login');
+  document.getElementById('auth-modal').classList.add('show');
 }
 
 // ─── DATA LOADING ─────────────────────────────────────────
 async function loadAllData(){
+  if(!currentUser){loadFromCache();return;}
   if(!isOnline){loadFromCache();return;}
   try{
     const [cr,hr,nr]=await Promise.all([
@@ -471,7 +479,6 @@ async function loadAllData(){
     caHistory={};(hr.data||[]).forEach(r=>{if(!caHistory[r.client_id])caHistory[r.client_id]=[];caHistory[r.client_id].push({mois:r.mois,annee:r.annee,ca:parseFloat(r.ca)||0});});
     clientNotes={};(nr.data||[]).forEach(r=>{clientNotes[r.client_id]=r.note;});
     saveCache();
-    toast(clients.length+' clients chargés','s');
   }catch(e){toast('Erreur chargement — mode cache : '+e.message,'e');loadFromCache();}
 }
 
@@ -489,47 +496,69 @@ function saveCache(){
 
 // ─── SUPABASE WRITES ──────────────────────────────────────
 async function dbUpsertClient(cl){
+  if(!currentUser){const i=clients.findIndex(c=>c.id===cl.id);if(i>=0)clients[i]=cl;else clients.push(cl);saveCache();return true;}
   if(!isOnline){toast('Hors-ligne : impossible de sauvegarder','e');return false;}
-  const {error}=await sb.from('clients').upsert({...cl,created_by:currentUser?.id},{onConflict:'id'});
+  const {error}=await sb.from('clients').upsert({...cl,created_by:currentUser.id},{onConflict:'id'});
   if(error){toast('Erreur sync: '+error.message,'e');return false;}
   return true;
 }
 async function dbDeleteClient(id){
+  if(!currentUser){clients=clients.filter(c=>c.id!==id);saveCache();return true;}
   if(!isOnline){toast('Hors-ligne : impossible de supprimer','e');return false;}
   const {error}=await sb.from('clients').delete().eq('id',id);
   if(error){toast('Erreur: '+error.message,'e');return false;}
   return true;
 }
 async function dbUpsertCA(clientId,mois,annee,ca){
+  if(!currentUser){saveCache();return;}
   if(!isOnline)return;
   await sb.from('ca_history').upsert({client_id:clientId,mois,annee,ca},{onConflict:'client_id,mois,annee'});
 }
 async function dbUpsertNote(clientId,note){
+  if(!currentUser){saveCache();return;}
   if(!isOnline)return;
-  await sb.from('client_notes').upsert({client_id:clientId,note,updated_by:currentUser?.id},{onConflict:'client_id'});
+  await sb.from('client_notes').upsert({client_id:clientId,note,updated_by:currentUser.id},{onConflict:'client_id'});
 }
 
 // ─── DEMO DATA ────────────────────────────────────────────
+const DEMO_CLIENTS=[
+  {id:'d1',nom:'Fonderie du Nord',contact:'Jean Dupont',ville:'Lille',dept:'Nord',cp:'59000',type:'Fonte',categorie_produit:'Fonte',tel:'03 20 55 12 34',email:'j.dupont@fonderie-nord.fr',lat:50.6292,lng:3.0573},
+  {id:'d2',nom:'AeroParts Toulouse',contact:'Marie Martin',ville:'Toulouse',dept:'Haute-Garonne',cp:'31000',type:'HRSA',categorie_produit:'HRSA',tel:'05 61 23 45 67',email:'m.martin@aeroparts.fr',lat:43.6047,lng:1.4442},
+  {id:'d3',nom:'PreciTech Lyon',contact:'Pierre Bernard',ville:'Lyon',dept:'Rhône',cp:'69000',type:'Hard Turning',categorie_produit:'Hard Turning',tel:'04 78 90 12 34',email:'p.bernard@preci-tech.fr',lat:45.7640,lng:4.8357},
+  {id:'d4',nom:'MetalDistri Est',contact:'Sophie Petit',ville:'Strasbourg',dept:'Bas-Rhin',cp:'67000',type:'Distributeur',categorie_produit:'',tel:'03 88 35 67 89',email:'s.petit@metaldistri.fr',lat:48.5734,lng:7.7521},
+  {id:'d5',nom:'Bretagne Fonderie',contact:'Yann Le Gall',ville:'Rennes',dept:'Ille-et-Vilaine',cp:'35000',type:'Fonte',categorie_produit:'Fonte',tel:'02 99 44 55 66',email:'y.legall@bretagne-fond.fr',lat:48.1173,lng:-1.6778},
+  {id:'d6',nom:'InnoLead Paris',contact:'Claire Moreau',ville:'Paris',dept:'Paris',cp:'75008',type:'Lead',categorie_produit:'HRSA',tel:'01 42 68 90 12',email:'c.moreau@innolead.fr',lat:48.8566,lng:2.3522},
+  {id:'d7',nom:'HRSA Marseille',contact:'Ahmed Benali',ville:'Marseille',dept:'Bouches-du-Rhône',cp:'13000',type:'HRSA',categorie_produit:'HRSA',tel:'04 91 33 44 55',email:'a.benali@hrsa-marseille.fr',lat:43.2965,lng:5.3698},
+  {id:'d8',nom:'TourPrecis Nantes',contact:'Isabelle Roux',ville:'Nantes',dept:'Loire-Atlantique',cp:'44000',type:'Hard Turning',categorie_produit:'Hard Turning',tel:'02 40 12 34 56',email:'i.roux@tourprecis.fr',lat:47.2184,lng:-1.5536},
+  {id:'d9',nom:'CeramDistri Sud',contact:'Luc Fontaine',ville:'Montpellier',dept:'Hérault',cp:'34000',type:'Distributeur',categorie_produit:'',tel:'04 67 89 01 23',email:'l.fontaine@ceramdistri.fr',lat:43.6108,lng:3.8767},
+  {id:'d10',nom:'Fonderie Dijon',contact:'Marc Girard',ville:'Dijon',dept:"Côte-d'Or",cp:'21000',type:'Fonte',categorie_produit:'Fonte',tel:'03 80 55 66 77',email:'m.girard@fond-dijon.fr',lat:47.3220,lng:5.0415},
+  {id:'d11',nom:'NovaTech Bordeaux',contact:'Emma Leroy',ville:'Bordeaux',dept:'Gironde',cp:'33000',type:'New Customer',categorie_produit:'HRSA',tel:'05 56 78 90 12',email:'e.leroy@novatech.fr',lat:44.8378,lng:-0.5792},
+];
+const DEMO_CA={d1:[45000,48000,52000,50000,55000,60000,58000,62000,65000,63000,70000,75000],d2:[120000,115000,130000,125000,140000,135000,150000,145000,160000,155000,170000,180000],d3:[75000,72000,80000,78000,85000,82000,90000,88000,95000,92000,100000,105000],d4:[30000,32000,35000,33000,38000,40000,42000,41000,45000,44000,48000,52000],d5:[25000,26000,28000,27000,30000,32000,31000,33000,35000,34000,38000,40000],d6:[500,600,800,750,900,1000,1100,950,1200,1100,1400,1500],d7:[95000,90000,100000,98000,110000,105000,115000,112000,125000,120000,135000,140000],d8:[55000,58000,60000,62000,65000,63000,70000,68000,72000,75000,78000,82000],d9:[40000,42000,45000,44000,48000,50000,52000,51000,55000,54000,58000,62000],d10:[20000,21000,22000,23000,25000,24000,27000,26000,29000,28000,31000,33000],d11:[0,0,0,0,0,0,0,0,0,5000,8000,12000]};
+
+function seedDemoLocal(){
+  clients=DEMO_CLIENTS.map(c=>({...c}));
+  caHistory={};clientNotes={};
+  const now=new Date();
+  clients.forEach(cl=>{
+    caHistory[cl.id]=[];
+    const p=DEMO_CA[cl.id]||Array(12).fill(0);
+    for(let m2=0;m2<12;m2++){
+      let mo=now.getMonth()+1-11+m2,yr=now.getFullYear();
+      while(mo<=0){mo+=12;yr--;}
+      caHistory[cl.id].push({mois:mo,annee:yr,ca:p[m2]});
+    }
+  });
+}
+
 async function seedDemoIfEmpty(){
   if(clients.length>0)return;
-  const demo=[
-    {id:'d1',nom:'Fonderie du Nord',contact:'Jean Dupont',ville:'Lille',dept:'Nord',cp:'59000',type:'Fonte',categorie_produit:'Fonte',tel:'03 20 55 12 34',email:'j.dupont@fonderie-nord.fr',lat:50.6292,lng:3.0573},
-    {id:'d2',nom:'AeroParts Toulouse',contact:'Marie Martin',ville:'Toulouse',dept:'Haute-Garonne',cp:'31000',type:'HRSA',categorie_produit:'HRSA',tel:'05 61 23 45 67',email:'m.martin@aeroparts.fr',lat:43.6047,lng:1.4442},
-    {id:'d3',nom:'PreciTech Lyon',contact:'Pierre Bernard',ville:'Lyon',dept:'Rhône',cp:'69000',type:'Hard Turning',categorie_produit:'Hard Turning',tel:'04 78 90 12 34',email:'p.bernard@preci-tech.fr',lat:45.7640,lng:4.8357},
-    {id:'d4',nom:'MetalDistri Est',contact:'Sophie Petit',ville:'Strasbourg',dept:'Bas-Rhin',cp:'67000',type:'Distributeur',categorie_produit:'',tel:'03 88 35 67 89',email:'s.petit@metaldistri.fr',lat:48.5734,lng:7.7521},
-    {id:'d5',nom:'Bretagne Fonderie',contact:'Yann Le Gall',ville:'Rennes',dept:'Ille-et-Vilaine',cp:'35000',type:'Fonte',categorie_produit:'Fonte',tel:'02 99 44 55 66',email:'y.legall@bretagne-fond.fr',lat:48.1173,lng:-1.6778},
-    {id:'d6',nom:'InnoLead Paris',contact:'Claire Moreau',ville:'Paris',dept:'Paris',cp:'75008',type:'Lead',categorie_produit:'HRSA',tel:'01 42 68 90 12',email:'c.moreau@innolead.fr',lat:48.8566,lng:2.3522},
-    {id:'d7',nom:'HRSA Marseille',contact:'Ahmed Benali',ville:'Marseille',dept:'Bouches-du-Rhône',cp:'13000',type:'HRSA',categorie_produit:'HRSA',tel:'04 91 33 44 55',email:'a.benali@hrsa-marseille.fr',lat:43.2965,lng:5.3698},
-    {id:'d8',nom:'TourPrecis Nantes',contact:'Isabelle Roux',ville:'Nantes',dept:'Loire-Atlantique',cp:'44000',type:'Hard Turning',categorie_produit:'Hard Turning',tel:'02 40 12 34 56',email:'i.roux@tourprecis.fr',lat:47.2184,lng:-1.5536},
-    {id:'d9',nom:'CeramDistri Sud',contact:'Luc Fontaine',ville:'Montpellier',dept:'Hérault',cp:'34000',type:'Distributeur',categorie_produit:'',tel:'04 67 89 01 23',email:'l.fontaine@ceramdistri.fr',lat:43.6108,lng:3.8767},
-    {id:'d10',nom:'Fonderie Dijon',contact:'Marc Girard',ville:'Dijon',dept:"Côte-d'Or",cp:'21000',type:'Fonte',categorie_produit:'Fonte',tel:'03 80 55 66 77',email:'m.girard@fond-dijon.fr',lat:47.3220,lng:5.0415},
-    {id:'d11',nom:'NovaTech Bordeaux',contact:'Emma Leroy',ville:'Bordeaux',dept:'Gironde',cp:'33000',type:'New Customer',categorie_produit:'HRSA',tel:'05 56 78 90 12',email:'e.leroy@novatech.fr',lat:44.8378,lng:-0.5792},
-  ];
-  const caPro={d1:[45000,48000,52000,50000,55000,60000,58000,62000,65000,63000,70000,75000],d2:[120000,115000,130000,125000,140000,135000,150000,145000,160000,155000,170000,180000],d3:[75000,72000,80000,78000,85000,82000,90000,88000,95000,92000,100000,105000],d4:[30000,32000,35000,33000,38000,40000,42000,41000,45000,44000,48000,52000],d5:[25000,26000,28000,27000,30000,32000,31000,33000,35000,34000,38000,40000],d6:[500,600,800,750,900,1000,1100,950,1200,1100,1400,1500],d7:[95000,90000,100000,98000,110000,105000,115000,112000,125000,120000,135000,140000],d8:[55000,58000,60000,62000,65000,63000,70000,68000,72000,75000,78000,82000],d9:[40000,42000,45000,44000,48000,50000,52000,51000,55000,54000,58000,62000],d10:[20000,21000,22000,23000,25000,24000,27000,26000,29000,28000,31000,33000],d11:[0,0,0,0,0,0,0,0,0,5000,8000,12000]};
+  if(!currentUser){seedDemoLocal();saveCache();return;}
+  // Logged-in: seed to Supabase
   const now=new Date();
-  for(const cl of demo){
+  for(const cl of DEMO_CLIENTS){
     await sb.from('clients').upsert(cl,{onConflict:'id',ignoreDuplicates:true});
-    const p=caPro[cl.id]||Array(12).fill(0);
+    const p=DEMO_CA[cl.id]||Array(12).fill(0);
     for(let m2=0;m2<12;m2++){
       let mo=now.getMonth()+1-11+m2,yr=now.getFullYear();while(mo<=0){mo+=12;yr--;}
       await sb.from('ca_history').upsert({client_id:cl.id,mois:mo,annee:yr,ca:p[m2]},{onConflict:'client_id,mois,annee',ignoreDuplicates:true});
@@ -555,7 +584,6 @@ function renderMarkers(){
   const filtered=getFiltered();
   const withCoords=filtered.filter(cl=>cl.lat!=null&&cl.lng!=null&&(cl.lat!==0||cl.lng!==0));
   withCoords.forEach(cl=>markersLayer.addLayer(mkMarker(cl)));
-  document.title=`[${clients.length}c ${filtered.length}f ${withCoords.length}m] SPK SAM`;
   // Empty state overlay
   let overlay=document.getElementById('map-empty');
   if(!overlay){
@@ -925,23 +953,6 @@ function exportCSV(){
   toast(`${f.length} client(s) exporté(s)`,'s');
 }
 
-// ─── DEBUG ────────────────────────────────────────────────
-window.debugState=function(){
-  const filtered=getFiltered();
-  const avecCoords=filtered.filter(cl=>cl.lat!=null&&cl.lng!=null&&(cl.lat!==0||cl.lng!==0));
-  const msg=
-    `CLIENTS TOTAL : ${clients.length}\n`+
-    `FILTRE TYPE   : ${activeTypeFilter}\n`+
-    `FILTRE TAILLE : ${activeSizeFilter}\n`+
-    `RECHERCHE     : "${searchQuery}"\n`+
-    `FILTRÉS       : ${filtered.length}\n`+
-    `AVEC COORDS   : ${avecCoords.length}\n`+
-    `CA HISTORY    : ${Object.keys(caHistory).length} clients\n`+
-    `EN LIGNE      : ${isOnline}\n\n`+
-    `--- 3 premiers clients ---\n`+
-    clients.slice(0,3).map(c=>`${c.nom} | lat=${c.lat} lng=${c.lng} | type=${c.type}`).join('\n');
-  alert(msg);
-};
 
 // ─── PWA ──────────────────────────────────────────────────
 if('serviceWorker' in navigator){
@@ -954,9 +965,13 @@ if('serviceWorker' in navigator){
 
 // ─── RENDER APP ───────────────────────────────────────────
 async function renderApp(){
-  document.getElementById('nav-user').textContent=currentUser?.email||'';
-  document.getElementById('btn-logout').style.display='inline-flex';
+  const demo=!currentUser;
+  document.getElementById('demo-badge').style.display=demo?'inline-block':'none';
+  document.getElementById('nav-user').textContent=demo?'':currentUser.email;
+  document.getElementById('btn-login').style.display=demo?'inline-block':'none';
+  document.getElementById('btn-logout').style.display=demo?'none':'inline-flex';
   document.getElementById('btn-view-toggle').style.display='inline-block';
+  document.title='SPK Sales Area Manager';
   initMap();
   await seedDemoIfEmpty();
   renderFilters();renderMarkers();updateStats();
@@ -973,7 +988,8 @@ function init(){
   document.getElementById('btn-auth-submit').addEventListener('click',doAuth);
   document.getElementById('auth-email').addEventListener('keydown',e=>{if(e.key==='Enter')doAuth();});
   document.getElementById('auth-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doAuth();});
-  document.getElementById('btn-logout').addEventListener('click',async()=>{await sb.auth.signOut();currentUser=null;clients=[];caHistory={};clientNotes={};showAuthModal();});
+  document.getElementById('btn-login').addEventListener('click',showAuthModal);
+  document.getElementById('btn-logout').addEventListener('click',async()=>{await sb.auth.signOut();currentUser=null;clients=[];caHistory={};clientNotes={};await startDemoMode();await renderApp();});
 
   // View toggle
   document.getElementById('btn-view-toggle').addEventListener('click',toggleView);
