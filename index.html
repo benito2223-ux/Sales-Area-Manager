@@ -245,6 +245,87 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 .sb-i-sub.amber{color:var(--amber);font-weight:700;}
 .sb-sec-badge{display:inline-flex;align-items:center;justify-content:center;background:var(--red);color:#fff;border-radius:50%;width:17px;height:17px;font-size:10px;font-weight:700;margin-left:4px;vertical-align:middle;}
 
+/* HAMBURGER / SIDEBAR TOGGLE */
+#btn-sidebar-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px 8px;border-radius:var(--r);transition:background .2s;flex-shrink:0;}
+#btn-sidebar-toggle:hover{background:var(--blue-bg);}
+#sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:7990;backdrop-filter:blur(1px);}
+#sidebar-backdrop.show{display:block;}
+
+/* TABLET (768–1100px) */
+@media(min-width:768px) and (max-width:1100px){
+  #sidebar{min-width:230px;width:26%;}
+  .nav-title{font-size:12px;}
+}
+
+/* MOBILE (≤767px) */
+@media(max-width:767px){
+  :root{--nav:50px;}
+  #btn-sidebar-toggle{display:flex;align-items:center;justify-content:center;}
+  .nav-title{display:none;}
+  #nav-user{display:none!important;}
+  #btn-logout{display:none!important;}
+
+  /* Sidebar becomes a slide-in drawer */
+  #sidebar{
+    position:fixed;left:0;top:var(--nav);bottom:0;
+    width:88vw!important;max-width:340px;min-width:0!important;
+    transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);
+    z-index:8000;border-right:2px solid var(--blue-bg);
+    box-shadow:none;
+  }
+  #sidebar.sb-open{transform:translateX(0);box-shadow:4px 0 28px rgba(0,0,0,.22);}
+
+  /* Main area: map / list takes full width */
+  #main{position:relative;}
+  #map-container,#list-panel{width:100%;}
+
+  /* Navbar */
+  #demo-badge{font-size:10px;padding:1px 6px;}
+  #btn-view-toggle{font-size:11px;padding:4px 8px;}
+
+  /* Modals: bottom sheet style */
+  .modal-ov{align-items:flex-end;}
+  .modal{width:100%!important;max-width:100%!important;border-radius:14px 14px 0 0!important;max-height:92vh;}
+  .modal-hdr{border-radius:14px 14px 0 0;}
+
+  /* Form: single column */
+  .fgrid{grid-template-columns:1fr!important;}
+  .fc2{grid-column:span 1!important;}
+
+  /* Prevent iOS input zoom (needs 16px) */
+  input,select,textarea{font-size:16px!important;}
+  .fg label{font-size:12px;}
+
+  /* Touch targets */
+  .btn{padding:10px 16px;}
+  .btn-sm{padding:8px 13px;}
+  .chip{padding:5px 11px;font-size:12px;}
+  .pop-btn{padding:8px 10px;font-size:12px;}
+  .pop-save{padding:6px 14px;font-size:12px;}
+  .tbl-btn{padding:5px 10px;font-size:12px;}
+
+  /* Popup: prevent overflow */
+  .leaflet-popup{max-width:calc(100vw - 32px)!important;}
+  .leaflet-popup-content-wrapper{max-width:calc(100vw - 40px)!important;}
+  .leaflet-popup-content{width:calc(100vw - 72px)!important;max-width:290px!important;}
+
+  /* Sidebar scroll */
+  #sidebar{-webkit-overflow-scrolling:touch;}
+
+  /* Tour panel safe area */
+  #tour-panel{padding-bottom:env(safe-area-inset-bottom,0px);}
+
+  /* Bottom safe area for fixed elements */
+  body{padding-bottom:env(safe-area-inset-bottom,0px);}
+
+  /* Stats */
+  .stat-row{font-size:12px;}
+  .type-stat{font-size:11px;}
+
+  /* CR modal */
+  #cr-modal .modal{border-radius:14px 14px 0 0!important;}
+}
+
 /* TASKS in popup */
 .pop-tk{display:flex;align-items:flex-start;gap:5px;padding:3px 0;font-size:12px;}
 .pop-tk input[type=checkbox]{margin-top:2px;width:13px;height:13px;cursor:pointer;flex-shrink:0;accent-color:var(--blue);}
@@ -264,7 +345,30 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 <body>
 
 <nav id="navbar">
-  <div class="nav-logo-box"><span class="nav-logo-text">SPK</span></div>
+  <button id="btn-sidebar-toggle" aria-label="Menu">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1B5EA6" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="nav-logo-box">
+    <svg viewBox="0 0 390 165" width="72" height="30" xmlns="http://www.w3.org/2000/svg" aria-label="SPK">
+      <!-- S -->
+      <path transform="translate(10,5)" fill-rule="evenodd" fill="white"
+        d="M18,0 L90,0 L90,142 L72,160 L0,160 L0,18 Z M0,22 L68,22 L68,69 L0,69 Z M22,91 L90,91 L90,138 L22,138 Z"/>
+      <!-- P -->
+      <g transform="translate(150,5)">
+        <rect x="0" y="0" width="22" height="160" fill="white"/>
+        <rect x="22" y="0" width="68" height="22" fill="white"/>
+        <rect x="68" y="22" width="22" height="68" fill="white"/>
+        <rect x="22" y="68" width="68" height="22" fill="white"/>
+        <rect x="22" y="22" width="46" height="46" fill="#1B5EA6"/>
+      </g>
+      <!-- K -->
+      <g transform="translate(290,5)">
+        <rect x="0" y="0" width="22" height="160" fill="white"/>
+        <polygon points="22,48 90,0 90,28 22,76" fill="white"/>
+        <polygon points="22,84 90,132 90,160 22,112" fill="white"/>
+      </g>
+    </svg>
+  </div>
   <span class="nav-title">Sales Area Manager</span>
   <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v5</span>
   <div class="nav-right">
@@ -280,8 +384,29 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 <div id="main">
   <div id="sidebar">
     <div class="sb-logo">
-      <div class="sb-logo-box"><span class="sb-logo-text">SPK</span></div>
-      <p style="font-size:11px;color:#888;margin-top:5px;">by CeramTec</p>
+      <svg viewBox="0 0 390 255" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px;display:block;margin:0 auto;" aria-label="SPK by CeramTec">
+        <!-- S -->
+        <path transform="translate(10,5)" fill-rule="evenodd" fill="#1B5EA6"
+          d="M18,0 L90,0 L90,142 L72,160 L0,160 L0,18 Z M0,22 L68,22 L68,69 L0,69 Z M22,91 L90,91 L90,138 L22,138 Z"/>
+        <!-- P -->
+        <g transform="translate(150,5)">
+          <rect x="0" y="0" width="22" height="160" fill="#1B5EA6"/>
+          <rect x="22" y="0" width="68" height="22" fill="#1B5EA6"/>
+          <rect x="68" y="22" width="22" height="68" fill="#1B5EA6"/>
+          <rect x="22" y="68" width="68" height="22" fill="#1B5EA6"/>
+          <rect x="22" y="22" width="46" height="46" fill="white"/>
+        </g>
+        <!-- K -->
+        <g transform="translate(290,5)">
+          <rect x="0" y="0" width="22" height="160" fill="#1B5EA6"/>
+          <polygon points="22,48 90,0 90,28 22,76" fill="#1B5EA6"/>
+          <polygon points="22,84 90,132 90,160 22,112" fill="#1B5EA6"/>
+        </g>
+        <!-- by CeramTec -->
+        <text y="228" text-anchor="middle" x="195">
+          <tspan font-family="Georgia,'Times New Roman',serif" font-style="italic" font-size="38" fill="#1B5EA6">by </tspan><tspan font-family="Arial,'Helvetica Neue',sans-serif" font-weight="800" font-style="italic" font-size="44" fill="#E2001A">Ceram</tspan><tspan font-family="Arial,'Helvetica Neue',sans-serif" font-weight="800" font-style="italic" font-size="44" fill="#1B5EA6">Tec</tspan>
+        </text>
+      </svg>
       <button class="btn btn-p btn-bl" id="btn-add-client" style="margin-top:9px;font-size:12px;padding:6px 12px;">
         <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Nouveau Client
       </button>
@@ -1508,11 +1633,22 @@ function init(){
   // Monthly report
   document.getElementById('btn-monthly-report').addEventListener('click',exportMonthlyReport);
 
+  // Sidebar toggle (mobile hamburger)
+  const sidebar=document.getElementById('sidebar');
+  const backdrop=document.getElementById('sidebar-backdrop');
+  function openSidebar(){sidebar.classList.add('sb-open');backdrop.classList.add('show');}
+  function closeSidebar(){sidebar.classList.remove('sb-open');backdrop.classList.remove('show');}
+  document.getElementById('btn-sidebar-toggle').addEventListener('click',()=>{
+    sidebar.classList.contains('sb-open')?closeSidebar():openSidebar();
+  });
+  backdrop.addEventListener('click',closeSidebar);
+
   checkAuth();
 }
 
 document.addEventListener('DOMContentLoaded',init);
 })();
 </script>
+<div id="sidebar-backdrop"></div>
 </body>
 </html>
