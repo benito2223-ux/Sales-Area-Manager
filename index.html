@@ -202,6 +202,63 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 @keyframes sli{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
 .spin{width:14px;height:14px;border:2px solid var(--blue-bg);border-top-color:var(--blue);border-radius:50%;animation:sp 1s linear infinite;display:inline-block;vertical-align:middle;}
 @keyframes sp{to{transform:rotate(360deg);}}
+
+/* PROGRESS BAR */
+.prog-wrap{background:#eee;border-radius:4px;height:7px;overflow:hidden;margin:3px 0 1px;}
+.prog-bar{height:100%;border-radius:4px;background:var(--blue);transition:width .4s;}
+.prog-bar.warn{background:var(--amber);}
+.prog-bar.hit{background:var(--green);}
+
+/* TOUR PANEL */
+#tour-panel{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:3px solid var(--blue);
+  box-shadow:0 -4px 20px rgba(0,0,0,.18);z-index:9000;transform:translateY(100%);transition:transform .3s;
+  max-height:190px;display:flex;flex-direction:column;}
+#tour-panel.show{transform:translateY(0);}
+.tour-hdr{padding:8px 14px;display:flex;align-items:center;gap:8px;background:var(--blue);color:#fff;flex-shrink:0;}
+.tour-hdr .th-title{font-size:13px;font-weight:700;flex:1;}
+.tour-hdr button{background:rgba(255,255,255,.22);border:none;color:#fff;border-radius:3px;padding:3px 10px;font-size:11px;font-weight:600;cursor:pointer;}
+.tour-hdr button:hover{background:rgba(255,255,255,.38);}
+#tour-list-row{flex:1;overflow-x:auto;overflow-y:hidden;padding:8px 14px;display:flex;gap:8px;align-items:center;}
+.tour-chip{display:inline-flex;align-items:center;gap:5px;background:#f0f5fc;border:1px solid #dce8f8;border-radius:4px;padding:4px 9px;font-size:12px;white-space:nowrap;}
+.tour-chip .tc-n{font-weight:700;color:var(--blue);min-width:14px;}
+.tour-chip .tc-x{background:none;border:none;cursor:pointer;color:#bbb;font-size:14px;line-height:1;padding:0 2px;}
+.tour-chip .tc-x:hover{color:var(--red);}
+.tour-badge{position:absolute;top:-5px;right:-5px;background:var(--blue);color:#fff;border-radius:50%;width:15px;height:15px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff;z-index:10;}
+
+/* CR MODAL */
+#cr-modal .modal{max-width:580px;}
+.cr-item{border:1px solid #eee;border-radius:4px;padding:9px 11px;margin-bottom:7px;position:relative;}
+.cr-item .cr-i-date{font-size:11px;font-weight:700;color:var(--blue);margin-bottom:2px;}
+.cr-item .cr-i-body{font-size:12px;color:#444;line-height:1.5;white-space:pre-wrap;}
+.cr-item .cr-i-del{position:absolute;top:7px;right:8px;background:none;border:none;cursor:pointer;color:#ccc;font-size:14px;}
+.cr-item .cr-i-del:hover{color:var(--red);}
+
+/* SIDEBAR ITEMS (alerts, visits) */
+.sb-i{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #f2f2f2;cursor:pointer;transition:background .15s;}
+.sb-i:hover{background:#f8f9fb;margin:0 -16px;padding:6px 16px;}
+.sb-i:last-child{border-bottom:none;}
+.sb-i-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.sb-i-body{flex:1;min-width:0;}
+.sb-i-name{font-size:12px;font-weight:600;color:#222;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sb-i-sub{font-size:10px;color:#888;margin-top:1px;}
+.sb-i-sub.red{color:var(--red);font-weight:700;}
+.sb-i-sub.amber{color:var(--amber);font-weight:700;}
+.sb-sec-badge{display:inline-flex;align-items:center;justify-content:center;background:var(--red);color:#fff;border-radius:50%;width:17px;height:17px;font-size:10px;font-weight:700;margin-left:4px;vertical-align:middle;}
+
+/* TASKS in popup */
+.pop-tk{display:flex;align-items:flex-start;gap:5px;padding:3px 0;font-size:12px;}
+.pop-tk input[type=checkbox]{margin-top:2px;width:13px;height:13px;cursor:pointer;flex-shrink:0;accent-color:var(--blue);}
+.pop-tk .tk-lbl{flex:1;line-height:1.4;}
+.pop-tk .tk-lbl.done{text-decoration:line-through;color:#bbb;}
+.pop-tk .tk-due{font-size:10px;color:#aaa;white-space:nowrap;}
+.pop-tk .tk-due.late{color:var(--red);font-weight:700;}
+.pop-tk .tk-x{background:none;border:none;cursor:pointer;color:#ddd;font-size:13px;line-height:1;flex-shrink:0;}
+.pop-tk .tk-x:hover{color:var(--red);}
+.pop-tk-add{display:flex;gap:4px;margin-top:5px;}
+.pop-tk-add input[type=text]{flex:1;padding:3px 6px;border:1.5px solid #ddd;border-radius:3px;font-size:11px;font-family:inherit;outline:none;}
+.pop-tk-add input[type=text]:focus{border-color:var(--blue);}
+.pop-tk-add input[type=date]{width:108px;flex:none;padding:3px 5px;border:1.5px solid #ddd;border-radius:3px;font-size:11px;font-family:inherit;outline:none;}
+.pop-tk-add button{padding:3px 9px;font-size:11px;font-weight:700;background:var(--blue);color:#fff;border:none;border-radius:3px;cursor:pointer;font-family:inherit;}
 </style>
 </head>
 <body>
@@ -209,7 +266,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 <nav id="navbar">
   <div class="nav-logo-box"><span class="nav-logo-text">SPK</span></div>
   <span class="nav-title">Sales Area Manager</span>
-  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v4</span>
+  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v5</span>
   <div class="nav-right">
     <span id="offline-badge">✈ Hors-ligne</span>
     <span id="demo-badge" style="display:none;font-size:11px;font-weight:700;background:#f59e0b;color:#fff;padding:2px 8px;border-radius:10px;">MODE DÉMO</span>
@@ -251,9 +308,22 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <button class="btn btn-p btn-bl btn-sm" id="btn-export-excel" style="margin-bottom:5px;">📊 Export Excel complet</button>
       <button class="btn btn-o btn-bl btn-sm" id="btn-export-csv">Export CSV (vue filtrée)</button>
     </div>
-    <div class="sb-section" style="border-bottom:4px solid var(--blue);">
+    <div class="sb-section">
       <h3><svg class="ico" viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>Statistiques</h3>
       <div id="stats-content"></div>
+    </div>
+    <div class="sb-section" id="sb-alerts-section">
+      <h3><svg class="ico" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>Alertes<span class="sb-sec-badge" id="alerts-badge" style="display:none;"></span></h3>
+      <div id="alerts-content"><p style="font-size:12px;color:#aaa;">Chargement…</p></div>
+    </div>
+    <div class="sb-section" id="sb-visits-section">
+      <h3><svg class="ico" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 18H5V8h14v13z"/></svg>À visiter</h3>
+      <div id="visits-content"></div>
+    </div>
+    <div class="sb-section" style="border-bottom:4px solid var(--blue);">
+      <h3><svg class="ico" viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>Tournée & Rapports</h3>
+      <button class="btn btn-o btn-bl btn-sm" id="btn-tour-toggle" style="margin-bottom:5px;">🚗 Démarrer une tournée</button>
+      <button class="btn btn-o btn-bl btn-sm" id="btn-monthly-report">📊 Rapport mensuel (Excel)</button>
     </div>
   </div>
 
@@ -283,6 +353,46 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 </div>
 
 <div class="toast-wrap" id="toast-wrap"></div>
+
+<!-- CR MODAL -->
+<div class="modal-ov" id="cr-modal">
+  <div class="modal" style="max-width:580px;">
+    <div class="modal-hdr">
+      <h2>📋 Compte-rendu de visite</h2>
+      <button class="modal-x" id="cr-close">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="cr-modal-client" style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:14px;"></div>
+      <div class="fgrid">
+        <div class="fg"><label>Date visite *</label><input type="date" id="cr-date"/></div>
+        <div class="fg"><label>Contact rencontré</label><input type="text" id="cr-contact" placeholder="Nom du contact"/></div>
+        <div class="fg fc2"><label>Points discutés</label><textarea class="pop-ta" id="cr-points" placeholder="Sujets abordés lors de la visite…" style="height:72px;"></textarea></div>
+        <div class="fg fc2"><label>Prochaines actions</label><textarea class="pop-ta" id="cr-actions" placeholder="À faire suite à cette visite…" style="height:60px;"></textarea></div>
+        <div class="fg fc2"><label>Opportunité détectée</label><textarea class="pop-ta" id="cr-opp" placeholder="Projet, besoin, potentiel…" style="height:50px;"></textarea></div>
+        <div class="fg"><label>Prochaine visite prévue</label><input type="date" id="cr-next-date"/></div>
+        <div class="fg" style="align-self:flex-end;">
+          <button class="btn btn-p btn-bl" id="btn-cr-save">💾 Sauvegarder CR</button>
+        </div>
+      </div>
+      <div id="cr-history" style="display:none;border-top:1px solid #eee;padding-top:12px;margin-top:4px;">
+        <p style="font-size:11px;font-weight:700;color:#555;margin-bottom:8px;">Historique des visites</p>
+        <div id="cr-history-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOUR PANEL -->
+<div id="tour-panel">
+  <div class="tour-hdr">
+    <span class="th-title">🚗 Tournée — <span id="tour-count">0</span> client(s)</span>
+    <button id="btn-tour-maps">📍 Google Maps</button>
+    <button id="btn-tour-waze">🧭 Waze</button>
+    <button id="btn-tour-clear">Vider</button>
+    <button id="btn-tour-close">✕ Fermer</button>
+  </div>
+  <div id="tour-list-row"><span style="font-size:12px;color:#aaa;">Clique sur un client sur la carte pour l'ajouter à la tournée</span></div>
+</div>
 
 <!-- AUTH MODAL -->
 <div class="modal-ov" id="auth-modal">
@@ -332,6 +442,8 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <div class="fg"><label>Email</label><input type="email" id="cf-email" placeholder="contact@exemple.fr"/></div>
         <div class="fg"><label>Latitude</label><input type="number" id="cf-lat" step="any" placeholder="50.6292"/></div>
         <div class="fg"><label>Longitude</label><input type="number" id="cf-lng" step="any" placeholder="3.0573"/></div>
+        <div class="fg"><label>Prochaine visite</label><input type="date" id="cf-next-visit"/></div>
+        <div class="fg"><label>Objectif CA annuel (€)</label><input type="number" id="cf-obj-ca" step="1000" min="0" placeholder="0"/></div>
       </div>
       <div class="geo-row">
         <button type="button" class="btn btn-o btn-sm" id="btn-geocode">📍 Géolocaliser (Ville / CP)</button>
@@ -368,9 +480,12 @@ const MNF = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août',
 
 // ─── STATE ────────────────────────────────────────────────
 let clients=[], caHistory={}, clientNotes={};
+let visitReports={}, clientTasks={};
 let activeTypeFilter='Tous', activeSizeFilter='Tous', searchQuery='';
 let currentUser=null, isOnline=navigator.onLine;
 let listView=false, sortCol='nom', sortDir=1;
+let tourMode=false, tourClients=[], markerMap={};
+let crCurrentClientId=null;
 let map, markersLayer;
 
 // ─── ICONS ────────────────────────────────────────────────
@@ -485,13 +600,17 @@ async function loadAllData(){
 function loadFromCache(){
   try{
     const c=localStorage.getItem('spk_c'),h=localStorage.getItem('spk_h'),n=localStorage.getItem('spk_n');
+    const vr=localStorage.getItem('spk_vr'),tk=localStorage.getItem('spk_tk');
     if(c)clients=JSON.parse(c); if(h)caHistory=JSON.parse(h); if(n)clientNotes=JSON.parse(n);
+    if(vr)visitReports=JSON.parse(vr); if(tk)clientTasks=JSON.parse(tk);
   }catch(e){}
 }
 function saveCache(){
   localStorage.setItem('spk_c',JSON.stringify(clients));
   localStorage.setItem('spk_h',JSON.stringify(caHistory));
   localStorage.setItem('spk_n',JSON.stringify(clientNotes));
+  localStorage.setItem('spk_vr',JSON.stringify(visitReports));
+  localStorage.setItem('spk_tk',JSON.stringify(clientTasks));
 }
 
 // ─── SUPABASE WRITES ──────────────────────────────────────
@@ -538,7 +657,7 @@ const DEMO_CA={d1:[45000,48000,52000,50000,55000,60000,58000,62000,65000,63000,7
 
 function seedDemoLocal(){
   clients=DEMO_CLIENTS.map(c=>({...c}));
-  caHistory={};clientNotes={};
+  caHistory={};clientNotes={};visitReports={};clientTasks={};
   const now=new Date();
   clients.forEach(cl=>{
     caHistory[cl.id]=[];
@@ -549,6 +668,22 @@ function seedDemoLocal(){
       caHistory[cl.id].push({mois:mo,annee:yr,ca:p[m2]});
     }
   });
+  const ad=(d,n)=>{const dt=new Date(d);dt.setDate(dt.getDate()+n);return dt.toISOString().slice(0,10);};
+  const t=now.toISOString().slice(0,10);
+  const sf=(id,f,v)=>{const c=clients.find(x=>x.id===id);if(c)c[f]=v;};
+  sf('d1','prochaine_visite',ad(t,1));  sf('d1','objectif_ca',800000);
+  sf('d2','prochaine_visite',ad(t,-3)); sf('d2','objectif_ca',2000000);
+  sf('d3','prochaine_visite',ad(t,7));  sf('d3','objectif_ca',1000000);
+  sf('d7','prochaine_visite',ad(t,12)); sf('d7','objectif_ca',1500000);
+  sf('d8','prochaine_visite',ad(t,-1)); sf('d8','objectif_ca',900000);
+  sf('d10','prochaine_visite',ad(t,4));
+  visitReports['d1']=[{id:'cr_d1a',date:ad(t,-15),contact:'Jean Dupont',points:'Présentation programme CRP 5000. Fort intérêt pour applications fonte sphéroïdale.',actions:'Envoyer devis CRP 5000. Planifier essais sur site.',opportunite:'Remplacement tournage fonte grise = 40 k€/an potentiel',next_date:ad(t,1)}];
+  visitReports['d2']=[{id:'cr_d2a',date:ad(t,-5),contact:'Marie Martin',points:'Point trimestriel CA HRSA en hausse. Nouveau projet moteur LEAP en cours.',actions:'Préparer offre Inconel 718. Réunion technique R&D à planifier.',opportunite:'Projet LEAP = 200 k€ potentiel sur 18 mois',next_date:ad(t,-3)}];
+  visitReports['d3']=[{id:'cr_d3a',date:ad(t,-30),contact:'Pierre Bernard',points:'Revue qualité CBN Hard Turning. Satisfaction globale. Quelques questions durée de vie.',actions:'Audit outils CBN semaine prochaine. Proposer CBN nouvelle génération.',opportunite:'Upgrade gamme CBN = +20% CA',next_date:ad(t,7)}];
+  clientNotes['d6']='Lead chaud — projet potentiel HRSA Inconel. À relancer impérativement avant fin de mois.';
+  clientTasks['d1']=[{id:'tk_d1a',text:'Envoyer devis CRP 5000',dueDate:ad(t,2),done:false},{id:'tk_d1b',text:'Confirmer RDV essais',dueDate:ad(t,5),done:false}];
+  clientTasks['d2']=[{id:'tk_d2a',text:'Préparer offre Inconel 718',dueDate:ad(t,0),done:true},{id:'tk_d2b',text:'Planifier réunion technique R&D',dueDate:ad(t,3),done:false}];
+  clientTasks['d6']=[{id:'tk_d6a',text:'Relancer pour projet HRSA',dueDate:ad(t,-1),done:false}];
 }
 
 async function seedDemoIfEmpty(){
@@ -580,6 +715,7 @@ function initMap(){
 }
 
 function renderMarkers(){
+  markerMap={};
   markersLayer.clearLayers();
   const filtered=getFiltered();
   const withCoords=filtered.filter(cl=>cl.lat!=null&&cl.lng!=null&&(cl.lat!==0||cl.lng!==0));
@@ -600,32 +736,91 @@ function renderMarkers(){
   }
 }
 
-function mkMarker(cl){
+function buildMarkerIcon(cl){
   const ca=caMonth(cl.id),d=markerSize(ca),color=TYPE_COLORS[cl.type]||'#888',isLead=cl.type==='Lead';
-  const icon=L.divIcon({className:'',
-    html:`<div class="client-marker ${isLead?'lead-marker':'filled-marker'}" style="width:${d}px;height:${d}px;background:${isLead?'rgba(255,255,255,.9)':color};border-color:${isLead?color:'rgba(255,255,255,.8)'};">${getIcon(cl.type)}</div>`,
-    iconSize:[d,d],iconAnchor:[d/2,d/2],popupAnchor:[0,-d/2-4]});
-  const mk=L.marker([cl.lat,cl.lng],{icon});
+  const inTour=tourMode&&tourClients.includes(cl.id);
+  const tourIdx=tourClients.indexOf(cl.id);
+  let shadow='0 2px 8px rgba(0,0,0,.25)';
+  if(inTour){shadow='0 0 0 4px #1B5EA6,0 2px 10px rgba(0,0,0,.4)';}
+  else if(cl.prochaine_visite){
+    const pv=new Date(cl.prochaine_visite),now=new Date();
+    now.setHours(0,0,0,0);pv.setHours(0,0,0,0);
+    const diff=Math.ceil((pv-now)/86400000);
+    if(diff<0)shadow='0 0 0 3px #E2001A,0 2px 8px rgba(0,0,0,.3)';
+    else if(diff<=14)shadow='0 0 0 3px #f59e0b,0 2px 8px rgba(0,0,0,.3)';
+    else shadow='0 0 0 3px #16a34a,0 2px 8px rgba(0,0,0,.3)';
+  }
+  const badge=inTour?`<div class="tour-badge">${tourIdx+1}</div>`:'';
+  const sz=d+8;
+  return L.divIcon({className:'',
+    html:`<div style="position:relative;width:${sz}px;height:${sz}px;">
+      <div class="client-marker ${isLead?'lead-marker':'filled-marker'}" style="width:${d}px;height:${d}px;position:absolute;top:4px;left:4px;background:${isLead?'rgba(255,255,255,.9)':color};border-color:${isLead?color:'rgba(255,255,255,.8)'};box-shadow:${shadow};">${getIcon(cl.type)}</div>
+      ${badge}</div>`,
+    iconSize:[sz,sz],iconAnchor:[sz/2,sz/2],popupAnchor:[0,-sz/2-4]});
+}
+
+function mkMarker(cl){
+  const mk=L.marker([cl.lat,cl.lng],{icon:buildMarkerIcon(cl)});
   mk._cid=cl.id;
-  mk.bindPopup(buildPopup(cl),{maxWidth:310,minWidth:260});
-  mk.on('click',()=>{const c=clients.find(x=>x.id===cl.id);if(c)wirePopup(c,mk);});
+  mk.bindPopup(buildPopup(cl),{maxWidth:320,minWidth:270});
+  mk.on('click',()=>{
+    const c=clients.find(x=>x.id===cl.id);if(!c)return;
+    if(tourMode){setTimeout(()=>mk.closePopup(),20);toggleTourClient(cl.id);return;}
+    wirePopup(c,mk);
+  });
+  markerMap[cl.id]=mk;
   return mk;
 }
 
 // ─── POPUP ────────────────────────────────────────────────
+function fmtDate(d){if(!d)return'—';const[y,m,day]=d.split('-');return`${day}/${m}/${y}`;}
+function lastVisitDate(id){const c=visitReports[id]||[];if(!c.length)return null;return c.reduce((l,cr)=>cr.date>l?cr.date:l,c[0].date);}
+
+function buildTasksHTML(clientId){
+  const today=new Date().toISOString().slice(0,10);
+  return(clientTasks[clientId]||[]).map(tk=>{
+    const late=!tk.done&&tk.dueDate&&tk.dueDate<today;
+    return`<div class="pop-tk">
+      <input type="checkbox" ${tk.done?'checked':''} onchange="window._toggleTask('${clientId}','${tk.id}')"/>
+      <span class="tk-lbl${tk.done?' done':''}">${tk.text}</span>
+      ${tk.dueDate?`<span class="tk-due${late?' late':''}">${fmtDate(tk.dueDate)}</span>`:''}
+      <button class="tk-x" onclick="window._deleteTask('${clientId}','${tk.id}')">×</button>
+    </div>`;}).join('')||'<div style="font-size:11px;color:#aaa;">Aucune action</div>';
+}
+
 function buildPopup(cl){
   const caM=caMonth(cl.id),caY=caYear(cl.id),color=TYPE_COLORS[cl.type]||'#888';
   const note=(clientNotes[cl.id]||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const catBadge=cl.categorie_produit?`<span class="pop-cat">${cl.categorie_produit}</span>`:'';
+  const lv=lastVisitDate(cl.id);
+  const lvHTML=lv?`<div style="font-size:11px;color:#888;">🗓 Dernière visite : ${fmtDate(lv)}</div>`:'';
+  const nvHTML=cl.prochaine_visite?`<div style="font-size:11px;color:var(--blue);">📅 Prochaine : <strong>${fmtDate(cl.prochaine_visite)}</strong></div>`:'';
+  let objHTML='';
+  if(cl.objectif_ca>0){
+    const pct=Math.min(Math.round(caY/cl.objectif_ca*100),999);
+    const bc=pct>=100?'hit':pct>=50?'':'warn';
+    objHTML=`<div class="pop-sep"></div>
+    <div class="pop-lbl">🎯 Objectif : <strong>${fmtCA(cl.objectif_ca)}</strong></div>
+    <div class="prog-wrap"><div class="prog-bar ${bc}" style="width:${Math.min(pct,100)}%;"></div></div>
+    <div style="font-size:10px;color:#888;">${pct}% — ${fmtCA(caY)} réalisé</div>`;
+  }
+  const crs=visitReports[cl.id]||[];
+  const lastCR=crs[0];
+  const crPrev=lastCR?`<div style="font-size:11px;background:#f8f9fb;border-radius:3px;padding:5px 7px;">
+    <span style="color:var(--blue);font-weight:700;">${fmtDate(lastCR.date)}</span>${lastCR.contact?' — '+lastCR.contact:''}
+    ${lastCR.points?`<div style="color:#555;font-size:10px;margin-top:2px;">${lastCR.points.slice(0,90)}${lastCR.points.length>90?'…':''}</div>`:''}
+  </div>`:'<div style="font-size:11px;color:#aaa;">Aucun compte-rendu</div>';
   return `<div id="pp-${cl.id}">
     <div class="pop-h">${cl.nom}</div>
     <span class="pop-type" style="background:${color};">${cl.type}</span>${catBadge}
     <div class="pop-sub">📍 ${cl.ville}${cl.dept?' ('+cl.dept+')':''} — ${cl.contact||'—'}</div>
     ${cl.tel?`<div style="font-size:11px;">📞 ${cl.tel}</div>`:''}
     ${cl.email?`<div style="font-size:11px;">✉️ ${cl.email}</div>`:''}
+    ${lvHTML}${nvHTML}
     <div class="pop-ca">${fmtCA(caM)}</div>
     <div class="pop-ca-lbl">CA ${MN[cm()-1]} • Cumulé: <strong>${fmtCA(caY)}</strong></div>
-    <div class="pop-chart"><canvas id="pc-${cl.id}" width="265" height="120"></canvas></div>
+    <div class="pop-chart"><canvas id="pc-${cl.id}" width="265" height="100"></canvas></div>
+    ${objHTML}
     <div class="pop-sep"></div>
     <div class="pop-lbl">💰 Saisir CA ${MN[cm()-1]} (€)</div>
     <div class="pop-ca-row">
@@ -640,9 +835,23 @@ function buildPopup(cl){
       <button class="pop-save" id="pns-${cl.id}">Sauvegarder</button>
       <span class="pop-ok" id="pno-${cl.id}">✓ Sauvegardé</span>
     </div>
+    <div class="pop-sep"></div>
+    <div class="pop-lbl" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>📋 Compte-rendu</span>
+      <button class="pop-save" id="pcr-${cl.id}" style="font-size:10px;padding:2px 8px;">+ Nouveau CR</button>
+    </div>
+    <div id="pcrl-${cl.id}" style="margin-top:4px;">${crPrev}</div>
+    <div class="pop-sep"></div>
+    <div class="pop-lbl">📌 Actions</div>
+    <div id="ptl-${cl.id}">${buildTasksHTML(cl.id)}</div>
+    <div class="pop-tk-add">
+      <input type="text" id="pta-${cl.id}" placeholder="Nouvelle action…"/>
+      <input type="date" id="ptd-${cl.id}"/>
+      <button id="ptb-${cl.id}">+</button>
+    </div>
     <div class="pop-acts">
       <button class="pop-btn pop-e" id="pe-${cl.id}">✏️ Modifier</button>
-      <button class="pop-btn pop-del" id="pd-${cl.id}">🗑 Supprimer</button>
+      <button class="pop-btn pop-del" id="pd-${cl.id}">🗑</button>
     </div>
   </div>`;
 }
@@ -678,9 +887,28 @@ function wirePopup(cl,mk){
       if(!confirm(`Supprimer "${cl.nom}" ?`))return;
       if(!await dbDeleteClient(cl.id))return;
       clients=clients.filter(c=>c.id!==cl.id);delete caHistory[cl.id];delete clientNotes[cl.id];
+      delete visitReports[cl.id];delete clientTasks[cl.id];
       saveCache();mk.closePopup();renderFilters();renderMarkers();updateStats();renderListView();
+      renderAlertsSection();renderVisitsSection();
       toast(`"${cl.nom}" supprimé`,'s');
     });
+    // CR button
+    const crBtn=document.getElementById('pcr-'+cl.id);
+    if(crBtn)crBtn.addEventListener('click',()=>{mk.closePopup();openCR(cl);});
+    // Task add
+    const ptb=document.getElementById('ptb-'+cl.id);
+    if(ptb)ptb.addEventListener('click',()=>{
+      const text=(document.getElementById('pta-'+cl.id)||{}).value||'';
+      const due=(document.getElementById('ptd-'+cl.id)||{}).value||'';
+      if(!text.trim())return;
+      addTask(cl.id,text,due);
+      document.getElementById('pta-'+cl.id).value='';
+      document.getElementById('ptd-'+cl.id).value='';
+      const el=document.getElementById('ptl-'+cl.id);
+      if(el)el.innerHTML=buildTasksHTML(cl.id);
+    });
+    const pta=document.getElementById('pta-'+cl.id);
+    if(pta)pta.addEventListener('keydown',e=>{if(e.key==='Enter'){const b=document.getElementById('ptb-'+cl.id);if(b)b.click();}});
   },80);
 }
 
@@ -814,6 +1042,8 @@ function openCF(cl=null){
   document.getElementById('cf-cat').value=cl?cl.categorie_produit||'':'';
   document.getElementById('cf-lat').value=cl?cl.lat||'':'';
   document.getElementById('cf-lng').value=cl?cl.lng||'':'';
+  document.getElementById('cf-next-visit').value=cl?cl.prochaine_visite||'':'';
+  document.getElementById('cf-obj-ca').value=cl?cl.objectif_ca||'':'';
   document.getElementById('btn-cf-del').style.display=cl?'inline-flex':'none';
   document.getElementById('geo-st').textContent='';
   document.getElementById('client-modal').classList.add('show');
@@ -824,20 +1054,25 @@ async function saveCF(){
   if(!nom){document.getElementById('cf-nom').classList.add('err');return;}
   document.getElementById('cf-nom').classList.remove('err');
   const id=document.getElementById('cf-id').value||getId();
-  const cl={id,nom,contact:document.getElementById('cf-contact').value.trim(),
+  const isNew=!document.getElementById('cf-id').value;
+  const existing=clients.find(c=>c.id===id)||{};
+  const cl={...existing,id,nom,contact:document.getElementById('cf-contact').value.trim(),
     type:document.getElementById('cf-type').value,
     categorie_produit:document.getElementById('cf-cat').value,
     ville:document.getElementById('cf-ville').value.trim(),
     cp:document.getElementById('cf-cp').value.trim(),dept:document.getElementById('cf-dept').value.trim(),
     tel:document.getElementById('cf-tel').value.trim(),email:document.getElementById('cf-email').value.trim(),
     lat:parseFloat(document.getElementById('cf-lat').value)||0,
-    lng:parseFloat(document.getElementById('cf-lng').value)||0};
+    lng:parseFloat(document.getElementById('cf-lng').value)||0,
+    prochaine_visite:document.getElementById('cf-next-visit').value||null,
+    objectif_ca:parseFloat(document.getElementById('cf-obj-ca').value)||0};
   if(!await dbUpsertClient(cl))return;
   const ex=clients.findIndex(c=>c.id===id);
   if(ex>=0)clients[ex]=cl;else clients.push(cl);
   saveCache();renderFilters();renderMarkers();updateStats();renderListView();
+  renderAlertsSection();renderVisitsSection();
   document.getElementById('client-modal').classList.remove('show');
-  toast(document.getElementById('cf-id').value?'Client modifié':'Client ajouté','s');
+  toast(isNew?'Client ajouté':'Client modifié','s');
 }
 
 async function deleteCF(){
@@ -846,7 +1081,9 @@ async function deleteCF(){
   if(!cl||!confirm(`Supprimer "${cl.nom}" ?`))return;
   if(!await dbDeleteClient(id))return;
   clients=clients.filter(c=>c.id!==id);delete caHistory[id];delete clientNotes[id];
+  delete visitReports[id];delete clientTasks[id];
   saveCache();renderFilters();renderMarkers();updateStats();renderListView();
+  renderAlertsSection();renderVisitsSection();
   document.getElementById('client-modal').classList.remove('show');
   toast(`"${cl.nom}" supprimé`,'s');
 }
@@ -954,6 +1191,231 @@ function exportCSV(){
 }
 
 
+// ─── VISIT REPORTS (CR) ───────────────────────────────────
+function openCR(cl){
+  crCurrentClientId=cl.id;
+  document.getElementById('cr-modal-client').textContent=cl.nom+(cl.ville?' — '+cl.ville:'');
+  document.getElementById('cr-date').value=new Date().toISOString().slice(0,10);
+  document.getElementById('cr-contact').value=cl.contact||'';
+  document.getElementById('cr-points').value='';
+  document.getElementById('cr-actions').value='';
+  document.getElementById('cr-opp').value='';
+  document.getElementById('cr-next-date').value='';
+  renderCRHistory(cl.id);
+  document.getElementById('cr-modal').classList.add('show');
+}
+
+function saveCR(){
+  const id=crCurrentClientId;if(!id)return;
+  const date=document.getElementById('cr-date').value;
+  if(!date){toast('Date requise','e');return;}
+  const cr={id:'cr'+Date.now(),date,
+    contact:document.getElementById('cr-contact').value.trim(),
+    points:document.getElementById('cr-points').value.trim(),
+    actions:document.getElementById('cr-actions').value.trim(),
+    opportunite:document.getElementById('cr-opp').value.trim(),
+    next_date:document.getElementById('cr-next-date').value||null};
+  if(!visitReports[id])visitReports[id]=[];
+  visitReports[id].unshift(cr);
+  const cl=clients.find(c=>c.id===id);
+  if(cl){
+    cl.last_visit=date;
+    if(cr.next_date){cl.prochaine_visite=cr.next_date;dbUpsertClient(cl);}
+  }
+  saveCache();
+  toast('Compte-rendu sauvegardé ✓','s');
+  document.getElementById('cr-modal').classList.remove('show');
+  renderMarkers();renderAlertsSection();renderVisitsSection();
+}
+
+window.deleteCR=function(clientId,crId){
+  if(!confirm('Supprimer ce compte-rendu ?'))return;
+  visitReports[clientId]=(visitReports[clientId]||[]).filter(cr=>cr.id!==crId);
+  saveCache();renderCRHistory(clientId);renderAlertsSection();
+};
+
+function renderCRHistory(clientId){
+  const crs=visitReports[clientId]||[];
+  const hist=document.getElementById('cr-history');
+  const list=document.getElementById('cr-history-list');
+  if(!hist||!list)return;
+  if(!crs.length){hist.style.display='none';return;}
+  hist.style.display='block';
+  list.innerHTML=crs.slice(0,8).map(cr=>`
+    <div class="cr-item">
+      <button class="cr-i-del" onclick="window.deleteCR('${clientId}','${cr.id}')">×</button>
+      <div class="cr-i-date">📅 ${fmtDate(cr.date)}${cr.contact?' — '+cr.contact:''}</div>
+      ${cr.points?`<div class="cr-i-body"><strong>Points :</strong> ${cr.points}</div>`:''}
+      ${cr.actions?`<div class="cr-i-body"><strong>Actions :</strong> ${cr.actions}</div>`:''}
+      ${cr.opportunite?`<div class="cr-i-body" style="color:var(--green);"><strong>Opportunité :</strong> ${cr.opportunite}</div>`:''}
+      ${cr.next_date?`<div class="cr-i-body" style="color:var(--blue);"><strong>Prochaine visite :</strong> ${fmtDate(cr.next_date)}</div>`:''}
+    </div>`).join('');
+}
+
+// ─── TASKS ────────────────────────────────────────────────
+function addTask(clientId,text,dueDate){
+  if(!text.trim())return;
+  if(!clientTasks[clientId])clientTasks[clientId]=[];
+  clientTasks[clientId].push({id:'tk'+Date.now(),text:text.trim(),dueDate:dueDate||null,done:false});
+  saveCache();
+}
+window._toggleTask=function(clientId,taskId){
+  const tk=(clientTasks[clientId]||[]).find(t=>t.id===taskId);
+  if(tk){tk.done=!tk.done;saveCache();}
+  const el=document.getElementById('ptl-'+clientId);
+  if(el)el.innerHTML=buildTasksHTML(clientId);
+};
+window._deleteTask=function(clientId,taskId){
+  clientTasks[clientId]=(clientTasks[clientId]||[]).filter(t=>t.id!==taskId);
+  saveCache();
+  const el=document.getElementById('ptl-'+clientId);
+  if(el)el.innerHTML=buildTasksHTML(clientId);
+};
+
+// ─── TOUR ─────────────────────────────────────────────────
+function toggleTourMode(){
+  tourMode=!tourMode;
+  if(!tourMode){tourClients=[];renderTourPanel();}
+  const btn=document.getElementById('btn-tour-toggle');
+  btn.textContent=tourMode?'⏹ Fin de tournée':'🚗 Démarrer une tournée';
+  btn.classList.toggle('btn-p',tourMode);
+  btn.classList.toggle('btn-o',!tourMode);
+  document.getElementById('tour-panel').classList.toggle('show',tourMode);
+  if(tourMode)toast('Mode tournée actif — clique sur les clients pour les ajouter','s');
+  renderMarkers();
+}
+
+function toggleTourClient(id){
+  const idx=tourClients.indexOf(id);
+  if(idx>=0)tourClients.splice(idx,1);else tourClients.push(id);
+  renderTourPanel();renderMarkers();
+}
+
+function renderTourPanel(){
+  const row=document.getElementById('tour-list-row');
+  document.getElementById('tour-count').textContent=tourClients.length;
+  if(!tourClients.length){
+    row.innerHTML='<span style="font-size:12px;color:#aaa;">Clique sur un client pour l\'ajouter à la tournée</span>';
+    return;
+  }
+  row.innerHTML=tourClients.map((id,i)=>{
+    const cl=clients.find(c=>c.id===id);
+    return`<div class="tour-chip"><span class="tc-n">${i+1}</span><span>${cl?cl.nom:'?'}</span><button class="tc-x" onclick="window._tourRemove('${id}')">×</button></div>`;
+  }).join('');
+}
+window._tourRemove=function(id){tourClients=tourClients.filter(x=>x!==id);renderTourPanel();renderMarkers();};
+
+function openTourInMaps(service){
+  if(!tourClients.length){toast('Aucun client dans la tournée','e');return;}
+  const pts=tourClients.map(id=>clients.find(c=>c.id===id)).filter(c=>c&&c.lat&&c.lng);
+  if(pts.length<2){toast('Ajoutez au moins 2 clients avec coordonnées','e');return;}
+  let url;
+  if(service==='waze'){
+    const last=pts[pts.length-1];
+    url=`https://waze.com/ul?ll=${last.lat},${last.lng}&navigate=yes`;
+  }else{
+    const origin=`${pts[0].lat},${pts[0].lng}`;
+    const dest=`${pts[pts.length-1].lat},${pts[pts.length-1].lng}`;
+    const wp=pts.slice(1,-1).map(c=>`${c.lat},${c.lng}`).join('/');
+    url=`https://www.google.com/maps/dir/${origin}/${wp?wp+'/':''}${dest}`;
+  }
+  window.open(url,'_blank');
+}
+
+// ─── ALERTS ───────────────────────────────────────────────
+function computeAlerts(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const alerts=[];
+  clients.forEach(cl=>{
+    const lv=lastVisitDate(cl.id);
+    const days=lv?Math.floor((today-new Date(lv))/86400000):null;
+    const thresh=cl.type==='Lead'?30:60;
+    if(days===null||days>thresh){
+      alerts.push({id:cl.id,nom:cl.nom,msg:days===null?'Jamais visité':`${days}j sans visite`,
+        color:days!==null&&days>90?'#E2001A':'#f59e0b'});
+    }
+    const h=last12(cl.id).slice(-3);
+    if(h.length===3&&h[0].ca>0&&h[2].ca<h[1].ca&&h[1].ca<h[0].ca){
+      alerts.push({id:cl.id,nom:cl.nom,msg:'CA en baisse 2 mois consécutifs',color:'#E2001A'});
+    }
+  });
+  return alerts;
+}
+
+function renderAlertsSection(){
+  const alerts=computeAlerts().slice(0,8);
+  const badge=document.getElementById('alerts-badge');
+  const content=document.getElementById('alerts-content');
+  if(!badge||!content)return;
+  badge.style.display=alerts.length?'inline-flex':'none';
+  if(alerts.length)badge.textContent=alerts.length;
+  content.innerHTML=alerts.length
+    ?alerts.map(a=>`<div class="sb-i" onclick="focusClientOnMap('${a.id}')">
+        <div class="sb-i-dot" style="background:${a.color};margin-top:4px;"></div>
+        <div class="sb-i-body">
+          <div class="sb-i-name">${a.nom}</div>
+          <div class="sb-i-sub ${a.color==='#E2001A'?'red':'amber'}">${a.msg}</div>
+        </div></div>`).join('')
+    :'<p style="font-size:12px;color:#aaa;">Aucune alerte 👍</p>';
+}
+
+function renderVisitsSection(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const content=document.getElementById('visits-content');
+  if(!content)return;
+  const list=clients.filter(cl=>cl.prochaine_visite).map(cl=>{
+    const pv=new Date(cl.prochaine_visite);pv.setHours(0,0,0,0);
+    return{...cl,diff:Math.ceil((pv-today)/86400000)};
+  }).filter(cl=>cl.diff<=14).sort((a,b)=>a.diff-b.diff);
+  if(!list.length){content.innerHTML='<p style="font-size:12px;color:#aaa;">Aucune visite prévue à 14j</p>';return;}
+  content.innerHTML=list.slice(0,8).map(cl=>{
+    const ov=cl.diff<0,soon=cl.diff>=0&&cl.diff<=3;
+    const lbl=ov?`En retard de ${Math.abs(cl.diff)}j`:cl.diff===0?'Aujourd\'hui':cl.diff===1?'Demain':`Dans ${cl.diff}j`;
+    return`<div class="sb-i" onclick="focusClientOnMap('${cl.id}')">
+      <div class="sb-i-dot" style="background:${ov?'#E2001A':soon?'#f59e0b':'#16a34a'};margin-top:4px;"></div>
+      <div class="sb-i-body">
+        <div class="sb-i-name">${cl.nom}</div>
+        <div class="sb-i-sub ${ov?'red':soon?'amber':''}">${lbl} — ${cl.ville}</div>
+      </div></div>`;
+  }).join('');
+}
+
+function focusClientOnMap(clientId){
+  const cl=clients.find(c=>c.id===clientId);if(!cl||!cl.lat||!cl.lng)return;
+  if(listView)toggleView();
+  const mk=markerMap[clientId];
+  if(mk){map.setView([cl.lat,cl.lng],12);setTimeout(()=>{mk.openPopup();wirePopup(cl,mk);},150);}
+}
+window.focusClientOnMap=focusClientOnMap;
+
+// ─── MONTHLY REPORT ───────────────────────────────────────
+function exportMonthlyReport(){
+  if(!clients.length){toast('Aucun client','e');return;}
+  const now=new Date(),m=now.getMonth()+1,y=now.getFullYear();
+  const wb=XLSX.utils.book_new();
+  const r1=[['Client','Ville','Type','CA mois','CA année','Objectif annuel','% Objectif','Prochaine visite'],
+    ...clients.map(cl=>{const caM=caMonth(cl.id),caY=caYear(cl.id),obj=cl.objectif_ca||0;
+      return[cl.nom,cl.ville,cl.type,caM,caY,obj,obj>0?Math.round(caY/obj*100)+'%':'—',cl.prochaine_visite?fmtDate(cl.prochaine_visite):'—'];})];
+  const ws1=XLSX.utils.aoa_to_sheet(r1);
+  ws1['!cols']=[{wch:24},{wch:16},{wch:14},{wch:12},{wch:12},{wch:14},{wch:10},{wch:14}];
+  XLSX.utils.book_append_sheet(wb,ws1,'CA & Objectifs');
+  const crs=[];
+  clients.forEach(cl=>(visitReports[cl.id]||[]).forEach(cr=>{
+    const[cy2,cm2]=(cr.date||'').split('-').map(Number);
+    if(cm2===m&&cy2===y)crs.push([cl.nom,cl.ville,fmtDate(cr.date),cr.contact,cr.points,cr.actions,cr.opportunite,cr.next_date?fmtDate(cr.next_date):'']);
+  }));
+  const r2=[['Client','Ville','Date visite','Contact','Points discutés','Prochaines actions','Opportunité','Prochaine visite'],...crs];
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(r2),'Visites du mois');
+  const tks=[];
+  clients.forEach(cl=>(clientTasks[cl.id]||[]).filter(t=>!t.done).forEach(t=>
+    tks.push([cl.nom,t.text,t.dueDate?fmtDate(t.dueDate):'—'])
+  ));
+  const r3=[['Client','Action','Échéance'],...tks];
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(r3),'Actions en cours');
+  XLSX.writeFile(wb,`rapport_${MN[m-1].toLowerCase()}_${y}.xlsx`);
+  toast('Rapport mensuel téléchargé','s');
+}
+
 // ─── PWA ──────────────────────────────────────────────────
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
@@ -975,6 +1437,7 @@ async function renderApp(){
   initMap();
   await seedDemoIfEmpty();
   renderFilters();renderMarkers();updateStats();
+  renderAlertsSection();renderVisitsSection();
 }
 
 // ─── INIT ─────────────────────────────────────────────────
@@ -1023,6 +1486,27 @@ function init(){
   const rb=document.createElement('button');rb.className='btn btn-sm';rb.style.cssText='margin-top:7px;font-size:11px;color:#999;background:none;border:1px solid #ddd;';rb.textContent='✕ Réinitialiser filtres';
   rb.addEventListener('click',()=>{activeTypeFilter='Tous';activeSizeFilter='Tous';renderFilters();renderMarkers();updateStats();renderListView();});
   document.getElementById('type-filters').parentElement.parentElement.appendChild(rb);
+
+  // CR modal
+  document.getElementById('btn-cr-save').addEventListener('click',saveCR);
+  document.getElementById('cr-close').addEventListener('click',()=>document.getElementById('cr-modal').classList.remove('show'));
+  document.getElementById('cr-modal').addEventListener('click',e=>{if(e.target===document.getElementById('cr-modal'))document.getElementById('cr-modal').classList.remove('show');});
+
+  // Tour
+  document.getElementById('btn-tour-toggle').addEventListener('click',toggleTourMode);
+  document.getElementById('btn-tour-maps').addEventListener('click',()=>openTourInMaps('google'));
+  document.getElementById('btn-tour-waze').addEventListener('click',()=>openTourInMaps('waze'));
+  document.getElementById('btn-tour-clear').addEventListener('click',()=>{tourClients=[];renderTourPanel();renderMarkers();});
+  document.getElementById('btn-tour-close').addEventListener('click',()=>{
+    tourMode=false;tourClients=[];
+    document.getElementById('tour-panel').classList.remove('show');
+    document.getElementById('btn-tour-toggle').textContent='🚗 Démarrer une tournée';
+    document.getElementById('btn-tour-toggle').classList.replace('btn-p','btn-o');
+    renderMarkers();
+  });
+
+  // Monthly report
+  document.getElementById('btn-monthly-report').addEventListener('click',exportMonthlyReport);
 
   checkAuth();
 }
