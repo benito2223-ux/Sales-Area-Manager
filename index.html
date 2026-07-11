@@ -33,9 +33,8 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 #navbar{position:fixed;top:0;left:0;right:0;z-index:9999;height:var(--nav);background:var(--white);
   border-bottom:3px solid var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.1);
   display:flex;align-items:center;padding:0 16px;gap:12px;}
-.nav-logo-box{background:var(--blue);padding:2px 12px 4px;border-radius:var(--r);position:relative;overflow:hidden;}
-.nav-logo-box::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--red);}
-.nav-logo-text{font-family:'Open Sans Condensed',sans-serif;font-weight:700;font-size:20px;color:var(--white);letter-spacing:2px;position:relative;z-index:1;}
+.nav-logo-crop{height:28px;overflow:hidden;display:flex;align-items:flex-start;flex-shrink:0;}
+.nav-logo-crop img{height:40px;width:auto;display:block;}
 .nav-title{font-size:14px;font-weight:600;color:var(--blue);}
 .nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
 #nav-user{font-size:12px;color:#666;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -53,9 +52,6 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 #sidebar::-webkit-scrollbar{width:5px;}
 #sidebar::-webkit-scrollbar-thumb{background:var(--blue-l);border-radius:3px;}
 .sb-logo{text-align:center;padding:14px 16px 10px;border-bottom:3px solid var(--blue-bg);}
-.sb-logo-box{display:inline-block;background:var(--blue);padding:5px 20px 7px;position:relative;border-radius:var(--r);}
-.sb-logo-box::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--red);border-radius:var(--r) var(--r) 0 0;}
-.sb-logo-text{font-family:'Open Sans Condensed',sans-serif;font-weight:700;font-size:28px;color:var(--white);letter-spacing:3px;position:relative;}
 .sb-section{padding:14px 16px;border-top:4px solid var(--blue);}
 .sb-section h3{font-family:'Open Sans Condensed',sans-serif;font-weight:700;font-size:14px;color:var(--blue);
   text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
@@ -390,16 +386,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
   <button id="btn-sidebar-toggle" aria-label="Menu">
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1B5EA6" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
-  <svg viewBox="40 -10 1700 540" height="28" xmlns="http://www.w3.org/2000/svg" aria-label="SPK" style="display:block;flex-shrink:0;">
-    <!-- S -->
-    <path d="M505 65 L145 65 L145 260 L505 260 L505 455 L145 455" fill="none" stroke="#1B5EA6" stroke-width="130" stroke-linejoin="round" stroke-linecap="butt"/>
-    <!-- P (carré évidé) -->
-    <path fill="#1B5EA6" fill-rule="evenodd" d="M670 0 H1075 A40 40 0 0 1 1115 40 V270 A40 40 0 0 1 1075 310 H765 V480 A40 40 0 0 1 725 520 H670 A40 40 0 0 1 630 480 V40 A40 40 0 0 1 670 0 Z M845 125 h85 v85 h-85 Z"/>
-    <!-- K -->
-    <path fill="#1B5EA6" d="M1205 0 H1260 A40 40 0 0 1 1300 40 V480 A40 40 0 0 1 1260 520 H1205 A40 40 0 0 1 1165 480 V40 A40 40 0 0 1 1205 0 Z"/>
-    <path fill="#1B5EA6" d="M1240 130 L1705 0 L1705 148 L1240 279 Z"/>
-    <path fill="#1B5EA6" d="M1240 246 L1705 372 L1705 520 L1240 400 Z"/>
-  </svg>
+  <div class="nav-logo-crop"><img src="logo_spk.png" alt="SPK"/></div>
   <span class="nav-title">Sales Area Manager</span>
   <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v6</span>
   <div class="nav-right">
@@ -416,19 +403,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 <div id="main">
   <div id="sidebar">
     <div class="sb-logo">
-      <svg viewBox="0 -10 1800 790" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px;display:block;margin:0 auto;" aria-label="SPK by CeramTec">
-        <!-- S -->
-        <path d="M505 65 L145 65 L145 260 L505 260 L505 455 L145 455" fill="none" stroke="#1B5EA6" stroke-width="130" stroke-linejoin="round" stroke-linecap="butt"/>
-        <!-- P (carré évidé) -->
-        <path fill="#1B5EA6" fill-rule="evenodd" d="M670 0 H1075 A40 40 0 0 1 1115 40 V270 A40 40 0 0 1 1075 310 H765 V480 A40 40 0 0 1 725 520 H670 A40 40 0 0 1 630 480 V40 A40 40 0 0 1 670 0 Z M845 125 h85 v85 h-85 Z"/>
-        <!-- K -->
-        <path fill="#1B5EA6" d="M1205 0 H1260 A40 40 0 0 1 1300 40 V480 A40 40 0 0 1 1260 520 H1205 A40 40 0 0 1 1165 480 V40 A40 40 0 0 1 1205 0 Z"/>
-        <path fill="#1B5EA6" d="M1240 130 L1705 0 L1705 148 L1240 279 Z"/>
-        <path fill="#1B5EA6" d="M1240 246 L1705 372 L1705 520 L1240 400 Z"/>
-        <!-- by CeramTec -->
-        <text x="780" y="730" text-anchor="end" font-family="'Snell Roundhand','Segoe Script','Brush Script MT','Lucida Handwriting',cursive" font-size="200" font-style="italic" fill="#1B5EA6">by</text>
-        <text x="820" y="712" font-family="Arial,'Helvetica Neue',Helvetica,sans-serif" font-weight="800" font-style="italic" font-size="190"><tspan fill="#E2001A">Ceram</tspan><tspan fill="#1B5EA6">Tec</tspan></text>
-      </svg>
+      <img src="logo_spk.png" alt="SPK by CeramTec" style="width:100%;max-width:200px;display:block;margin:0 auto;"/>
       <button class="btn btn-p btn-bl" id="btn-add-client" style="margin-top:9px;font-size:12px;padding:6px 12px;">
         <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Nouveau Client
       </button>
