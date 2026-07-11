@@ -340,6 +340,48 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 .pop-tk-add input[type=text]:focus{border-color:var(--blue);}
 .pop-tk-add input[type=date]{width:108px;flex:none;padding:3px 5px;border:1.5px solid #ddd;border-radius:3px;font-size:11px;font-family:inherit;outline:none;}
 .pop-tk-add button{padding:3px 9px;font-size:11px;font-weight:700;background:var(--blue);color:#fff;border:none;border-radius:3px;cursor:pointer;font-family:inherit;}
+
+/* V6 — CHARGE DE TRAVAIL */
+.charge-row{display:flex;gap:5px;margin:4px 0;}
+.charge-btn{flex:1;padding:5px 3px;font-size:16px;text-align:center;border:1.5px solid #ddd;border-radius:var(--r);background:#fff;cursor:pointer;transition:all .15s;line-height:1.25;font-family:inherit;}
+.charge-btn small{display:block;font-size:8.5px;color:#888;font-weight:600;white-space:nowrap;}
+.charge-btn.on{border-color:var(--blue);background:var(--blue-bg);box-shadow:0 0 0 1px var(--blue);}
+.charge-btn:hover{border-color:var(--blue);}
+
+/* V6 — CR TYPE CHIPS */
+.crt-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;}
+.crt-chip{padding:6px 10px;font-size:12px;font-weight:600;border:1.5px solid #ccc;border-radius:var(--r);background:#fff;color:#555;cursor:pointer;transition:all .15s;user-select:none;}
+.crt-chip:hover{border-color:var(--blue);color:var(--blue);}
+.crt-chip.on{background:var(--blue);border-color:var(--blue);color:#fff;}
+
+/* V6 — FILE SALESFORCE */
+.sf-item{border:1px solid #eee;border-radius:4px;padding:10px 12px;margin-bottom:10px;}
+.sf-hdr{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;font-weight:700;color:var(--blue);flex-wrap:wrap;}
+.sf-txt{white-space:pre-wrap;font-size:11.5px;background:#f8f9fb;border-radius:3px;padding:8px 10px;color:#333;line-height:1.55;font-family:ui-monospace,Menlo,Consolas,monospace;}
+.sf-acts{display:flex;gap:6px;margin-top:7px;}
+
+/* V6.1 — AIDE & FILIGRANE */
+#btn-help{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--blue);background:var(--white);color:var(--blue);font-weight:700;font-size:15px;cursor:pointer;flex-shrink:0;font-family:inherit;transition:all .2s;}
+#btn-help:hover{background:var(--blue-bg);}
+.help-sec{margin-bottom:14px;}
+.help-sec h4{font-family:'Open Sans Condensed',sans-serif;font-size:14px;color:var(--blue);margin-bottom:4px;letter-spacing:.5px;text-transform:uppercase;}
+.help-sec p{font-size:12.5px;color:#444;line-height:1.6;margin-bottom:3px;}
+.help-sec ul{padding-left:18px;margin:2px 0 4px;}
+.help-sec li{font-size:12.5px;color:#444;line-height:1.6;}
+.help-footer{border-top:1px solid #eee;margin-top:16px;padding-top:12px;text-align:center;font-size:11px;color:#999;line-height:1.7;}
+#map-watermark{position:absolute;bottom:4px;left:8px;z-index:800;font-size:10px;color:rgba(26,26,26,.38);pointer-events:none;user-select:none;text-shadow:0 0 3px rgba(255,255,255,.8);}
+.sb-copyright{padding:12px 16px 16px;text-align:center;font-size:9.5px;color:#b9c2cf;line-height:1.6;border-top:1px solid #f0f2f6;}
+
+/* V6 — OPPORTUNITÉS */
+.opp-item{border:1px solid #eee;border-left:3px solid var(--blue);border-radius:4px;padding:9px 11px;margin-bottom:8px;}
+.opp-item.won{border-left-color:var(--green);background:#f3fbf6;}
+.opp-item.lost{border-left-color:#bbb;opacity:.6;}
+.opp-t{font-size:13px;font-weight:700;color:#222;}
+.opp-meta{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:#666;margin:3px 0;}
+.opp-meta b{color:var(--blue);}
+.opp-notes{font-size:11px;color:#777;white-space:pre-wrap;margin-top:2px;}
+.opp-acts{display:flex;gap:6px;margin-top:6px;align-items:center;flex-wrap:wrap;}
+.opp-acts select{padding:3px 5px;font-size:11px;border:1.5px solid #ddd;border-radius:3px;font-family:inherit;outline:none;}
 </style>
 </head>
 <body>
@@ -348,30 +390,20 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
   <button id="btn-sidebar-toggle" aria-label="Menu">
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1B5EA6" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
-  <div class="nav-logo-box">
-    <svg viewBox="0 0 390 165" width="72" height="30" xmlns="http://www.w3.org/2000/svg" aria-label="SPK">
-      <!-- S -->
-      <path transform="translate(10,5)" fill-rule="evenodd" fill="white"
-        d="M18,0 L90,0 L90,142 L72,160 L0,160 L0,18 Z M0,22 L68,22 L68,69 L0,69 Z M22,91 L90,91 L90,138 L22,138 Z"/>
-      <!-- P -->
-      <g transform="translate(150,5)">
-        <rect x="0" y="0" width="22" height="160" fill="white"/>
-        <rect x="22" y="0" width="68" height="22" fill="white"/>
-        <rect x="68" y="22" width="22" height="68" fill="white"/>
-        <rect x="22" y="68" width="68" height="22" fill="white"/>
-        <rect x="22" y="22" width="46" height="46" fill="#1B5EA6"/>
-      </g>
-      <!-- K -->
-      <g transform="translate(290,5)">
-        <rect x="0" y="0" width="22" height="160" fill="white"/>
-        <polygon points="22,48 90,0 90,28 22,76" fill="white"/>
-        <polygon points="22,84 90,132 90,160 22,112" fill="white"/>
-      </g>
-    </svg>
-  </div>
+  <svg viewBox="40 -10 1700 540" height="28" xmlns="http://www.w3.org/2000/svg" aria-label="SPK" style="display:block;flex-shrink:0;">
+    <!-- S -->
+    <path d="M505 65 L145 65 L145 260 L505 260 L505 455 L145 455" fill="none" stroke="#1B5EA6" stroke-width="130" stroke-linejoin="round" stroke-linecap="butt"/>
+    <!-- P (carré évidé) -->
+    <path fill="#1B5EA6" fill-rule="evenodd" d="M670 0 H1075 A40 40 0 0 1 1115 40 V270 A40 40 0 0 1 1075 310 H765 V480 A40 40 0 0 1 725 520 H670 A40 40 0 0 1 630 480 V40 A40 40 0 0 1 670 0 Z M845 125 h85 v85 h-85 Z"/>
+    <!-- K -->
+    <path fill="#1B5EA6" d="M1205 0 H1260 A40 40 0 0 1 1300 40 V480 A40 40 0 0 1 1260 520 H1205 A40 40 0 0 1 1165 480 V40 A40 40 0 0 1 1205 0 Z"/>
+    <path fill="#1B5EA6" d="M1240 130 L1705 0 L1705 148 L1240 279 Z"/>
+    <path fill="#1B5EA6" d="M1240 246 L1705 372 L1705 520 L1240 400 Z"/>
+  </svg>
   <span class="nav-title">Sales Area Manager</span>
-  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v5</span>
+  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v6</span>
   <div class="nav-right">
+    <button id="btn-help" title="Aide & notice d'utilisation" aria-label="Aide">?</button>
     <span id="offline-badge">✈ Hors-ligne</span>
     <span id="demo-badge" style="display:none;font-size:11px;font-weight:700;background:#f59e0b;color:#fff;padding:2px 8px;border-radius:10px;">MODE DÉMO</span>
     <button id="btn-view-toggle" style="display:none;">📋 Vue Liste</button>
@@ -384,28 +416,18 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 <div id="main">
   <div id="sidebar">
     <div class="sb-logo">
-      <svg viewBox="0 0 390 255" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px;display:block;margin:0 auto;" aria-label="SPK by CeramTec">
+      <svg viewBox="0 -10 1800 790" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px;display:block;margin:0 auto;" aria-label="SPK by CeramTec">
         <!-- S -->
-        <path transform="translate(10,5)" fill-rule="evenodd" fill="#1B5EA6"
-          d="M18,0 L90,0 L90,142 L72,160 L0,160 L0,18 Z M0,22 L68,22 L68,69 L0,69 Z M22,91 L90,91 L90,138 L22,138 Z"/>
-        <!-- P -->
-        <g transform="translate(150,5)">
-          <rect x="0" y="0" width="22" height="160" fill="#1B5EA6"/>
-          <rect x="22" y="0" width="68" height="22" fill="#1B5EA6"/>
-          <rect x="68" y="22" width="22" height="68" fill="#1B5EA6"/>
-          <rect x="22" y="68" width="68" height="22" fill="#1B5EA6"/>
-          <rect x="22" y="22" width="46" height="46" fill="white"/>
-        </g>
+        <path d="M505 65 L145 65 L145 260 L505 260 L505 455 L145 455" fill="none" stroke="#1B5EA6" stroke-width="130" stroke-linejoin="round" stroke-linecap="butt"/>
+        <!-- P (carré évidé) -->
+        <path fill="#1B5EA6" fill-rule="evenodd" d="M670 0 H1075 A40 40 0 0 1 1115 40 V270 A40 40 0 0 1 1075 310 H765 V480 A40 40 0 0 1 725 520 H670 A40 40 0 0 1 630 480 V40 A40 40 0 0 1 670 0 Z M845 125 h85 v85 h-85 Z"/>
         <!-- K -->
-        <g transform="translate(290,5)">
-          <rect x="0" y="0" width="22" height="160" fill="#1B5EA6"/>
-          <polygon points="22,48 90,0 90,28 22,76" fill="#1B5EA6"/>
-          <polygon points="22,84 90,132 90,160 22,112" fill="#1B5EA6"/>
-        </g>
+        <path fill="#1B5EA6" d="M1205 0 H1260 A40 40 0 0 1 1300 40 V480 A40 40 0 0 1 1260 520 H1205 A40 40 0 0 1 1165 480 V40 A40 40 0 0 1 1205 0 Z"/>
+        <path fill="#1B5EA6" d="M1240 130 L1705 0 L1705 148 L1240 279 Z"/>
+        <path fill="#1B5EA6" d="M1240 246 L1705 372 L1705 520 L1240 400 Z"/>
         <!-- by CeramTec -->
-        <text y="228" text-anchor="middle" x="195">
-          <tspan font-family="Georgia,'Times New Roman',serif" font-style="italic" font-size="38" fill="#1B5EA6">by </tspan><tspan font-family="Arial,'Helvetica Neue',sans-serif" font-weight="800" font-style="italic" font-size="44" fill="#E2001A">Ceram</tspan><tspan font-family="Arial,'Helvetica Neue',sans-serif" font-weight="800" font-style="italic" font-size="44" fill="#1B5EA6">Tec</tspan>
-        </text>
+        <text x="780" y="730" text-anchor="end" font-family="'Snell Roundhand','Segoe Script','Brush Script MT','Lucida Handwriting',cursive" font-size="200" font-style="italic" fill="#1B5EA6">by</text>
+        <text x="820" y="712" font-family="Arial,'Helvetica Neue',Helvetica,sans-serif" font-weight="800" font-style="italic" font-size="190"><tspan fill="#E2001A">Ceram</tspan><tspan fill="#1B5EA6">Tec</tspan></text>
       </svg>
       <button class="btn btn-p btn-bl" id="btn-add-client" style="margin-top:9px;font-size:12px;padding:6px 12px;">
         <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Nouveau Client
@@ -445,14 +467,21 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <h3><svg class="ico" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 18H5V8h14v13z"/></svg>À visiter</h3>
       <div id="visits-content"></div>
     </div>
+    <div class="sb-section" id="sb-sf-section">
+      <h3><svg class="ico" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>Salesforce & Pipeline<span class="sb-sec-badge" id="sf-badge" style="display:none;"></span></h3>
+      <button class="btn btn-o btn-bl btn-sm" id="btn-sf-queue" style="margin-bottom:5px;">📋 À logger dans Salesforce</button>
+      <button class="btn btn-o btn-bl btn-sm" id="btn-pipeline">💼 Pipeline opportunités</button>
+      <div id="pipeline-mini" style="margin-top:8px;"></div>
+    </div>
     <div class="sb-section" style="border-bottom:4px solid var(--blue);">
       <h3><svg class="ico" viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>Tournée & Rapports</h3>
       <button class="btn btn-o btn-bl btn-sm" id="btn-tour-toggle" style="margin-bottom:5px;">🚗 Démarrer une tournée</button>
       <button class="btn btn-o btn-bl btn-sm" id="btn-monthly-report">📊 Rapport mensuel (Excel)</button>
     </div>
+    <div class="sb-copyright">SPK Sales Area Manager v6<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
   </div>
 
-  <div id="map-container"><div id="map"></div></div>
+  <div id="map-container"><div id="map"></div><div id="map-watermark">© Benjamin Rouquette 2026 — Tous droits réservés</div></div>
   <div id="list-panel">
     <div class="list-toolbar">
       <strong style="font-size:13px;color:var(--blue);">Liste clients</strong>
@@ -474,6 +503,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <tbody id="clients-tbody"></tbody>
       </table>
     </div>
+    <div style="padding:6px 16px;text-align:right;font-size:10px;color:#b9c2cf;background:var(--white);border-top:1px solid #eee;flex-shrink:0;">© Benjamin Rouquette 2026 — Tous droits réservés</div>
   </div>
 </div>
 
@@ -487,13 +517,17 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <button class="modal-x" id="cr-close">×</button>
     </div>
     <div class="modal-body">
-      <div id="cr-modal-client" style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:14px;"></div>
+      <div id="cr-modal-client" style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px;"></div>
+      <div class="crt-row" id="cr-type-row"></div>
       <div class="fgrid">
         <div class="fg"><label>Date visite *</label><input type="date" id="cr-date"/></div>
         <div class="fg"><label>Contact rencontré</label><input type="text" id="cr-contact" placeholder="Nom du contact"/></div>
-        <div class="fg fc2"><label>Points discutés</label><textarea class="pop-ta" id="cr-points" placeholder="Sujets abordés lors de la visite…" style="height:72px;"></textarea></div>
-        <div class="fg fc2"><label>Prochaines actions</label><textarea class="pop-ta" id="cr-actions" placeholder="À faire suite à cette visite…" style="height:60px;"></textarea></div>
-        <div class="fg fc2"><label>Opportunité détectée</label><textarea class="pop-ta" id="cr-opp" placeholder="Projet, besoin, potentiel…" style="height:50px;"></textarea></div>
+        <div class="fg fc2"><label>🏭 Charge de travail atelier</label><div class="charge-row" id="cr-charge-row"></div></div>
+        <div class="fg fc2" id="cr-f-sujet" style="display:none;"><label>Sujet / support présenté</label><input type="text" id="cr-sujet" placeholder="Nouvelle nuance, gamme, application…"/></div>
+        <div class="fg fc2" id="cr-f-reaction" style="display:none;"><label>Réaction client</label><select id="cr-reaction"><option value="">— Non évaluée —</option><option>❄️ Froid</option><option>🌤 Tiède</option><option>🔥 Chaud</option></select></div>
+        <div class="fg fc2" id="cr-f-points"><label id="cr-points-label">Points discutés</label><textarea class="pop-ta" id="cr-points" placeholder="Sujets abordés lors de la visite…" style="height:72px;"></textarea></div>
+        <div class="fg fc2" id="cr-f-actions"><label>Prochaines actions</label><textarea class="pop-ta" id="cr-actions" placeholder="À faire suite à cette visite…" style="height:60px;"></textarea></div>
+        <div class="fg fc2" id="cr-f-opp"><label>Opportunité détectée</label><textarea class="pop-ta" id="cr-opp" placeholder="Projet, besoin, potentiel…" style="height:50px;"></textarea></div>
         <div class="fg"><label>Prochaine visite prévue</label><input type="date" id="cr-next-date"/></div>
         <div class="fg" style="align-self:flex-end;">
           <button class="btn btn-p btn-bl" id="btn-cr-save">💾 Sauvegarder CR</button>
@@ -583,6 +617,99 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
   </div>
 </div>
 
+<!-- HELP MODAL -->
+<div class="modal-ov" id="help-modal">
+  <div class="modal" style="max-width:620px;">
+    <div class="modal-hdr">
+      <h2>❓ Aide — Notice d'utilisation</h2>
+      <button class="modal-x" id="help-close">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="help-sec">
+        <h4>🗺 Carte & filtres</h4>
+        <p>Chaque client est un marqueur coloré par type, dimensionné par CA mensuel. La <strong>pastille en bas à gauche</strong> du marqueur indique la charge de travail (🔴 sous-chargé · 🟡 normale · 🟢 plein régime · 🔥 débordé). L'anneau autour du marqueur signale la prochaine visite (vert = planifiée, orange = sous 14 j, rouge = en retard). Filtre par type, taille CA ou recherche libre dans la barre latérale.</p>
+      </div>
+      <div class="help-sec">
+        <h4>👤 Fiche client (popup)</h4>
+        <p>Un clic sur un marqueur ouvre la fiche : coordonnées, historique CA 12 mois, saisie du CA du mois, notes libres, actions à faire, et réglage de la <strong>charge de travail en 1 tap</strong>.</p>
+      </div>
+      <div class="help-sec">
+        <h4>📋 Comptes-rendus de visite — 4 vitesses</h4>
+        <ul>
+          <li><strong>⚡ Éclair</strong> (20 s) : contact + charge + une ligne. Pour les visites de suivi sans actualité.</li>
+          <li><strong>📊 Point d'activité</strong> : points discutés, actions, opportunité.</li>
+          <li><strong>🎤 Présentation technique</strong> : sujet présenté + réaction client (❄️/🌤/🔥).</li>
+          <li><strong>🧪 Essai</strong> : suivi des tests produits.</li>
+        </ul>
+        <p>La charge saisie dans un CR met à jour la fiche client automatiquement.</p>
+      </div>
+      <div class="help-sec">
+        <h4>📤 File Salesforce</h4>
+        <p>Chaque CR génère un <strong>bloc texte prêt à coller dans Salesforce</strong>. Le badge rouge de la section « Salesforce & Pipeline » compte les visites non loggées. Ouvre la file, 📋 Copier, colle dans Salesforce, ✓ Loggé — dix visites traitées en dix minutes.</p>
+      </div>
+      <div class="help-sec">
+        <h4>💼 Opportunités & pipeline</h4>
+        <p>Crée une opportunité depuis la fiche client (bouton « Gérer ») ou depuis « Pipeline opportunités » : montant €/an, étape, échéance, probabilité. La sidebar affiche le pipeline total et pondéré. Chaque oppo a aussi son bloc « Copier pour Salesforce ».</p>
+      </div>
+      <div class="help-sec">
+        <h4>🚗 Tournées & rapports</h4>
+        <p>« Démarrer une tournée » puis clique les clients dans l'ordre : export direct vers Google Maps ou Waze. Le rapport mensuel Excel compile CA, objectifs, visites du mois, actions en cours et opportunités.</p>
+      </div>
+      <div class="help-sec">
+        <h4>⚠️ Données</h4>
+        <p>En mode démo, les données sont stockées <strong>localement dans le navigateur</strong> : vider le cache = perte des données. Pense à l'« Export Excel complet » régulièrement en sauvegarde.</p>
+      </div>
+      <div class="help-footer">
+        <strong>SPK Sales Area Manager v6</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
+        © Benjamin Rouquette 2026 — Tous droits réservés / All rights reserved
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SALESFORCE QUEUE MODAL -->
+<div class="modal-ov" id="sf-modal">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-hdr">
+      <h2>📋 À logger dans Salesforce</h2>
+      <button class="modal-x" id="sf-close">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap;">
+        <span id="sf-count" style="font-size:12px;color:#666;"></span>
+        <button class="btn btn-o btn-sm" id="btn-sf-all-logged">✓ Tout marquer loggé</button>
+      </div>
+      <div id="sf-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- OPPORTUNITIES MODAL -->
+<div class="modal-ov" id="opp-modal">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-hdr">
+      <h2 id="opp-title">💼 Opportunités</h2>
+      <button class="modal-x" id="opp-close">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="opp-form" style="border:1px solid #eee;border-radius:4px;padding:12px;margin-bottom:14px;background:#fafbfd;">
+        <p style="font-size:11px;font-weight:700;color:#555;margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px;">➕ Nouvelle opportunité</p>
+        <div class="fgrid">
+          <div class="fg fc2" id="opp-f-client"><label>Client *</label><select id="opp-client"></select></div>
+          <div class="fg fc2"><label>Titre *</label><input type="text" id="opp-titre" placeholder="Nouvelle gamme ferroviaire, remplacement concurrent…"/></div>
+          <div class="fg"><label>Montant estimé (€/an)</label><input type="number" id="opp-montant" min="0" step="1000" placeholder="40000"/></div>
+          <div class="fg"><label>Étape</label><select id="opp-etape"></select></div>
+          <div class="fg"><label>Échéance (clôture)</label><input type="date" id="opp-echeance"/></div>
+          <div class="fg"><label>Probabilité (%)</label><input type="number" id="opp-proba" min="0" max="100" step="5" value="50"/></div>
+          <div class="fg fc2"><label>Description / prochaine étape</label><textarea class="pop-ta" id="opp-notes" placeholder="Contexte, prochaine étape…" style="height:52px;"></textarea></div>
+        </div>
+        <button class="btn btn-p btn-sm" id="btn-opp-add">💾 Créer l'opportunité</button>
+      </div>
+      <div id="opp-list"></div>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
 'use strict';
@@ -600,17 +727,31 @@ const CAT_COLORS = {'Fonte':'#1B5EA6','HRSA':'#E2001A','Hard Turning':'#154d8a'}
 const TYPE_LABELS = ['Fonte','HRSA','Hard Turning','Distributeur','Lead','New Customer','Tous'];
 const SIZE_LABELS = ['Petit','Moyen','Gros','Tous'];
 const CA_T = {petit:1000, moyen:100000};
+const CHARGES = {
+  rouge:{e:'🔴',label:'Sous-chargé',c:'#E2001A'},
+  jaune:{e:'🟡',label:'Charge normale',c:'#f59e0b'},
+  vert:{e:'🟢',label:'Plein régime',c:'#16a34a'},
+  feu:{e:'🔥',label:'Débordé',c:'#ff5722'}
+};
+const CR_TYPES = {
+  eclair:{lbl:'⚡ Éclair',sf:"Point d'activité (visite courte)"},
+  activite:{lbl:"📊 Point d'activité",sf:"Point d'activité"},
+  presentation:{lbl:'🎤 Présentation technique',sf:'Présentation technique'},
+  essai:{lbl:'🧪 Essai',sf:"Suivi d'essai"}
+};
+const OPP_ETAPES = ['Prospection','Qualification','Proposition','Négociation','Gagnée','Perdue'];
 const MN = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
 const MNF = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
 // ─── STATE ────────────────────────────────────────────────
 let clients=[], caHistory={}, clientNotes={};
-let visitReports={}, clientTasks={};
+let visitReports={}, clientTasks={}, opportunities={};
 let activeTypeFilter='Tous', activeSizeFilter='Tous', searchQuery='';
 let currentUser=null, isOnline=navigator.onLine;
 let listView=false, sortCol='nom', sortDir=1;
 let tourMode=false, tourClients=[], markerMap={};
-let crCurrentClientId=null;
+let crCurrentClientId=null, crType='activite', crCharge=null;
+let oppCurrentClientId=null;
 let map, markersLayer;
 
 // ─── ICONS ────────────────────────────────────────────────
@@ -725,9 +866,9 @@ async function loadAllData(){
 function loadFromCache(){
   try{
     const c=localStorage.getItem('spk_c'),h=localStorage.getItem('spk_h'),n=localStorage.getItem('spk_n');
-    const vr=localStorage.getItem('spk_vr'),tk=localStorage.getItem('spk_tk');
+    const vr=localStorage.getItem('spk_vr'),tk=localStorage.getItem('spk_tk'),op=localStorage.getItem('spk_op');
     if(c)clients=JSON.parse(c); if(h)caHistory=JSON.parse(h); if(n)clientNotes=JSON.parse(n);
-    if(vr)visitReports=JSON.parse(vr); if(tk)clientTasks=JSON.parse(tk);
+    if(vr)visitReports=JSON.parse(vr); if(tk)clientTasks=JSON.parse(tk); if(op)opportunities=JSON.parse(op);
   }catch(e){}
 }
 function saveCache(){
@@ -736,6 +877,7 @@ function saveCache(){
   localStorage.setItem('spk_n',JSON.stringify(clientNotes));
   localStorage.setItem('spk_vr',JSON.stringify(visitReports));
   localStorage.setItem('spk_tk',JSON.stringify(clientTasks));
+  localStorage.setItem('spk_op',JSON.stringify(opportunities));
 }
 
 // ─── SUPABASE WRITES ──────────────────────────────────────
@@ -782,7 +924,7 @@ const DEMO_CA={d1:[45000,48000,52000,50000,55000,60000,58000,62000,65000,63000,7
 
 function seedDemoLocal(){
   clients=DEMO_CLIENTS.map(c=>({...c}));
-  caHistory={};clientNotes={};visitReports={};clientTasks={};
+  caHistory={};clientNotes={};visitReports={};clientTasks={};opportunities={};
   const now=new Date();
   clients.forEach(cl=>{
     caHistory[cl.id]=[];
@@ -802,9 +944,17 @@ function seedDemoLocal(){
   sf('d7','prochaine_visite',ad(t,12)); sf('d7','objectif_ca',1500000);
   sf('d8','prochaine_visite',ad(t,-1)); sf('d8','objectif_ca',900000);
   sf('d10','prochaine_visite',ad(t,4));
-  visitReports['d1']=[{id:'cr_d1a',date:ad(t,-15),contact:'Jean Dupont',points:'Présentation programme CRP 5000. Fort intérêt pour applications fonte sphéroïdale.',actions:'Envoyer devis CRP 5000. Planifier essais sur site.',opportunite:'Remplacement tournage fonte grise = 40 k€/an potentiel',next_date:ad(t,1)}];
-  visitReports['d2']=[{id:'cr_d2a',date:ad(t,-5),contact:'Marie Martin',points:'Point trimestriel CA HRSA en hausse. Nouveau projet moteur LEAP en cours.',actions:'Préparer offre Inconel 718. Réunion technique R&D à planifier.',opportunite:'Projet LEAP = 200 k€ potentiel sur 18 mois',next_date:ad(t,-3)}];
-  visitReports['d3']=[{id:'cr_d3a',date:ad(t,-30),contact:'Pierre Bernard',points:'Revue qualité CBN Hard Turning. Satisfaction globale. Quelques questions durée de vie.',actions:'Audit outils CBN semaine prochaine. Proposer CBN nouvelle génération.',opportunite:'Upgrade gamme CBN = +20% CA',next_date:ad(t,7)}];
+  sf('d1','charge','vert');  sf('d1','charge_date',ad(t,-15));
+  sf('d2','charge','feu');   sf('d2','charge_date',ad(t,-5));
+  sf('d3','charge','jaune'); sf('d3','charge_date',ad(t,-30));
+  sf('d5','charge','rouge'); sf('d5','charge_date',ad(t,-20));
+  sf('d10','charge','jaune');sf('d10','charge_date',ad(t,-40));
+  visitReports['d1']=[{id:'cr_d1a',date:ad(t,-15),type:'presentation',charge:'vert',contact:'Jean Dupont',sujet:'Programme CRP 5000',reaction:'🔥 Chaud',points:'Présentation programme CRP 5000. Fort intérêt pour applications fonte sphéroïdale.',actions:'Envoyer devis CRP 5000. Planifier essais sur site.',opportunite:'Remplacement tournage fonte grise = 40 k€/an potentiel',next_date:ad(t,1),sf_logged:false}];
+  visitReports['d2']=[{id:'cr_d2a',date:ad(t,-5),type:'activite',charge:'feu',contact:'Marie Martin',points:'Point trimestriel CA HRSA en hausse. Nouveau projet moteur LEAP en cours.',actions:'Préparer offre Inconel 718. Réunion technique R&D à planifier.',opportunite:'Projet LEAP = 200 k€ potentiel sur 18 mois',next_date:ad(t,-3),sf_logged:false}];
+  visitReports['d3']=[{id:'cr_d3a',date:ad(t,-30),type:'essai',charge:'jaune',contact:'Pierre Bernard',points:'Revue qualité CBN Hard Turning. Satisfaction globale. Quelques questions durée de vie.',actions:'Audit outils CBN semaine prochaine. Proposer CBN nouvelle génération.',opportunite:'Upgrade gamme CBN = +20% CA',next_date:ad(t,7),sf_logged:true}];
+  opportunities['d1']=[{id:'op_d1a',titre:'Remplacement tournage fonte grise — CRP 5000',montant:40000,etape:'Proposition',echeance:ad(t,45),proba:60,notes:'Devis envoyé. Attente retour BE avant essais sur site.',created:ad(t,-15)}];
+  opportunities['d2']=[{id:'op_d2a',titre:'Projet moteur LEAP — Inconel 718',montant:130000,etape:'Qualification',echeance:ad(t,120),proba:40,notes:'200 k€ potentiel sur 18 mois. Réunion technique R&D à planifier.',created:ad(t,-5)}];
+  opportunities['d6']=[{id:'op_d6a',titre:'Premier équipement HRSA Inconel',montant:25000,etape:'Prospection',echeance:ad(t,90),proba:20,notes:'Lead chaud, à relancer avant fin de mois.',created:ad(t,-10)}];
   clientNotes['d6']='Lead chaud — projet potentiel HRSA Inconel. À relancer impérativement avant fin de mois.';
   clientTasks['d1']=[{id:'tk_d1a',text:'Envoyer devis CRP 5000',dueDate:ad(t,2),done:false},{id:'tk_d1b',text:'Confirmer RDV essais',dueDate:ad(t,5),done:false}];
   clientTasks['d2']=[{id:'tk_d2a',text:'Préparer offre Inconel 718',dueDate:ad(t,0),done:true},{id:'tk_d2b',text:'Planifier réunion technique R&D',dueDate:ad(t,3),done:false}];
@@ -876,11 +1026,13 @@ function buildMarkerIcon(cl){
     else shadow='0 0 0 3px #16a34a,0 2px 8px rgba(0,0,0,.3)';
   }
   const badge=inTour?`<div class="tour-badge">${tourIdx+1}</div>`:'';
+  const ch=cl.charge&&CHARGES[cl.charge];
+  const chBadge=ch?`<div style="position:absolute;bottom:0;left:0;width:13px;height:13px;border-radius:50%;background:${ch.c};border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.35);z-index:9;"></div>`:'';
   const sz=d+8;
   return L.divIcon({className:'',
     html:`<div style="position:relative;width:${sz}px;height:${sz}px;">
       <div class="client-marker ${isLead?'lead-marker':'filled-marker'}" style="width:${d}px;height:${d}px;position:absolute;top:4px;left:4px;background:${isLead?'rgba(255,255,255,.9)':color};border-color:${isLead?color:'rgba(255,255,255,.8)'};box-shadow:${shadow};">${getIcon(cl.type)}</div>
-      ${badge}</div>`,
+      ${chBadge}${badge}</div>`,
     iconSize:[sz,sz],iconAnchor:[sz/2,sz/2],popupAnchor:[0,-sz/2-4]});
 }
 
@@ -891,6 +1043,7 @@ function mkMarker(cl){
   mk.on('click',()=>{
     const c=clients.find(x=>x.id===cl.id);if(!c)return;
     if(tourMode){setTimeout(()=>mk.closePopup(),20);toggleTourClient(cl.id);return;}
+    mk.setPopupContent(buildPopup(c));
     wirePopup(c,mk);
   });
   markerMap[cl.id]=mk;
@@ -932,9 +1085,14 @@ function buildPopup(cl){
   const crs=visitReports[cl.id]||[];
   const lastCR=crs[0];
   const crPrev=lastCR?`<div style="font-size:11px;background:#f8f9fb;border-radius:3px;padding:5px 7px;">
-    <span style="color:var(--blue);font-weight:700;">${fmtDate(lastCR.date)}</span>${lastCR.contact?' — '+lastCR.contact:''}
+    <span style="color:var(--blue);font-weight:700;">${CR_TYPES[lastCR.type||'activite'].lbl} · ${fmtDate(lastCR.date)}</span>${lastCR.contact?' — '+lastCR.contact:''}
     ${lastCR.points?`<div style="color:#555;font-size:10px;margin-top:2px;">${lastCR.points.slice(0,90)}${lastCR.points.length>90?'…':''}</div>`:''}
   </div>`:'<div style="font-size:11px;color:#aaa;">Aucun compte-rendu</div>';
+  const oppsOpen=(opportunities[cl.id]||[]).filter(o=>o.etape!=='Gagnée'&&o.etape!=='Perdue');
+  const oppSum=oppsOpen.reduce((s,o)=>s+(o.montant||0),0);
+  const chargeHTML=`<div class="pop-sep"></div>
+    <div class="pop-lbl">🏭 Charge de travail ${cl.charge_date?`<span style="font-weight:400;color:#999;">(maj ${fmtDate(cl.charge_date)})</span>`:''}</div>
+    <div class="charge-row">${Object.keys(CHARGES).map(k=>`<button class="charge-btn${cl.charge===k?' on':''}" data-chk="${k}" onclick="window._setCharge('${cl.id}','${k}')">${CHARGES[k].e}<small>${CHARGES[k].label}</small></button>`).join('')}</div>`;
   return `<div id="pp-${cl.id}">
     <div class="pop-h">${cl.nom}</div>
     <span class="pop-type" style="background:${color};">${cl.type}</span>${catBadge}
@@ -942,6 +1100,7 @@ function buildPopup(cl){
     ${cl.tel?`<div style="font-size:11px;">📞 ${cl.tel}</div>`:''}
     ${cl.email?`<div style="font-size:11px;">✉️ ${cl.email}</div>`:''}
     ${lvHTML}${nvHTML}
+    ${chargeHTML}
     <div class="pop-ca">${fmtCA(caM)}</div>
     <div class="pop-ca-lbl">CA ${MN[cm()-1]} • Cumulé: <strong>${fmtCA(caY)}</strong></div>
     <div class="pop-chart"><canvas id="pc-${cl.id}" width="265" height="100"></canvas></div>
@@ -961,11 +1120,19 @@ function buildPopup(cl){
       <span class="pop-ok" id="pno-${cl.id}">✓ Sauvegardé</span>
     </div>
     <div class="pop-sep"></div>
-    <div class="pop-lbl" style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="pop-lbl" style="display:flex;justify-content:space-between;align-items:center;gap:4px;">
       <span>📋 Compte-rendu</span>
-      <button class="pop-save" id="pcr-${cl.id}" style="font-size:10px;padding:2px 8px;">+ Nouveau CR</button>
+      <span style="display:flex;gap:4px;">
+        <button class="pop-save" id="pfl-${cl.id}" style="font-size:10px;padding:2px 8px;background:var(--amber);">⚡ Éclair</button>
+        <button class="pop-save" id="pcr-${cl.id}" style="font-size:10px;padding:2px 8px;">+ CR</button>
+      </span>
     </div>
     <div id="pcrl-${cl.id}" style="margin-top:4px;">${crPrev}</div>
+    <div class="pop-sep"></div>
+    <div class="pop-lbl" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>💼 Opportunités${oppsOpen.length?` <span style="color:var(--green);">(${oppsOpen.length} — ${fmtCA(oppSum)})</span>`:''}</span>
+      <button class="pop-save" id="po-${cl.id}" style="font-size:10px;padding:2px 8px;">Gérer</button>
+    </div>
     <div class="pop-sep"></div>
     <div class="pop-lbl">📌 Actions</div>
     <div id="ptl-${cl.id}">${buildTasksHTML(cl.id)}</div>
@@ -1012,14 +1179,20 @@ function wirePopup(cl,mk){
       if(!confirm(`Supprimer "${cl.nom}" ?`))return;
       if(!await dbDeleteClient(cl.id))return;
       clients=clients.filter(c=>c.id!==cl.id);delete caHistory[cl.id];delete clientNotes[cl.id];
-      delete visitReports[cl.id];delete clientTasks[cl.id];
+      delete visitReports[cl.id];delete clientTasks[cl.id];delete opportunities[cl.id];
       saveCache();mk.closePopup();renderFilters();renderMarkers();updateStats();renderListView();
-      renderAlertsSection();renderVisitsSection();
+      renderAlertsSection();renderVisitsSection();renderSFBadge();renderPipelineMini();
       toast(`"${cl.nom}" supprimé`,'s');
     });
     // CR button
     const crBtn=document.getElementById('pcr-'+cl.id);
     if(crBtn)crBtn.addEventListener('click',()=>{mk.closePopup();openCR(cl);});
+    // Visite éclair
+    const flBtn=document.getElementById('pfl-'+cl.id);
+    if(flBtn)flBtn.addEventListener('click',()=>{mk.closePopup();openCR(cl,'eclair');});
+    // Opportunités
+    const opBtn=document.getElementById('po-'+cl.id);
+    if(opBtn)opBtn.addEventListener('click',()=>{mk.closePopup();openOpps(cl);});
     // Task add
     const ptb=document.getElementById('ptb-'+cl.id);
     if(ptb)ptb.addEventListener('click',()=>{
@@ -1080,7 +1253,12 @@ function updateStats(){
     <div class="stat-row"><span style="font-weight:600;color:#555;">CA cumulé année</span><span class="sv red">${fmtCA(caY)}</span></div>
     <div style="margin-top:9px;padding-top:7px;border-top:1px solid #eee;"><label style="font-size:11px;font-weight:600;color:#888;">Répartition</label>`;
   Object.keys(TYPE_COLORS).forEach(t=>{if(bd[t]>0)html+=`<div class="type-stat"><span><span class="dot" style="background:${TYPE_COLORS[t]};"></span>${t}</span><span style="font-weight:700;">${bd[t]}</span></div>`;});
-  html+='</div>';document.getElementById('stats-content').innerHTML=html;
+  html+='</div>';
+  const cd={};f.forEach(cl=>{if(cl.charge&&CHARGES[cl.charge])cd[cl.charge]=(cd[cl.charge]||0)+1;});
+  if(Object.keys(cd).length){
+    html+=`<div style="margin-top:9px;padding-top:7px;border-top:1px solid #eee;"><label style="font-size:11px;font-weight:600;color:#888;">🏭 Charge secteur</label><div style="display:flex;gap:12px;font-size:12px;margin-top:4px;">${Object.keys(CHARGES).map(k=>cd[k]?`<span title="${CHARGES[k].label}">${CHARGES[k].e} <b>${cd[k]}</b></span>`:'').join('')}</div></div>`;
+  }
+  document.getElementById('stats-content').innerHTML=html;
 }
 
 // ─── LIST VIEW ────────────────────────────────────────────
@@ -1120,7 +1298,7 @@ function renderListView(){
     if(hasNote)tr.classList.add('has-note');
     const catHtml=cl.categorie_produit?`<span class="tbl-cat">${cl.categorie_produit}</span>`:'<span style="color:#ccc;font-size:11px;">—</span>';
     tr.innerHTML=`
-      <td><strong>${cl.nom}</strong></td>
+      <td><strong>${cl.nom}</strong>${cl.charge&&CHARGES[cl.charge]?' <span title="'+CHARGES[cl.charge].label+'">'+CHARGES[cl.charge].e+'</span>':''}</td>
       <td><span class="tbl-type" style="background:${TYPE_COLORS[cl.type]||'#888'};">${cl.type}</span></td>
       <td>${catHtml}</td>
       <td>${cl.ville||'—'}</td>
@@ -1144,7 +1322,8 @@ function renderListView(){
     const cl=clients.find(c=>c.id===b.dataset.del);if(!cl||!confirm(`Supprimer "${cl.nom}" ?`))return;
     if(!await dbDeleteClient(cl.id))return;
     clients=clients.filter(c=>c.id!==cl.id);delete caHistory[cl.id];delete clientNotes[cl.id];
-    saveCache();renderFilters();renderMarkers();updateStats();renderListView();toast(`"${cl.nom}" supprimé`,'s');
+    delete visitReports[cl.id];delete clientTasks[cl.id];delete opportunities[cl.id];
+    saveCache();renderFilters();renderMarkers();updateStats();renderListView();renderSFBadge();renderPipelineMini();toast(`"${cl.nom}" supprimé`,'s');
   }));
 }
 
@@ -1206,9 +1385,9 @@ async function deleteCF(){
   if(!cl||!confirm(`Supprimer "${cl.nom}" ?`))return;
   if(!await dbDeleteClient(id))return;
   clients=clients.filter(c=>c.id!==id);delete caHistory[id];delete clientNotes[id];
-  delete visitReports[id];delete clientTasks[id];
+  delete visitReports[id];delete clientTasks[id];delete opportunities[id];
   saveCache();renderFilters();renderMarkers();updateStats();renderListView();
-  renderAlertsSection();renderVisitsSection();
+  renderAlertsSection();renderVisitsSection();renderSFBadge();renderPipelineMini();
   document.getElementById('client-modal').classList.remove('show');
   toast(`"${cl.nom}" supprimé`,'s');
 }
@@ -1317,15 +1496,40 @@ function exportCSV(){
 
 
 // ─── VISIT REPORTS (CR) ───────────────────────────────────
-function openCR(cl){
+function renderCRTypeRow(){
+  document.getElementById('cr-type-row').innerHTML=Object.keys(CR_TYPES).map(k=>
+    `<span class="crt-chip${crType===k?' on':''}" data-crt="${k}">${CR_TYPES[k].lbl}</span>`).join('');
+}
+function renderCRChargeRow(){
+  document.getElementById('cr-charge-row').innerHTML=Object.keys(CHARGES).map(k=>
+    `<button type="button" class="charge-btn${crCharge===k?' on':''}" data-ch="${k}">${CHARGES[k].e}<small>${CHARGES[k].label}</small></button>`).join('');
+}
+function setCRType(t){
+  crType=t;
+  renderCRTypeRow();
+  const show=(id,v)=>{const el=document.getElementById(id);if(el)el.style.display=v?'':'none';};
+  show('cr-f-sujet',t==='presentation');
+  show('cr-f-reaction',t==='presentation');
+  show('cr-f-actions',t!=='eclair');
+  show('cr-f-opp',t!=='eclair');
+  document.getElementById('cr-points-label').textContent=t==='eclair'?'Note rapide (optionnel)':'Points discutés';
+  document.getElementById('cr-points').placeholder=t==='eclair'?'Une ligne suffit — le CR Salesforce sera généré automatiquement':'Sujets abordés lors de la visite…';
+}
+
+function openCR(cl,type='activite'){
   crCurrentClientId=cl.id;
+  crCharge=cl.charge&&CHARGES[cl.charge]?cl.charge:null;
   document.getElementById('cr-modal-client').textContent=cl.nom+(cl.ville?' — '+cl.ville:'');
   document.getElementById('cr-date').value=new Date().toISOString().slice(0,10);
   document.getElementById('cr-contact').value=cl.contact||'';
   document.getElementById('cr-points').value='';
   document.getElementById('cr-actions').value='';
   document.getElementById('cr-opp').value='';
+  document.getElementById('cr-sujet').value='';
+  document.getElementById('cr-reaction').value='';
   document.getElementById('cr-next-date').value='';
+  setCRType(type);
+  renderCRChargeRow();
   renderCRHistory(cl.id);
   document.getElementById('cr-modal').classList.add('show');
 }
@@ -1334,23 +1538,28 @@ function saveCR(){
   const id=crCurrentClientId;if(!id)return;
   const date=document.getElementById('cr-date').value;
   if(!date){toast('Date requise','e');return;}
-  const cr={id:'cr'+Date.now(),date,
+  const cr={id:'cr'+Date.now(),date,type:crType,charge:crCharge,
     contact:document.getElementById('cr-contact').value.trim(),
     points:document.getElementById('cr-points').value.trim(),
-    actions:document.getElementById('cr-actions').value.trim(),
-    opportunite:document.getElementById('cr-opp').value.trim(),
-    next_date:document.getElementById('cr-next-date').value||null};
+    actions:crType==='eclair'?'':document.getElementById('cr-actions').value.trim(),
+    opportunite:crType==='eclair'?'':document.getElementById('cr-opp').value.trim(),
+    sujet:crType==='presentation'?document.getElementById('cr-sujet').value.trim():'',
+    reaction:crType==='presentation'?document.getElementById('cr-reaction').value:'',
+    next_date:document.getElementById('cr-next-date').value||null,
+    sf_logged:false};
   if(!visitReports[id])visitReports[id]=[];
   visitReports[id].unshift(cr);
   const cl=clients.find(c=>c.id===id);
   if(cl){
     cl.last_visit=date;
-    if(cr.next_date){cl.prochaine_visite=cr.next_date;dbUpsertClient(cl);}
+    if(cr.next_date)cl.prochaine_visite=cr.next_date;
+    if(crCharge){cl.charge=crCharge;cl.charge_date=date;}
+    if(cr.next_date||crCharge)dbUpsertClient(cl);
   }
   saveCache();
-  toast('Compte-rendu sauvegardé ✓','s');
+  toast('CR sauvegardé ✓ — dispo dans la file Salesforce','s');
   document.getElementById('cr-modal').classList.remove('show');
-  renderMarkers();renderAlertsSection();renderVisitsSection();
+  renderMarkers();renderAlertsSection();renderVisitsSection();renderSFBadge();updateStats();renderListView();
 }
 
 window.deleteCR=function(clientId,crId){
@@ -1369,7 +1578,8 @@ function renderCRHistory(clientId){
   list.innerHTML=crs.slice(0,8).map(cr=>`
     <div class="cr-item">
       <button class="cr-i-del" onclick="window.deleteCR('${clientId}','${cr.id}')">×</button>
-      <div class="cr-i-date">📅 ${fmtDate(cr.date)}${cr.contact?' — '+cr.contact:''}</div>
+      <div class="cr-i-date">${CR_TYPES[cr.type||'activite'].lbl} · ${fmtDate(cr.date)}${cr.contact?' — '+cr.contact:''}${cr.charge&&CHARGES[cr.charge]?' · '+CHARGES[cr.charge].e:''}${cr.sf_logged?'':' <span style="color:var(--amber);font-size:10px;">SF ⏳</span>'}</div>
+      ${cr.sujet?`<div class="cr-i-body"><strong>Présenté :</strong> ${cr.sujet}${cr.reaction?' — '+cr.reaction:''}</div>`:''}
       ${cr.points?`<div class="cr-i-body"><strong>Points :</strong> ${cr.points}</div>`:''}
       ${cr.actions?`<div class="cr-i-body"><strong>Actions :</strong> ${cr.actions}</div>`:''}
       ${cr.opportunite?`<div class="cr-i-body" style="color:var(--green);"><strong>Opportunité :</strong> ${cr.opportunite}</div>`:''}
@@ -1396,6 +1606,198 @@ window._deleteTask=function(clientId,taskId){
   const el=document.getElementById('ptl-'+clientId);
   if(el)el.innerHTML=buildTasksHTML(clientId);
 };
+
+// ─── V6 : CHARGE DE TRAVAIL ───────────────────────────────
+window._setCharge=function(id,k){
+  const cl=clients.find(c=>c.id===id);if(!cl)return;
+  cl.charge=cl.charge===k?null:k;
+  cl.charge_date=cl.charge?new Date().toISOString().slice(0,10):null;
+  saveCache();dbUpsertClient(cl);
+  const pp=document.getElementById('pp-'+id);
+  if(pp)pp.querySelectorAll('.charge-btn[data-chk]').forEach(b=>b.classList.toggle('on',b.dataset.chk===cl.charge));
+  const mk=markerMap[id];
+  if(mk)mk.setIcon(buildMarkerIcon(cl));
+  updateStats();renderListView();
+};
+
+// ─── V6 : HELPERS ─────────────────────────────────────────
+function escHTML(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+async function copyText(t){
+  try{await navigator.clipboard.writeText(t);}
+  catch(e){
+    const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0;';
+    document.body.appendChild(ta);ta.focus();ta.select();
+    try{document.execCommand('copy');}catch(_){}
+    ta.remove();
+  }
+  toast('Copié — prêt à coller dans Salesforce ✓','s');
+}
+
+// ─── V6 : GÉNÉRATEUR SALESFORCE ───────────────────────────
+function genSFVisit(cl,cr){
+  const lines=[];
+  lines.push(`Visite du ${fmtDate(cr.date)} — ${cl.nom}${cl.ville?' ('+cl.ville+')':''}`);
+  lines.push(`Objet : ${CR_TYPES[cr.type||'activite'].sf}`);
+  if(cr.contact)lines.push(`Contact : ${cr.contact}`);
+  if(cr.charge&&CHARGES[cr.charge])lines.push(`Charge de travail atelier : ${CHARGES[cr.charge].label}`);
+  if(cr.sujet)lines.push(`Présenté : ${cr.sujet}${cr.reaction?' — Réaction client : '+cr.reaction.replace(/^\S+\s/,''):''}`);
+  if(cr.points)lines.push(`Compte-rendu : ${cr.points}`);
+  else if((cr.type||'activite')==='eclair')lines.push('Compte-rendu : Visite de suivi. Pas de nouveau projet évoqué.');
+  if(cr.actions)lines.push(`Prochaines actions : ${cr.actions}`);
+  if(cr.opportunite)lines.push(`Opportunité détectée : ${cr.opportunite}`);
+  if(cr.next_date)lines.push(`Prochaine visite prévue : ${fmtDate(cr.next_date)}`);
+  return lines.join('\n');
+}
+function genSFOpp(cl,o){
+  const lines=[];
+  lines.push(`Nom : ${cl.nom} — ${o.titre}`);
+  if(o.montant)lines.push(`Montant estimé : ${Math.round(o.montant).toLocaleString('fr-FR')} €/an`);
+  lines.push(`Étape : ${o.etape}`);
+  if(o.proba!=null)lines.push(`Probabilité : ${o.proba}%`);
+  if(o.echeance)lines.push(`Date de clôture : ${fmtDate(o.echeance)}`);
+  if(o.notes)lines.push(`Description : ${o.notes}`);
+  return lines.join('\n');
+}
+
+// ─── V6 : FILE SALESFORCE ─────────────────────────────────
+function sfPending(){
+  const out=[];
+  clients.forEach(cl=>(visitReports[cl.id]||[]).forEach(cr=>{if(!cr.sf_logged)out.push({cl,cr});}));
+  out.sort((a,b)=>(b.cr.date||'').localeCompare(a.cr.date||''));
+  return out;
+}
+function renderSFBadge(){
+  const b=document.getElementById('sf-badge');if(!b)return;
+  const n=sfPending().length;
+  b.style.display=n?'inline-flex':'none';
+  if(n)b.textContent=n;
+}
+function renderSFList(){
+  const p=sfPending();
+  document.getElementById('sf-count').textContent=p.length?`${p.length} visite(s) à logger`:'Tout est loggé ✓';
+  document.getElementById('sf-list').innerHTML=p.length?p.map(({cl,cr})=>`
+    <div class="sf-item">
+      <div class="sf-hdr"><span>${CR_TYPES[cr.type||'activite'].lbl}</span><span>${escHTML(cl.nom)}</span><span style="margin-left:auto;color:#888;font-weight:400;">${fmtDate(cr.date)}</span></div>
+      <div class="sf-txt">${escHTML(genSFVisit(cl,cr))}</div>
+      <div class="sf-acts">
+        <button class="btn btn-p btn-sm" onclick="window._sfCopy('${cl.id}','${cr.id}')">📋 Copier</button>
+        <button class="btn btn-o btn-sm" onclick="window._sfLogged('${cl.id}','${cr.id}')">✓ Loggé</button>
+      </div>
+    </div>`).join('')
+  :'<p style="font-size:13px;color:#888;text-align:center;padding:24px 0;">🎉 Rien à logger — tranquille.</p>';
+}
+function openSFQueue(){renderSFList();document.getElementById('sf-modal').classList.add('show');}
+window._sfCopy=function(clientId,crId){
+  const cl=clients.find(c=>c.id===clientId);
+  const cr=(visitReports[clientId]||[]).find(x=>x.id===crId);
+  if(cl&&cr)copyText(genSFVisit(cl,cr));
+};
+window._sfLogged=function(clientId,crId){
+  const cr=(visitReports[clientId]||[]).find(x=>x.id===crId);
+  if(!cr)return;
+  cr.sf_logged=true;saveCache();renderSFList();renderSFBadge();
+};
+
+// ─── V6 : OPPORTUNITÉS ────────────────────────────────────
+function oppIsOpen(o){return o.etape!=='Gagnée'&&o.etape!=='Perdue';}
+function allOpps(filterClientId){
+  const out=[];
+  clients.forEach(cl=>{
+    if(filterClientId&&cl.id!==filterClientId)return;
+    (opportunities[cl.id]||[]).forEach(o=>out.push({cl,o}));
+  });
+  out.sort((a,b)=>(oppIsOpen(b.o)?1:0)-(oppIsOpen(a.o)?1:0)||(a.o.echeance||'9999').localeCompare(b.o.echeance||'9999'));
+  return out;
+}
+function openOpps(clOrNull){
+  oppCurrentClientId=clOrNull?clOrNull.id:null;
+  document.getElementById('opp-title').textContent='💼 Opportunités'+(clOrNull?' — '+clOrNull.nom:' (pipeline secteur)');
+  const sel=document.getElementById('opp-client');
+  sel.innerHTML=clients.slice().sort((a,b)=>a.nom.localeCompare(b.nom,'fr')).map(c=>`<option value="${c.id}">${escHTML(c.nom)}</option>`).join('');
+  if(clOrNull)sel.value=clOrNull.id;
+  document.getElementById('opp-f-client').style.display=clOrNull?'none':'';
+  document.getElementById('opp-etape').innerHTML=OPP_ETAPES.filter(e=>e!=='Gagnée'&&e!=='Perdue').map(e=>`<option>${e}</option>`).join('');
+  document.getElementById('opp-titre').value='';
+  document.getElementById('opp-montant').value='';
+  document.getElementById('opp-echeance').value='';
+  document.getElementById('opp-proba').value='50';
+  document.getElementById('opp-notes').value='';
+  renderOppList();
+  document.getElementById('opp-modal').classList.add('show');
+}
+function renderOppList(){
+  const items=allOpps(oppCurrentClientId);
+  document.getElementById('opp-list').innerHTML=items.length?items.map(({cl,o})=>{
+    const open=oppIsOpen(o);
+    const pond=(o.montant||0)*(o.proba||0)/100;
+    return`<div class="opp-item${o.etape==='Gagnée'?' won':o.etape==='Perdue'?' lost':''}">
+      <div class="opp-t">${escHTML(o.titre)}</div>
+      <div class="opp-meta">
+        ${oppCurrentClientId?'':`<span>🏢 ${escHTML(cl.nom)}</span>`}
+        ${o.montant?`<b>${fmtCA(o.montant)}/an</b>`:''}
+        ${o.echeance?`<span>⏳ ${fmtDate(o.echeance)}</span>`:''}
+        ${o.proba!=null&&open?`<span>${o.proba}% — pondéré ${fmtCA(pond)}</span>`:''}
+      </div>
+      ${o.notes?`<div class="opp-notes">${escHTML(o.notes)}</div>`:''}
+      <div class="opp-acts">
+        <select onchange="window._oppStage('${cl.id}','${o.id}',this.value)">${OPP_ETAPES.map(e=>`<option${e===o.etape?' selected':''}>${e}</option>`).join('')}</select>
+        <button class="btn btn-o btn-sm" onclick="window._oppCopy('${cl.id}','${o.id}')">📋 Salesforce</button>
+        <button class="btn btn-sm" style="background:#fee2e2;color:var(--red);" onclick="window._oppDel('${cl.id}','${o.id}')">🗑</button>
+      </div>
+    </div>`;}).join('')
+  :'<p style="font-size:13px;color:#888;text-align:center;padding:14px 0;">Aucune opportunité. Crée la première ci-dessus 👆</p>';
+}
+function addOpp(){
+  const clientId=oppCurrentClientId||document.getElementById('opp-client').value;
+  const titre=document.getElementById('opp-titre').value.trim();
+  if(!clientId||!titre){toast('Client et titre requis','e');return;}
+  if(!opportunities[clientId])opportunities[clientId]=[];
+  opportunities[clientId].push({
+    id:'op'+Date.now(),titre,
+    montant:parseFloat(document.getElementById('opp-montant').value)||0,
+    etape:document.getElementById('opp-etape').value,
+    echeance:document.getElementById('opp-echeance').value||null,
+    proba:Math.min(100,Math.max(0,parseInt(document.getElementById('opp-proba').value)||0)),
+    notes:document.getElementById('opp-notes').value.trim(),
+    created:new Date().toISOString().slice(0,10)});
+  saveCache();
+  document.getElementById('opp-titre').value='';
+  document.getElementById('opp-montant').value='';
+  document.getElementById('opp-notes').value='';
+  renderOppList();renderPipelineMini();
+  toast('Opportunité créée ✓','s');
+}
+window._oppStage=function(clientId,oppId,etape){
+  const o=(opportunities[clientId]||[]).find(x=>x.id===oppId);if(!o)return;
+  o.etape=etape;
+  if(etape==='Gagnée')o.proba=100;
+  if(etape==='Perdue')o.proba=0;
+  saveCache();renderOppList();renderPipelineMini();
+  toast(etape==='Gagnée'?'🏆 Opportunité gagnée !':'Étape mise à jour','s');
+};
+window._oppCopy=function(clientId,oppId){
+  const cl=clients.find(c=>c.id===clientId);
+  const o=(opportunities[clientId]||[]).find(x=>x.id===oppId);
+  if(cl&&o)copyText(genSFOpp(cl,o));
+};
+window._oppDel=function(clientId,oppId){
+  if(!confirm('Supprimer cette opportunité ?'))return;
+  opportunities[clientId]=(opportunities[clientId]||[]).filter(x=>x.id!==oppId);
+  if(!opportunities[clientId].length)delete opportunities[clientId];
+  saveCache();renderOppList();renderPipelineMini();
+};
+function renderPipelineMini(){
+  const el=document.getElementById('pipeline-mini');if(!el)return;
+  let n=0,tot=0,pond=0;
+  Object.keys(opportunities).forEach(cid=>(opportunities[cid]||[]).forEach(o=>{
+    if(oppIsOpen(o)){n++;tot+=o.montant||0;pond+=(o.montant||0)*(o.proba||0)/100;}
+  }));
+  el.innerHTML=n?`
+    <div class="stat-row"><span style="font-weight:600;color:#555;">Oppos ouvertes</span><span class="sv blue">${n}</span></div>
+    <div class="stat-row"><span style="font-weight:600;color:#555;">Pipeline total</span><span class="sv">${fmtCA(tot)}</span></div>
+    <div class="stat-row"><span style="font-weight:600;color:#555;">Pondéré (proba)</span><span class="sv red">${fmtCA(pond)}</span></div>`
+  :'<p style="font-size:11px;color:#aaa;">Aucune opportunité ouverte</p>';
+}
 
 // ─── TOUR ─────────────────────────────────────────────────
 function toggleTourMode(){
@@ -1527,10 +1929,16 @@ function exportMonthlyReport(){
   const crs=[];
   clients.forEach(cl=>(visitReports[cl.id]||[]).forEach(cr=>{
     const[cy2,cm2]=(cr.date||'').split('-').map(Number);
-    if(cm2===m&&cy2===y)crs.push([cl.nom,cl.ville,fmtDate(cr.date),cr.contact,cr.points,cr.actions,cr.opportunite,cr.next_date?fmtDate(cr.next_date):'']);
+    if(cm2===m&&cy2===y)crs.push([cl.nom,cl.ville,fmtDate(cr.date),CR_TYPES[cr.type||'activite'].sf,cr.contact,cr.charge&&CHARGES[cr.charge]?CHARGES[cr.charge].label:'',cr.sujet||'',cr.points,cr.actions,cr.opportunite,cr.next_date?fmtDate(cr.next_date):'',cr.sf_logged?'Oui':'Non']);
   }));
-  const r2=[['Client','Ville','Date visite','Contact','Points discutés','Prochaines actions','Opportunité','Prochaine visite'],...crs];
+  const r2=[['Client','Ville','Date visite','Type','Contact','Charge atelier','Présenté','Points discutés','Prochaines actions','Opportunité','Prochaine visite','Loggé SF'],...crs];
   XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(r2),'Visites du mois');
+  const opps=[];
+  clients.forEach(cl=>(opportunities[cl.id]||[]).forEach(o=>
+    opps.push([cl.nom,o.titre,o.montant||0,o.etape,o.proba!=null?o.proba+'%':'',Math.round((o.montant||0)*(o.proba||0)/100),o.echeance?fmtDate(o.echeance):'',o.notes||''])
+  ));
+  const r4=[['Client','Opportunité','Montant (€/an)','Étape','Probabilité','Pondéré (€)','Échéance','Description'],...opps];
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(r4),'Opportunités');
   const tks=[];
   clients.forEach(cl=>(clientTasks[cl.id]||[]).filter(t=>!t.done).forEach(t=>
     tks.push([cl.nom,t.text,t.dueDate?fmtDate(t.dueDate):'—'])
@@ -1563,6 +1971,7 @@ async function renderApp(){
   await seedDemoIfEmpty();
   renderFilters();renderMarkers();updateStats();
   renderAlertsSection();renderVisitsSection();
+  renderSFBadge();renderPipelineMini();
 }
 
 // ─── INIT ─────────────────────────────────────────────────
@@ -1616,6 +2025,36 @@ function init(){
   document.getElementById('btn-cr-save').addEventListener('click',saveCR);
   document.getElementById('cr-close').addEventListener('click',()=>document.getElementById('cr-modal').classList.remove('show'));
   document.getElementById('cr-modal').addEventListener('click',e=>{if(e.target===document.getElementById('cr-modal'))document.getElementById('cr-modal').classList.remove('show');});
+  document.getElementById('cr-type-row').addEventListener('click',e=>{
+    const t=e.target.closest('.crt-chip');if(t)setCRType(t.dataset.crt);
+  });
+  document.getElementById('cr-charge-row').addEventListener('click',e=>{
+    const b=e.target.closest('.charge-btn');if(!b)return;
+    crCharge=crCharge===b.dataset.ch?null:b.dataset.ch;
+    renderCRChargeRow();
+  });
+
+  // Help
+  document.getElementById('btn-help').addEventListener('click',()=>document.getElementById('help-modal').classList.add('show'));
+  document.getElementById('help-close').addEventListener('click',()=>document.getElementById('help-modal').classList.remove('show'));
+  document.getElementById('help-modal').addEventListener('click',e=>{if(e.target===document.getElementById('help-modal'))document.getElementById('help-modal').classList.remove('show');});
+
+  // Salesforce queue
+  document.getElementById('btn-sf-queue').addEventListener('click',openSFQueue);
+  document.getElementById('sf-close').addEventListener('click',()=>document.getElementById('sf-modal').classList.remove('show'));
+  document.getElementById('sf-modal').addEventListener('click',e=>{if(e.target===document.getElementById('sf-modal'))document.getElementById('sf-modal').classList.remove('show');});
+  document.getElementById('btn-sf-all-logged').addEventListener('click',()=>{
+    const p=sfPending();if(!p.length)return;
+    if(!confirm(`Marquer les ${p.length} visite(s) comme loggées dans Salesforce ?`))return;
+    p.forEach(({cr})=>cr.sf_logged=true);
+    saveCache();renderSFList();renderSFBadge();
+  });
+
+  // Opportunités
+  document.getElementById('btn-pipeline').addEventListener('click',()=>openOpps(null));
+  document.getElementById('opp-close').addEventListener('click',()=>document.getElementById('opp-modal').classList.remove('show'));
+  document.getElementById('opp-modal').addEventListener('click',e=>{if(e.target===document.getElementById('opp-modal'))document.getElementById('opp-modal').classList.remove('show');});
+  document.getElementById('btn-opp-add').addEventListener('click',addOpp);
 
   // Tour
   document.getElementById('btn-tour-toggle').addEventListener('click',toggleTourMode);

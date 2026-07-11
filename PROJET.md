@@ -107,6 +107,14 @@ Sales Area Manager/
 - CA mois en cours (vue filtrée)
 - CA cumulé année (vue filtrée)
 - Répartition par type de client
+- Charge secteur (répartition 🔴🟡🟢🔥, vue filtrée)
+
+### v6 — Compagnon de visite (juillet 2026)
+- **CR typés 4 vitesses** : ⚡ Éclair (20 s : contact + charge + 1 ligne) · 📊 Point d'activité · 🎤 Présentation technique (sujet + réaction ❄️/🌤/🔥) · 🧪 Essai — le formulaire s'adapte au type
+- **Charge de travail client** : 4 niveaux (🔴 Sous-chargé / 🟡 Normale / 🟢 Plein régime / 🔥 Débordé), réglable en 1 tap dans le popup ou via le CR, avec date de mise à jour ; pastille colorée sur les marqueurs carte + emoji en vue liste
+- **Opportunités** : par client (montant €/an, étape Salesforce, échéance, probabilité, description), modal pipeline secteur, pondération par probabilité dans la sidebar
+- **Générateur Salesforce** : chaque CR et chaque oppo génère un bloc texte prêt à coller dans Salesforce (bouton 📋 Copier)
+- **File "À logger dans Salesforce"** : badge sidebar avec compteur, modal listant les CR non loggés avec bloc pré-rédigé, marquage ✓ individuel ou en masse
 
 ---
 
@@ -114,10 +122,14 @@ Sales Area Manager/
 
 | Clé | Contenu |
 |---|---|
-| `spk_clients` | JSON array des fiches clients |
-| `spk_ca_history` | JSON object `{ clientId: [{mois, annee, ca}] }` |
-| `spk_notes` | JSON object `{ clientId: string }` |
-| `spk_initialized` | Flag "données démo déjà chargées" |
+| `spk_c` | JSON array des fiches clients (incl. `charge`, `charge_date`) |
+| `spk_h` | JSON object `{ clientId: [{mois, annee, ca}] }` |
+| `spk_n` | JSON object `{ clientId: string }` (notes) |
+| `spk_vr` | JSON object `{ clientId: [CR] }` — CR : `{type, charge, contact, sujet, reaction, points, actions, opportunite, next_date, sf_logged}` |
+| `spk_tk` | JSON object `{ clientId: [tâches] }` |
+| `spk_op` | JSON object `{ clientId: [opportunités] }` — `{titre, montant, etape, echeance, proba, notes}` |
+
+> ⚠️ Les champs v6 (`charge`, `charge_date` sur client) n'existent pas encore dans le schéma Supabase — en mode connecté, prévoir une migration `ALTER TABLE clients ADD COLUMN charge text, ADD COLUMN charge_date date` + tables `opportunities` et colonnes CR étendues.
 
 > ⚠️ Les données sont stockées dans le navigateur. Vider le cache = perte des données.  
 > Solution future : synchronisation cloud (Supabase ou Google Sheets API).
