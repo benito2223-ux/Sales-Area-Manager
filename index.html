@@ -360,6 +360,53 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 .sf-txt{white-space:pre-wrap;font-size:11.5px;background:#f8f9fb;border-radius:3px;padding:8px 10px;color:#333;line-height:1.55;font-family:ui-monospace,Menlo,Consolas,monospace;}
 .sf-acts{display:flex;gap:6px;margin-top:7px;}
 
+/* V8 — FICHE CLIENT PLEIN ÉCRAN */
+#fiche-modal .modal{max-width:760px;width:96%;max-height:94vh;display:flex;flex-direction:column;padding:0;}
+.fiche-hdr{padding:14px 18px 0;border-bottom:1px solid #eee;position:sticky;top:0;background:var(--white);z-index:2;border-radius:6px 6px 0 0;}
+.fiche-hdr-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.fiche-hdr-top .fh-name{font-family:'Open Sans Condensed',sans-serif;font-size:20px;color:var(--blue);font-weight:700;line-height:1.1;flex:1;}
+.fiche-hdr-top .fh-sub{font-size:12px;color:#777;margin-top:2px;}
+.fiche-tabs{display:flex;gap:2px;overflow-x:auto;}
+.fiche-tab{padding:8px 14px;font-size:12.5px;font-weight:600;color:#888;cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;transition:all .15s;user-select:none;}
+.fiche-tab:hover{color:var(--blue);}
+.fiche-tab.on{color:var(--blue);border-bottom-color:var(--blue);}
+.fiche-body{padding:16px 18px;overflow-y:auto;flex:1;}
+.fiche-pane{display:none;}
+.fiche-pane.on{display:block;}
+.fiche-card{border:1px solid #eee;border-radius:5px;padding:12px 14px;margin-bottom:10px;}
+.fiche-card h5{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.fk-row{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;font-size:13px;border-bottom:1px solid #f4f4f4;}
+.fk-row:last-child{border-bottom:none;}
+.fk-row .k{color:#777;}
+.fk-row .v{font-weight:600;color:#222;text-align:right;}
+/* contact / machine items */
+.ct-item,.mc-item{border:1px solid #eee;border-left:3px solid var(--blue-l);border-radius:4px;padding:9px 11px;margin-bottom:7px;position:relative;}
+.ct-item.principal{border-left-color:var(--amber);background:#fffdf5;}
+.ct-name{font-size:13px;font-weight:700;color:#222;}
+.ct-role{font-size:10px;font-weight:600;color:#fff;background:var(--blue-l);border-radius:10px;padding:1px 7px;margin-left:5px;vertical-align:middle;}
+.ct-role.principal{background:var(--amber);}
+.ct-meta{font-size:11px;color:#666;margin-top:3px;}
+.ct-meta a{color:var(--blue);text-decoration:none;}
+.mc-item .mc-title{font-size:13px;font-weight:700;color:#222;}
+.mc-item .mc-detail{font-size:11px;color:#666;margin-top:2px;line-height:1.5;}
+.item-del{position:absolute;top:7px;right:8px;background:none;border:none;cursor:pointer;color:#ccc;font-size:15px;line-height:1;}
+.item-del:hover{color:var(--red);}
+.item-star{position:absolute;top:7px;right:30px;background:none;border:none;cursor:pointer;font-size:14px;line-height:1;opacity:.4;}
+.item-star.on{opacity:1;}
+.fiche-addbtn{width:100%;padding:8px;border:1.5px dashed #ccc;background:#fafbfd;border-radius:4px;color:var(--blue);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;}
+.fiche-addbtn:hover{border-color:var(--blue);background:var(--blue-bg);}
+.mini-form{border:1px solid var(--blue-bg);border-radius:4px;padding:10px;margin-bottom:8px;background:#fafbfd;display:none;}
+.mini-form.on{display:block;}
+.mini-form input,.mini-form select,.mini-form textarea{width:100%;padding:6px 8px;border:1.5px solid #ddd;border-radius:3px;font-size:13px;font-family:inherit;outline:none;margin-bottom:6px;}
+.mini-form input:focus,.mini-form select:focus,.mini-form textarea:focus{border-color:var(--blue);}
+.note-hist-item{border-left:2px solid var(--blue-bg);padding:5px 0 5px 10px;margin-bottom:6px;}
+.note-hist-item .nh-date{font-size:10px;font-weight:700;color:var(--blue);}
+.note-hist-item .nh-txt{font-size:12px;color:#444;white-space:pre-wrap;line-height:1.5;}
+@media(max-width:767px){
+  #fiche-modal .modal{width:100%!important;max-width:100%!important;max-height:100vh;height:100vh;border-radius:0!important;}
+  .fiche-hdr{border-radius:0;}
+}
+
 /* V7 — RDV CHIPS */
 .rdv-chips{display:flex;flex-wrap:wrap;gap:4px;margin:3px 0;}
 .rdv-chip{font-size:10.5px;font-weight:600;padding:4px 8px;border-radius:var(--r);cursor:pointer;border:1.5px solid #ccc;background:var(--white);color:#555;transition:all .15s;user-select:none;line-height:1.2;}
@@ -401,7 +448,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
   </button>
   <div class="nav-logo-crop"><img src="logo_spk.png" alt="SPK"/></div>
   <span class="nav-title">Sales Area Manager</span>
-  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v7.1</span>
+  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v8</span>
   <div class="nav-right">
     <button id="btn-help" title="Aide & notice d'utilisation" aria-label="Aide">?</button>
     <span id="offline-badge">✈ Hors-ligne</span>
@@ -473,7 +520,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <button class="btn btn-o btn-bl btn-sm" id="btn-tour-toggle" style="margin-bottom:5px;">🚗 Démarrer une tournée</button>
       <button class="btn btn-o btn-bl btn-sm" id="btn-monthly-report">📊 Rapport mensuel (Excel)</button>
     </div>
-    <div class="sb-copyright">SPK Sales Area Manager v7.1<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
+    <div class="sb-copyright">SPK Sales Area Manager v8<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
   </div>
 
   <div id="map-container"><div id="map"></div><div id="map-watermark">© Benjamin Rouquette 2026 — Tous droits réservés</div></div>
@@ -641,8 +688,17 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <p>Chaque client est un marqueur coloré par type, dimensionné par CA mensuel. La <strong>pastille en bas à gauche</strong> du marqueur indique la charge de travail (🔴 sous-chargé · 🟡 normale · 🟢 plein régime · 🔥 débordé). L'anneau autour du marqueur signale la prochaine visite (vert = planifiée, orange = sous 14 j, rouge = en retard). Filtre par type, taille CA ou recherche libre dans la barre latérale.</p>
       </div>
       <div class="help-sec">
-        <h4>👤 Fiche client (popup)</h4>
-        <p>Un clic sur un marqueur ouvre la fiche : coordonnées, historique CA 12 mois, saisie du CA du mois, notes libres, actions à faire, et réglage de la <strong>charge de travail en 1 tap</strong>.</p>
+        <h4>👤 Popup client (aperçu rapide)</h4>
+        <p>Un clic sur un marqueur ouvre l'aperçu : coordonnées, RDV, charge, CA du mois, dernier CR. Pour tout le reste, ouvre la <strong>fiche complète</strong>.</p>
+      </div>
+      <div class="help-sec">
+        <h4>📇 Fiche complète (4 onglets)</h4>
+        <ul>
+          <li><strong>📊 Synthèse</strong> : charge, CA + graphique, objectif, RDV, cadence, opportunités.</li>
+          <li><strong>👥 Contacts</strong> : plusieurs contacts par client (acheteur, chef d'atelier, méthodes…), avec un contact principal (⭐).</li>
+          <li><strong>📋 Activité</strong> : historique des CR, actions, et <strong>notes horodatées</strong> (chaque note est conservée avec sa date).</li>
+          <li><strong>⚙️ Technique</strong> : parc machines du client (tour, centre… marque, matières, outils concurrents en place) — ta mémoire de son atelier.</li>
+        </ul>
       </div>
       <div class="help-sec">
         <h4>📋 Comptes-rendus de visite — 4 vitesses</h4>
@@ -687,7 +743,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <p>Sur iPad/iPhone : ouvre l'app dans <strong>Safari</strong>, touche <strong>Partager</strong> (carré avec flèche) → <strong>« Sur l'écran d'accueil »</strong>. L'app s'ouvre alors en plein écran comme une vraie appli, et ses données sont mieux protégées.</p>
       </div>
       <div class="help-footer">
-        <strong>SPK Sales Area Manager v7.1</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
+        <strong>SPK Sales Area Manager v8</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
         © Benjamin Rouquette 2026 — Tous droits réservés / All rights reserved
       </div>
     </div>
@@ -733,6 +789,34 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <button class="btn btn-p btn-sm" id="btn-opp-add">💾 Créer l'opportunité</button>
       </div>
       <div id="opp-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FICHE CLIENT MODAL -->
+<div class="modal-ov" id="fiche-modal">
+  <div class="modal">
+    <div class="fiche-hdr">
+      <div class="fiche-hdr-top">
+        <div>
+          <div class="fh-name" id="fiche-name"></div>
+          <div class="fh-sub" id="fiche-sub"></div>
+        </div>
+        <button class="btn btn-o btn-sm" id="fiche-edit" title="Modifier">✏️</button>
+        <button class="modal-x" id="fiche-close">×</button>
+      </div>
+      <div class="fiche-tabs" id="fiche-tabs">
+        <div class="fiche-tab on" data-pane="synthese">📊 Synthèse</div>
+        <div class="fiche-tab" data-pane="contacts">👥 Contacts</div>
+        <div class="fiche-tab" data-pane="activite">📋 Activité</div>
+        <div class="fiche-tab" data-pane="technique">⚙️ Technique</div>
+      </div>
+    </div>
+    <div class="fiche-body">
+      <div class="fiche-pane on" id="pane-synthese"></div>
+      <div class="fiche-pane" id="pane-contacts"></div>
+      <div class="fiche-pane" id="pane-activite"></div>
+      <div class="fiche-pane" id="pane-technique"></div>
     </div>
   </div>
 </div>
@@ -986,6 +1070,22 @@ function seedDemoLocal(){
   clientTasks['d1']=[{id:'tk_d1a',text:'Envoyer devis CRP 5000',dueDate:ad(t,2),done:false},{id:'tk_d1b',text:'Confirmer RDV essais',dueDate:ad(t,5),done:false}];
   clientTasks['d2']=[{id:'tk_d2a',text:'Préparer offre Inconel 718',dueDate:ad(t,0),done:true},{id:'tk_d2b',text:'Planifier réunion technique R&D',dueDate:ad(t,3),done:false}];
   clientTasks['d6']=[{id:'tk_d6a',text:'Relancer pour projet HRSA',dueDate:ad(t,-1),done:false}];
+  sf('d1','contacts',[
+    {id:'ct_d1a',nom:'Jean Dupont',role:'Chef d\'atelier',tel:'03 20 55 12 34',email:'j.dupont@fonderie-nord.fr',principal:true},
+    {id:'ct_d1b',nom:'Sylvie Marchand',role:'Acheteur',tel:'03 20 55 12 40',email:'achats@fonderie-nord.fr',principal:false}
+  ]);
+  sf('d1','machines',[
+    {id:'mc_d1a',type:'Tour',marque:'Mazak',modele:'QT-250',matieres:'Fonte GG25, GGG60',outils_concurrents:'Sandvik CNMG',notes:'Ébauche + finition, série moyenne.'},
+    {id:'mc_d1b',type:'Centre d\'usinage',marque:'DMG Mori',modele:'NHX 5000',matieres:'Fonte sphéroïdale',outils_concurrents:'Kennametal',notes:''}
+  ]);
+  sf('d2','contacts',[
+    {id:'ct_d2a',nom:'Marie Martin',role:'Bureau d\'études',tel:'05 61 23 45 67',email:'m.martin@aeroparts.fr',principal:true},
+    {id:'ct_d2b',nom:'Thomas Aubert',role:'Méthodes',tel:'05 61 23 45 70',email:'methodes@aeroparts.fr',principal:false},
+    {id:'ct_d2c',nom:'Nadia Cherif',role:'Qualité',tel:'',email:'qualite@aeroparts.fr',principal:false}
+  ]);
+  sf('d2','machines',[
+    {id:'mc_d2a',type:'Centre d\'usinage',marque:'Mazak',modele:'Integrex i-400',matieres:'Inconel 718, Ti-6Al-4V',outils_concurrents:'Greenleaf céramique whisker',notes:'Projet LEAP — usinage aubes.'}
+  ]);
 }
 
 async function seedDemoIfEmpty(){
@@ -1138,6 +1238,7 @@ function buildPopup(cl){
     ${cl.tel?`<div style="font-size:11px;">📞 ${cl.tel}</div>`:''}
     ${cl.email?`<div style="font-size:11px;">✉️ ${cl.email}</div>`:''}
     ${lvHTML}${nvHTML}
+    <button class="btn btn-p btn-bl btn-sm" style="margin-top:8px;" onclick="window._openFiche('${cl.id}')">📇 Ouvrir la fiche complète</button>
     <div class="pop-sep"></div>
     <div id="prdv-${cl.id}">${buildRDVHTML(cl)}</div>
     ${chargeHTML}
@@ -1612,6 +1713,250 @@ function checkBackupReminder(){
   }
 }
 
+// ─── V8 : FICHE CLIENT PLEIN ÉCRAN ────────────────────────
+const CONTACT_ROLES=['Acheteur','Chef d\'atelier','Méthodes','Bureau d\'études','Direction','Qualité','Production','Autre'];
+const MACHINE_TYPES=['Tour','Centre d\'usinage','Fraiseuse','Rectifieuse','Tour multibroche','Décolleteuse','Autre'];
+let ficheClientId=null, ficheChart=null;
+
+function ensureArrays(cl){
+  if(!Array.isArray(cl.contacts)){
+    cl.contacts=[];
+    if(cl.contact||cl.tel||cl.email)
+      cl.contacts.push({id:'ct'+Date.now(),nom:cl.contact||'',role:'',tel:cl.tel||'',email:cl.email||'',principal:true});
+  }
+  if(!Array.isArray(cl.machines))cl.machines=[];
+  if(!Array.isArray(cl.notes_history)){
+    cl.notes_history=[];
+    if(clientNotes[cl.id])cl.notes_history.push({id:'nh'+Date.now(),date:new Date().toISOString().slice(0,10),text:clientNotes[cl.id]});
+  }
+}
+function syncPrimaryContact(cl){
+  const p=(cl.contacts||[]).find(c=>c.principal)||(cl.contacts||[])[0];
+  if(p){cl.contact=p.nom;cl.tel=p.tel;cl.email=p.email;}
+}
+function ficheSave(){
+  const cl=clients.find(c=>c.id===ficheClientId);if(!cl)return;
+  syncPrimaryContact(cl);
+  saveCache();dbUpsertClient(cl);
+}
+
+function openFiche(cl){
+  ficheClientId=cl.id;
+  ensureArrays(cl);
+  document.getElementById('fiche-name').textContent=cl.nom;
+  document.getElementById('fiche-sub').innerHTML=`<span class="pop-type" style="background:${TYPE_COLORS[cl.type]||'#888'};">${cl.type}</span> 📍 ${cl.ville}${cl.dept?' ('+cl.dept+')':''}`;
+  switchFicheTab('synthese');
+  document.getElementById('fiche-modal').classList.add('show');
+}
+function switchFicheTab(pane){
+  document.querySelectorAll('.fiche-tab').forEach(t=>t.classList.toggle('on',t.dataset.pane===pane));
+  document.querySelectorAll('.fiche-pane').forEach(p=>p.classList.toggle('on',p.id==='pane-'+pane));
+  const cl=clients.find(c=>c.id===ficheClientId);if(!cl)return;
+  if(pane==='synthese')renderFicheSynthese(cl);
+  if(pane==='contacts')renderFicheContacts(cl);
+  if(pane==='activite')renderFicheActivite(cl);
+  if(pane==='technique')renderFicheTechnique(cl);
+}
+
+function renderFicheSynthese(cl){
+  const caM=caMonth(cl.id),caY=caYear(cl.id);
+  const lv=lastVisitDate(cl.id);
+  const oppsOpen=(opportunities[cl.id]||[]).filter(o=>o.etape!=='Gagnée'&&o.etape!=='Perdue');
+  const oppSum=oppsOpen.reduce((s,o)=>s+(o.montant||0),0);
+  const ch=cl.charge&&CHARGES[cl.charge];
+  let objHTML='';
+  if(cl.objectif_ca>0){
+    const pct=Math.min(Math.round(caY/cl.objectif_ca*100),999),bc=pct>=100?'hit':pct>=50?'':'warn';
+    objHTML=`<div class="fk-row"><span class="k">🎯 Objectif annuel</span><span class="v">${fmtCA(cl.objectif_ca)}</span></div>
+      <div class="prog-wrap" style="margin:4px 0;"><div class="prog-bar ${bc}" style="width:${Math.min(pct,100)}%;"></div></div>
+      <div style="font-size:10px;color:#888;text-align:right;">${pct}% réalisé</div>`;
+  }
+  const rdvTxt=cl.prochaine_visite?`${fmtDateFull(cl.prochaine_visite)}${cl.rdv_heure?' · '+fmtHeure(cl.rdv_heure):''}`:'—';
+  document.getElementById('pane-synthese').innerHTML=`
+    <div class="fiche-card">
+      <h5>🏭 Charge de travail ${cl.charge_date?'· maj '+fmtDate(cl.charge_date):''}</h5>
+      <div class="charge-row">${Object.keys(CHARGES).map(k=>`<button class="charge-btn${cl.charge===k?' on':''}" onclick="window._ficheCharge('${k}')">${CHARGES[k].e}<small>${CHARGES[k].label}</small></button>`).join('')}</div>
+    </div>
+    <div class="fiche-card">
+      <h5>📈 Chiffre d'affaires</h5>
+      <div class="fk-row"><span class="k">CA ${MN[cm()-1]}</span><span class="v">${fmtCA(caM)}</span></div>
+      <div class="fk-row"><span class="k">CA cumulé année</span><span class="v">${fmtCA(caY)}</span></div>
+      ${objHTML}
+      <div style="position:relative;height:120px;margin-top:8px;"><canvas id="fiche-ca-chart"></canvas></div>
+    </div>
+    <div class="fiche-card">
+      <h5>📅 Suivi</h5>
+      <div class="fk-row"><span class="k">Prochain RDV</span><span class="v">${rdvTxt}</span></div>
+      <div class="fk-row"><span class="k">Dernière visite</span><span class="v">${lv?fmtDate(lv):'—'}</span></div>
+      <div class="fk-row"><span class="k">Cadence</span><span class="v">${cl.cadence?'toutes les '+cl.cadence+' sem.':'—'}</span></div>
+      <div class="fk-row"><span class="k">Contact principal</span><span class="v">${cl.contact||'—'}</span></div>
+    </div>
+    <div class="fiche-card">
+      <h5>💼 Opportunités ouvertes</h5>
+      ${oppsOpen.length?`<div class="fk-row"><span class="k">${oppsOpen.length} en cours</span><span class="v" style="color:var(--green);">${fmtCA(oppSum)}/an</span></div>`:'<div style="font-size:12px;color:#aaa;">Aucune opportunité ouverte</div>'}
+      <button class="fiche-addbtn" style="margin-top:8px;" onclick="window._ficheOpps()">Gérer les opportunités →</button>
+    </div>`;
+  const cnv=document.getElementById('fiche-ca-chart');
+  if(cnv){const d=last12(cl.id);new Chart(cnv.getContext('2d'),{type:'bar',data:{labels:d.map(x=>x.label),datasets:[{data:d.map(x=>x.ca),backgroundColor:'rgba(27,94,166,.55)',borderColor:'#1B5EA6',borderWidth:1,borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:8},maxRotation:45},grid:{display:false}},y:{ticks:{font:{size:9},callback:v=>v>=1000?(v/1000)+'k':v},grid:{color:'#eee'}}}}});}
+}
+
+function renderFicheContacts(cl){
+  const items=(cl.contacts||[]).map(c=>`
+    <div class="ct-item${c.principal?' principal':''}">
+      <button class="item-star${c.principal?' on':''}" title="Contact principal" onclick="window._ficheContactStar('${c.id}')">⭐</button>
+      <button class="item-del" onclick="window._ficheContactDel('${c.id}')">×</button>
+      <div class="ct-name">${escHTML(c.nom||'(sans nom)')}${c.role?`<span class="ct-role${c.principal?' principal':''}">${escHTML(c.role)}</span>`:''}</div>
+      <div class="ct-meta">${c.tel?`📞 <a href="tel:${escHTML(c.tel)}">${escHTML(c.tel)}</a>`:''}${c.tel&&c.email?' · ':''}${c.email?`✉️ <a href="mailto:${escHTML(c.email)}">${escHTML(c.email)}</a>`:''}${!c.tel&&!c.email?'—':''}</div>
+    </div>`).join('')||'<div style="font-size:12px;color:#aaa;margin-bottom:8px;">Aucun contact enregistré</div>';
+  document.getElementById('pane-contacts').innerHTML=`
+    ${items}
+    <div class="mini-form" id="ct-form">
+      <input type="text" id="ct-nom" placeholder="Nom du contact"/>
+      <select id="ct-role"><option value="">— Rôle —</option>${CONTACT_ROLES.map(r=>`<option>${r}</option>`).join('')}</select>
+      <input type="tel" id="ct-tel" placeholder="Téléphone"/>
+      <input type="email" id="ct-email" placeholder="Email"/>
+      <button class="btn btn-p btn-sm btn-bl" onclick="window._ficheContactAdd()">Ajouter le contact</button>
+    </div>
+    <button class="fiche-addbtn" id="ct-addbtn" onclick="document.getElementById('ct-form').classList.add('on');this.style.display='none';">➕ Ajouter un contact</button>`;
+}
+
+function renderFicheTechnique(cl){
+  const items=(cl.machines||[]).map(m=>`
+    <div class="mc-item">
+      <button class="item-del" onclick="window._ficheMachineDel('${m.id}')">×</button>
+      <div class="mc-title">${escHTML(m.type||'Machine')}${m.marque?' — '+escHTML(m.marque):''}${m.modele?' '+escHTML(m.modele):''}</div>
+      <div class="mc-detail">
+        ${m.matieres?`<strong>Matières :</strong> ${escHTML(m.matieres)}<br>`:''}
+        ${m.outils_concurrents?`<strong>Outils en place :</strong> ${escHTML(m.outils_concurrents)}<br>`:''}
+        ${m.notes?escHTML(m.notes):''}
+      </div>
+    </div>`).join('')||'<div style="font-size:12px;color:#aaa;margin-bottom:8px;">Aucune machine enregistrée. Note ici le parc du client — tu arriveras en connaissant son atelier.</div>';
+  document.getElementById('pane-technique').innerHTML=`
+    ${items}
+    <div class="mini-form" id="mc-form">
+      <select id="mc-type">${MACHINE_TYPES.map(t=>`<option>${t}</option>`).join('')}</select>
+      <input type="text" id="mc-marque" placeholder="Marque (Mazak, DMG, Doosan…)"/>
+      <input type="text" id="mc-modele" placeholder="Modèle"/>
+      <input type="text" id="mc-matieres" placeholder="Matières usinées (Inconel 718, GG25…)"/>
+      <input type="text" id="mc-outils" placeholder="Outils concurrents en place"/>
+      <textarea id="mc-notes" rows="2" placeholder="Notes techniques…"></textarea>
+      <button class="btn btn-p btn-sm btn-bl" onclick="window._ficheMachineAdd()">Ajouter la machine</button>
+    </div>
+    <button class="fiche-addbtn" id="mc-addbtn" onclick="document.getElementById('mc-form').classList.add('on');this.style.display='none';">➕ Ajouter une machine</button>`;
+}
+
+function renderFicheActivite(cl){
+  const crs=visitReports[cl.id]||[];
+  const crHTML=crs.length?crs.slice(0,10).map(cr=>`
+    <div class="cr-item">
+      <div class="cr-i-date">${CR_TYPES[cr.type||'activite'].lbl} · ${fmtDate(cr.date)}${cr.contact?' — '+escHTML(cr.contact):''}${cr.charge&&CHARGES[cr.charge]?' · '+CHARGES[cr.charge].e:''}</div>
+      ${cr.sujet?`<div class="cr-i-body"><strong>Présenté :</strong> ${escHTML(cr.sujet)}${cr.reaction?' — '+cr.reaction:''}</div>`:''}
+      ${cr.points?`<div class="cr-i-body"><strong>Points :</strong> ${escHTML(cr.points)}</div>`:''}
+      ${cr.actions?`<div class="cr-i-body"><strong>Actions :</strong> ${escHTML(cr.actions)}</div>`:''}
+    </div>`).join(''):'<div style="font-size:12px;color:#aaa;">Aucun compte-rendu</div>';
+  const notesHist=(cl.notes_history||[]).slice().reverse().map(n=>`
+    <div class="note-hist-item">
+      <button class="item-del" style="position:static;float:right;" onclick="window._ficheNoteDel('${n.id}')">×</button>
+      <div class="nh-date">${fmtDate(n.date)}</div>
+      <div class="nh-txt">${escHTML(n.text)}</div>
+    </div>`).join('')||'<div style="font-size:12px;color:#aaa;">Aucune note</div>';
+  document.getElementById('pane-activite').innerHTML=`
+    <div class="fiche-card">
+      <h5>📋 Comptes-rendus <button class="pop-save" style="float:right;font-size:10px;padding:2px 8px;" onclick="window._ficheNewCR()">+ Nouveau</button></h5>
+      ${crHTML}
+    </div>
+    <div class="fiche-card">
+      <h5>📌 Actions</h5>
+      <div id="fiche-tasks">${buildTasksHTML(cl.id)}</div>
+      <div class="pop-tk-add" style="margin-top:6px;">
+        <input type="text" id="fiche-task-txt" placeholder="Nouvelle action…"/>
+        <input type="date" id="fiche-task-due"/>
+        <button onclick="window._ficheTaskAdd()">+</button>
+      </div>
+    </div>
+    <div class="fiche-card">
+      <h5>📝 Notes horodatées</h5>
+      <div class="mini-form on" style="background:none;border:none;padding:0;">
+        <textarea id="fiche-note-txt" rows="2" placeholder="Ajouter une note datée…"></textarea>
+        <button class="btn btn-o btn-sm" onclick="window._ficheNoteAdd()">+ Ajouter la note</button>
+      </div>
+      <div style="margin-top:10px;">${notesHist}</div>
+    </div>`;
+}
+
+// Fiche — actions
+function ficheRefresh(pane){const cl=clients.find(c=>c.id===ficheClientId);if(cl){ensureArrays(cl);switchFicheTab(pane);}}
+window._ficheCharge=function(k){
+  const cl=clients.find(c=>c.id===ficheClientId);if(!cl)return;
+  cl.charge=cl.charge===k?null:k;cl.charge_date=cl.charge?new Date().toISOString().slice(0,10):null;
+  ficheSave();renderFicheSynthese(cl);
+  const mk=markerMap[cl.id];if(mk)mk.setIcon(buildMarkerIcon(cl));
+  updateStats();renderListView();
+};
+window._ficheContactAdd=function(){
+  const cl=clients.find(c=>c.id===ficheClientId);if(!cl)return;
+  const nom=document.getElementById('ct-nom').value.trim();
+  if(!nom){toast('Nom requis','e');return;}
+  cl.contacts.push({id:'ct'+Date.now(),nom,role:document.getElementById('ct-role').value,tel:document.getElementById('ct-tel').value.trim(),email:document.getElementById('ct-email').value.trim(),principal:cl.contacts.length===0});
+  ficheSave();renderFicheContacts(cl);
+};
+window._ficheContactDel=function(id){
+  const cl=clients.find(c=>c.id===ficheClientId);if(!cl)return;
+  const wasP=(cl.contacts.find(c=>c.id===id)||{}).principal;
+  cl.contacts=cl.contacts.filter(c=>c.id!==id);
+  if(wasP&&cl.contacts.length)cl.contacts[0].principal=true;
+  ficheSave();renderFicheContacts(cl);
+};
+window._ficheContactStar=function(id){
+  const cl=clients.find(c=>c.id===ficheClientId);if(!cl)return;
+  cl.contacts.forEach(c=>c.principal=c.id===id);
+  ficheSave();renderFicheContacts(cl);
+};
+window._ficheMachineAdd=function(){
+  const cl=clients.find(c=>c.id===ficheClientId);if(!cl)return;
+  cl.machines.push({id:'mc'+Date.now(),type:document.getElementById('mc-type').value,marque:document.getElementById('mc-marque').value.trim(),modele:document.getElementById('mc-modele').value.trim(),matieres:document.getElementById('mc-matieres').value.trim(),outils_concurrents:document.getElementById('mc-outils').value.trim(),notes:document.getElementById('mc-notes').value.trim()});
+  ficheSave();renderFicheTechnique(cl);
+};
+window._ficheMachineDel=function(id){
+  const cl=clients.find(c=>c.id===ficheClientId);if(!cl)return;
+  cl.machines=cl.machines.filter(m=>m.id!==id);
+  ficheSave();renderFicheTechnique(cl);
+};
+window._ficheNoteAdd=function(){
+  const cl=clients.find(c=>c.id===ficheClientId);if(!cl)return;
+  const txt=document.getElementById('fiche-note-txt').value.trim();
+  if(!txt)return;
+  cl.notes_history.push({id:'nh'+Date.now(),date:new Date().toISOString().slice(0,10),text:txt});
+  clientNotes[cl.id]=txt; // garde la note "courante" pour compat popup/export
+  ficheSave();renderFicheActivite(cl);
+};
+window._ficheNoteDel=function(id){
+  const cl=clients.find(c=>c.id===ficheClientId);if(!cl)return;
+  cl.notes_history=cl.notes_history.filter(n=>n.id!==id);
+  ficheSave();renderFicheActivite(cl);
+};
+window._ficheTaskAdd=function(){
+  const cl=clients.find(c=>c.id===ficheClientId);if(!cl)return;
+  const txt=document.getElementById('fiche-task-txt').value.trim();
+  if(!txt)return;
+  addTask(cl.id,txt,document.getElementById('fiche-task-due').value||'');
+  document.getElementById('fiche-tasks').innerHTML=buildTasksHTML(cl.id);
+  document.getElementById('fiche-task-txt').value='';document.getElementById('fiche-task-due').value='';
+};
+window._ficheNewCR=function(){
+  const cl=clients.find(c=>c.id===ficheClientId);if(!cl)return;
+  document.getElementById('fiche-modal').classList.remove('show');
+  openCR(cl);
+};
+window._ficheOpps=function(){
+  const cl=clients.find(c=>c.id===ficheClientId);if(!cl)return;
+  document.getElementById('fiche-modal').classList.remove('show');
+  openOpps(cl);
+};
+window._openFiche=function(id){
+  const cl=clients.find(c=>c.id===id);if(cl)openFiche(cl);
+};
+
 
 // ─── VISIT REPORTS (CR) ───────────────────────────────────
 function renderCRTypeRow(){
@@ -1725,12 +2070,16 @@ window._toggleTask=function(clientId,taskId){
   if(tk){tk.done=!tk.done;saveCache();}
   const el=document.getElementById('ptl-'+clientId);
   if(el)el.innerHTML=buildTasksHTML(clientId);
+  const fe=document.getElementById('fiche-tasks');
+  if(fe&&ficheClientId===clientId)fe.innerHTML=buildTasksHTML(clientId);
 };
 window._deleteTask=function(clientId,taskId){
   clientTasks[clientId]=(clientTasks[clientId]||[]).filter(t=>t.id!==taskId);
   saveCache();
   const el=document.getElementById('ptl-'+clientId);
   if(el)el.innerHTML=buildTasksHTML(clientId);
+  const fe=document.getElementById('fiche-tasks');
+  if(fe&&ficheClientId===clientId)fe.innerHTML=buildTasksHTML(clientId);
 };
 
 // ─── V6 : CHARGE DE TRAVAIL ───────────────────────────────
@@ -2307,6 +2656,12 @@ function init(){
 
   // Export ICS semaine
   document.getElementById('btn-ics-week').addEventListener('click',exportWeekICS);
+
+  // Fiche client
+  document.getElementById('fiche-close').addEventListener('click',()=>document.getElementById('fiche-modal').classList.remove('show'));
+  document.getElementById('fiche-modal').addEventListener('click',e=>{if(e.target===document.getElementById('fiche-modal'))document.getElementById('fiche-modal').classList.remove('show');});
+  document.getElementById('fiche-tabs').addEventListener('click',e=>{const t=e.target.closest('.fiche-tab');if(t)switchFicheTab(t.dataset.pane);});
+  document.getElementById('fiche-edit').addEventListener('click',()=>{const cl=clients.find(c=>c.id===ficheClientId);if(cl){document.getElementById('fiche-modal').classList.remove('show');openCF(cl);}});
 
   // Help
   document.getElementById('btn-help').addEventListener('click',()=>document.getElementById('help-modal').classList.add('show'));

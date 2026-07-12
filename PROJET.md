@@ -109,6 +109,13 @@ Sales Area Manager/
 - Répartition par type de client
 - Charge secteur (répartition 🔴🟡🟢🔥, vue filtrée)
 
+### v8 — Fiche client plein écran (juillet 2026)
+- **Fiche complète à 4 onglets** (bouton « 📇 Ouvrir la fiche complète » dans le popup) : Synthèse (charge, CA + graphique, objectif, RDV, cadence, opportunités) · Contacts · Activité · Technique. Plein écran sur mobile.
+- **Contacts multiples** par client (`cl.contacts[]` : nom, rôle, tél, email, principal ⭐) — rôles : Acheteur, Chef d'atelier, Méthodes, BE, Direction, Qualité, Production. Le contact principal alimente `cl.contact/tel/email` (compat popup, CR, export).
+- **Parc machines** (`cl.machines[]` : type, marque, modèle, matières usinées, outils concurrents en place, notes) — la mémoire de l'atelier client.
+- **Notes horodatées** (`cl.notes_history[]`) : chaque note conservée avec sa date, au lieu d'écraser la précédente.
+- Migration douce : l'ancien `contact` unique et la note `clientNotes` existante sont convertis automatiquement au premier accès (`ensureArrays`).
+
 ### v7.1 — Données sacrées (juillet 2026)
 - **Vrai mode hors-ligne** : Service Worker réécrit (`sw.js`, cache `spk-sam-v7`) qui précache l'app + toutes les librairies CDN (Leaflet, Chart.js, SheetJS, Supabase, fonts) → l'app démarre sans réseau. Stratégies : network-first pour la navigation, cache-first pour JS/CSS/img, réseau direct pour les tuiles carte et l'API Supabase.
 - **Sauvegarde / restauration JSON** : bouton « 💾 Sauvegarder mes données » (export complet clients + CA + notes + CR + tâches + opportunités dans un `.json`), zone « ♻️ Restaurer » (drag & drop ou fichier). Restauration avec récapitulatif + confirmation. Sert aussi de pont iPad ↔ iPhone.
