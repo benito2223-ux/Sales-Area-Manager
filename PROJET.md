@@ -109,6 +109,12 @@ Sales Area Manager/
 - Répartition par type de client
 - Charge secteur (répartition 🔴🟡🟢🔥, vue filtrée)
 
+### v7.1 — Données sacrées (juillet 2026)
+- **Vrai mode hors-ligne** : Service Worker réécrit (`sw.js`, cache `spk-sam-v7`) qui précache l'app + toutes les librairies CDN (Leaflet, Chart.js, SheetJS, Supabase, fonts) → l'app démarre sans réseau. Stratégies : network-first pour la navigation, cache-first pour JS/CSS/img, réseau direct pour les tuiles carte et l'API Supabase.
+- **Sauvegarde / restauration JSON** : bouton « 💾 Sauvegarder mes données » (export complet clients + CA + notes + CR + tâches + opportunités dans un `.json`), zone « ♻️ Restaurer » (drag & drop ou fichier). Restauration avec récapitulatif + confirmation. Sert aussi de pont iPad ↔ iPhone.
+- **Rappel automatique** : suivi de `spk_last_backup`, badge de statut dans la sidebar (jamais / aujourd'hui / N jours) + toast d'alerte si &gt; 7 jours (protège du purge localStorage d'iOS à 7 j d'inactivité).
+- **PWA renforcée** : manifest avec vraies icônes PNG (192/512 + maskable) générées depuis le logo, métas iOS (`apple-mobile-web-app-capable`, `apple-touch-icon` 180px), notice d'installation sur écran d'accueil dans l'aide.
+
 ### v7 — RDV ultra-ergonomique (juillet 2026)
 - **RDV en 2 taps** : chips de délai (+1 sem / +2 sem / +1 mois / +6 sem / +2 mois / date précise) + chips d'horaires (8h–11h / 13h–16h), dans le popup client et en fin de CR ; décalage automatique au lundi si le délai tombe un week-end
 - **Cadence de visite** par client (2/4/6/8/12 semaines, réglable dans la fiche) : chip suggestion verte "✓ +N sem (cadence)" affichée en premier dans le popup et le CR

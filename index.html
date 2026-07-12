@@ -4,8 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SPK Sales Area Manager</title>
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1B5EA6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SPK SAM">
+<link rel="apple-touch-icon" href="icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Open+Sans+Condensed:wght@700&display=swap" rel="stylesheet">
@@ -397,7 +401,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
   </button>
   <div class="nav-logo-crop"><img src="logo_spk.png" alt="SPK"/></div>
   <span class="nav-title">Sales Area Manager</span>
-  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v7</span>
+  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v7.1</span>
   <div class="nav-right">
     <button id="btn-help" title="Aide & notice d'utilisation" aria-label="Aide">?</button>
     <span id="offline-badge">✈ Hors-ligne</span>
@@ -439,6 +443,12 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <button class="btn btn-p btn-bl btn-sm" id="btn-export-excel" style="margin-bottom:5px;">📊 Export Excel complet</button>
       <button class="btn btn-o btn-bl btn-sm" id="btn-export-csv">Export CSV (vue filtrée)</button>
     </div>
+    <div class="sb-section" id="sb-backup-section">
+      <h3><svg class="ico" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 13.17l6.59-6.59L19 8l-8 9z"/></svg>Sauvegarde</h3>
+      <div id="backup-status" style="font-size:11px;margin-bottom:8px;"></div>
+      <button class="btn btn-p btn-bl btn-sm" id="btn-backup" style="margin-bottom:5px;">💾 Sauvegarder mes données</button>
+      <div class="upload-zone" id="upload-restore" style="padding:9px;"><p style="margin:0;"><strong>♻️ Restaurer</strong></p><p class="hint">Fichier .json de sauvegarde</p><input type="file" accept=".json,application/json" id="file-restore"/></div>
+    </div>
     <div class="sb-section">
       <h3><svg class="ico" viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>Statistiques</h3>
       <div id="stats-content"></div>
@@ -463,7 +473,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <button class="btn btn-o btn-bl btn-sm" id="btn-tour-toggle" style="margin-bottom:5px;">🚗 Démarrer une tournée</button>
       <button class="btn btn-o btn-bl btn-sm" id="btn-monthly-report">📊 Rapport mensuel (Excel)</button>
     </div>
-    <div class="sb-copyright">SPK Sales Area Manager v7<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
+    <div class="sb-copyright">SPK Sales Area Manager v7.1<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
   </div>
 
   <div id="map-container"><div id="map"></div><div id="map-watermark">© Benjamin Rouquette 2026 — Tous droits réservés</div></div>
@@ -661,11 +671,23 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <p>« Démarrer une tournée » puis clique les clients dans l'ordre : export direct vers Google Maps ou Waze. Le rapport mensuel Excel compile CA, objectifs, visites du mois, actions en cours et opportunités.</p>
       </div>
       <div class="help-sec">
-        <h4>⚠️ Données</h4>
-        <p>En mode démo, les données sont stockées <strong>localement dans le navigateur</strong> : vider le cache = perte des données. Pense à l'« Export Excel complet » régulièrement en sauvegarde.</p>
+        <h4>📴 Hors-ligne (atelier)</h4>
+        <p>L'app fonctionne <strong>sans réseau</strong> une fois chargée une première fois : carte, saisie, CR, tout reste accessible dans l'atelier. La carte affiche les fonds déjà consultés ; les nouvelles zones apparaîtront au retour du réseau.</p>
+      </div>
+      <div class="help-sec">
+        <h4>💾 Sauvegarde — À FAIRE RÉGULIÈREMENT</h4>
+        <p>Les données sont stockées <strong>dans le navigateur de ton appareil</strong>. Sur iPhone/iPad, iOS peut effacer ce stockage si l'app n'est pas ouverte pendant ~7 jours. <strong>Protège-toi :</strong></p>
+        <ul>
+          <li><strong>💾 Sauvegarder mes données</strong> (sidebar) : télécharge un fichier <code>.json</code> complet. L'app te prévient si &gt; 7 jours sans sauvegarde.</li>
+          <li><strong>♻️ Restaurer</strong> : recharge un fichier de sauvegarde (utile aussi pour passer d'un appareil à l'autre).</li>
+        </ul>
+      </div>
+      <div class="help-sec">
+        <h4>📲 Installer sur l'écran d'accueil</h4>
+        <p>Sur iPad/iPhone : ouvre l'app dans <strong>Safari</strong>, touche <strong>Partager</strong> (carré avec flèche) → <strong>« Sur l'écran d'accueil »</strong>. L'app s'ouvre alors en plein écran comme une vraie appli, et ses données sont mieux protégées.</p>
       </div>
       <div class="help-footer">
-        <strong>SPK Sales Area Manager v7</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
+        <strong>SPK Sales Area Manager v7.1</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
         © Benjamin Rouquette 2026 — Tous droits réservés / All rights reserved
       </div>
     </div>
@@ -1516,6 +1538,80 @@ function exportCSV(){
   toast(`${f.length} client(s) exporté(s)`,'s');
 }
 
+// ─── SAUVEGARDE / RESTAURATION JSON ───────────────────────
+const BACKUP_VERSION=1;
+function buildBackup(){
+  return {
+    _app:'SPK Sales Area Manager',
+    _version:BACKUP_VERSION,
+    _date:new Date().toISOString(),
+    clients, caHistory, clientNotes, visitReports, clientTasks, opportunities
+  };
+}
+function doBackup(){
+  if(!clients.length){toast('Aucune donnée à sauvegarder','e');return;}
+  const data=buildBackup();
+  const stamp=new Date().toISOString().slice(0,10);
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+  a.download=`sauvegarde_spk_${stamp}.json`;
+  document.body.appendChild(a);a.click();a.remove();
+  localStorage.setItem('spk_last_backup',new Date().toISOString());
+  renderBackupStatus();
+  toast('Sauvegarde téléchargée ✓','s');
+}
+function restoreBackup(file){
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      if(!d||!Array.isArray(d.clients))throw new Error('Fichier de sauvegarde invalide');
+      const nbC=d.clients.length;
+      const nbCR=Object.values(d.visitReports||{}).reduce((s,a)=>s+a.length,0);
+      const nbOp=Object.values(d.opportunities||{}).reduce((s,a)=>s+a.length,0);
+      if(!confirm(`Restaurer cette sauvegarde ?\n\n• ${nbC} clients\n• ${nbCR} comptes-rendus\n• ${nbOp} opportunités\n• Datée du ${d._date?new Date(d._date).toLocaleString('fr-FR'):'?'}\n\n⚠️ Cela REMPLACE toutes les données actuelles.`))return;
+      clients=d.clients||[];
+      caHistory=d.caHistory||{};
+      clientNotes=d.clientNotes||{};
+      visitReports=d.visitReports||{};
+      clientTasks=d.clientTasks||{};
+      opportunities=d.opportunities||{};
+      saveCache();
+      // Sync cloud si connecté
+      if(currentUser&&isOnline){clients.forEach(c=>dbUpsertClient(c));}
+      renderFilters();renderMarkers();updateStats();renderListView();
+      renderAlertsSection();renderVisitsSection();renderSFBadge();renderPipelineMini();
+      toast(`Restauré : ${nbC} clients ✓`,'s');
+    }catch(err){toast('Erreur restauration : '+err.message,'e');}
+  };
+  r.readAsText(file);
+}
+function daysSinceBackup(){
+  const last=localStorage.getItem('spk_last_backup');
+  if(!last)return null;
+  return Math.floor((Date.now()-new Date(last).getTime())/86400000);
+}
+function renderBackupStatus(){
+  const el=document.getElementById('backup-status');if(!el)return;
+  const d=daysSinceBackup();
+  if(d===null){
+    el.innerHTML='<span style="color:var(--amber);font-weight:700;">⚠️ Jamais sauvegardé</span>';
+  }else if(d===0){
+    el.innerHTML='<span style="color:var(--green);">✓ Sauvegardé aujourd\'hui</span>';
+  }else if(d<=6){
+    el.innerHTML=`<span style="color:#888;">Dernière sauvegarde il y a ${d} j</span>`;
+  }else{
+    el.innerHTML=`<span style="color:var(--red);font-weight:700;">⚠️ ${d} j sans sauvegarde !</span>`;
+  }
+}
+function checkBackupReminder(){
+  renderBackupStatus();
+  const d=daysSinceBackup();
+  if((d===null||d>=7)&&clients.length){
+    setTimeout(()=>toast(d===null?'💾 Pense à sauvegarder tes données !':`💾 ${d} j sans sauvegarde — pense à sauvegarder`,'e'),1500);
+  }
+}
+
 
 // ─── VISIT REPORTS (CR) ───────────────────────────────────
 function renderCRTypeRow(){
@@ -2104,9 +2200,12 @@ function exportMonthlyReport(){
 // ─── PWA ──────────────────────────────────────────────────
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('/sw.js').catch(()=>{});
-    // Auto-reload when a new service worker takes control (seamless update)
-    navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload());
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+    // Recharge une seule fois quand un nouveau SW prend le contrôle (mise à jour transparente)
+    let reloaded=false;
+    navigator.serviceWorker.addEventListener('controllerchange',()=>{
+      if(reloaded)return;reloaded=true;location.reload();
+    });
   });
 }
 
@@ -2124,6 +2223,7 @@ async function renderApp(){
   renderFilters();renderMarkers();updateStats();
   renderAlertsSection();renderVisitsSection();
   renderSFBadge();renderPipelineMini();
+  checkBackupReminder();
 }
 
 // ─── INIT ─────────────────────────────────────────────────
@@ -2164,6 +2264,13 @@ function init(){
   document.getElementById('file-ca').addEventListener('change',e=>{if(e.target.files.length){importCA(e.target.files[0]);e.target.value='';}});
   document.getElementById('btn-export-excel').addEventListener('click',exportExcel);
   document.getElementById('btn-export-csv').addEventListener('click',exportCSV);
+
+  // Sauvegarde / restauration
+  document.getElementById('btn-backup').addEventListener('click',doBackup);
+  document.getElementById('file-restore').addEventListener('change',e=>{if(e.target.files.length){restoreBackup(e.target.files[0]);e.target.value='';}});
+  const uz=document.getElementById('upload-restore');
+  uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('dragover');});
+  uz.addEventListener('dragleave',()=>uz.classList.remove('dragover'));
 
   // Drag & drop
   ['upload-clients','upload-ca'].forEach(id=>{const z=document.getElementById(id);z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('dragover');});z.addEventListener('dragleave',()=>z.classList.remove('dragover'));});
