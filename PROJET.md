@@ -109,6 +109,13 @@ Sales Area Manager/
 - Répartition par type de client
 - Charge secteur (répartition 🔴🟡🟢🔥, vue filtrée)
 
+### v7 — RDV ultra-ergonomique (juillet 2026)
+- **RDV en 2 taps** : chips de délai (+1 sem / +2 sem / +1 mois / +6 sem / +2 mois / date précise) + chips d'horaires (8h–11h / 13h–16h), dans le popup client et en fin de CR ; décalage automatique au lundi si le délai tombe un week-end
+- **Cadence de visite** par client (2/4/6/8/12 semaines, réglable dans la fiche) : chip suggestion verte "✓ +N sem (cadence)" affichée en premier dans le popup et le CR
+- **Export .ics Outlook** : par RDV (bouton 📆 dans le popup) ou tous les RDV des 7 prochains jours (« Semaine → Outlook » dans la sidebar) ; l'événement contient l'adresse, le briefing (contact, charge, dernier CR, actions ouvertes) et 2 rappels (–18h, –1h)
+- Champs client : `rdv_heure` (HH:MM), `cadence` (semaines) ; CR : `next_heure`
+- Heure affichée dans « À visiter » et dans le bloc Salesforce
+
 ### v6 — Compagnon de visite (juillet 2026)
 - **CR typés 4 vitesses** : ⚡ Éclair (20 s : contact + charge + 1 ligne) · 📊 Point d'activité · 🎤 Présentation technique (sujet + réaction ❄️/🌤/🔥) · 🧪 Essai — le formulaire s'adapte au type
 - **Charge de travail client** : 4 niveaux (🔴 Sous-chargé / 🟡 Normale / 🟢 Plein régime / 🔥 Débordé), réglable en 1 tap dans le popup ou via le CR, avec date de mise à jour ; pastille colorée sur les marqueurs carte + emoji en vue liste

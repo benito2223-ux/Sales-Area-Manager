@@ -356,6 +356,15 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 .sf-txt{white-space:pre-wrap;font-size:11.5px;background:#f8f9fb;border-radius:3px;padding:8px 10px;color:#333;line-height:1.55;font-family:ui-monospace,Menlo,Consolas,monospace;}
 .sf-acts{display:flex;gap:6px;margin-top:7px;}
 
+/* V7 — RDV CHIPS */
+.rdv-chips{display:flex;flex-wrap:wrap;gap:4px;margin:3px 0;}
+.rdv-chip{font-size:10.5px;font-weight:600;padding:4px 8px;border-radius:var(--r);cursor:pointer;border:1.5px solid #ccc;background:var(--white);color:#555;transition:all .15s;user-select:none;line-height:1.2;}
+.rdv-chip:hover{border-color:var(--blue);color:var(--blue);}
+.rdv-chip.on{background:var(--blue);color:var(--white);border-color:var(--blue);}
+.rdv-chip.cad{border-color:var(--green);color:var(--green);font-weight:700;}
+.rdv-chip.cad:hover{background:#f0faf4;}
+.rdv-chip.cad.on{background:var(--green);color:#fff;}
+
 /* V6.1 — AIDE & FILIGRANE */
 #btn-help{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--blue);background:var(--white);color:var(--blue);font-weight:700;font-size:15px;cursor:pointer;flex-shrink:0;font-family:inherit;transition:all .2s;}
 #btn-help:hover{background:var(--blue-bg);}
@@ -388,7 +397,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
   </button>
   <div class="nav-logo-crop"><img src="logo_spk.png" alt="SPK"/></div>
   <span class="nav-title">Sales Area Manager</span>
-  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v6</span>
+  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v7</span>
   <div class="nav-right">
     <button id="btn-help" title="Aide & notice d'utilisation" aria-label="Aide">?</button>
     <span id="offline-badge">✈ Hors-ligne</span>
@@ -441,6 +450,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
     <div class="sb-section" id="sb-visits-section">
       <h3><svg class="ico" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 18H5V8h14v13z"/></svg>À visiter</h3>
       <div id="visits-content"></div>
+      <button class="btn btn-o btn-bl btn-sm" id="btn-ics-week" style="margin-top:8px;">📆 Semaine → Outlook (.ics)</button>
     </div>
     <div class="sb-section" id="sb-sf-section">
       <h3><svg class="ico" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>Salesforce & Pipeline<span class="sb-sec-badge" id="sf-badge" style="display:none;"></span></h3>
@@ -453,7 +463,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <button class="btn btn-o btn-bl btn-sm" id="btn-tour-toggle" style="margin-bottom:5px;">🚗 Démarrer une tournée</button>
       <button class="btn btn-o btn-bl btn-sm" id="btn-monthly-report">📊 Rapport mensuel (Excel)</button>
     </div>
-    <div class="sb-copyright">SPK Sales Area Manager v6<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
+    <div class="sb-copyright">SPK Sales Area Manager v7<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
   </div>
 
   <div id="map-container"><div id="map"></div><div id="map-watermark">© Benjamin Rouquette 2026 — Tous droits réservés</div></div>
@@ -503,8 +513,15 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <div class="fg fc2" id="cr-f-points"><label id="cr-points-label">Points discutés</label><textarea class="pop-ta" id="cr-points" placeholder="Sujets abordés lors de la visite…" style="height:72px;"></textarea></div>
         <div class="fg fc2" id="cr-f-actions"><label>Prochaines actions</label><textarea class="pop-ta" id="cr-actions" placeholder="À faire suite à cette visite…" style="height:60px;"></textarea></div>
         <div class="fg fc2" id="cr-f-opp"><label>Opportunité détectée</label><textarea class="pop-ta" id="cr-opp" placeholder="Projet, besoin, potentiel…" style="height:50px;"></textarea></div>
-        <div class="fg"><label>Prochaine visite prévue</label><input type="date" id="cr-next-date"/></div>
-        <div class="fg" style="align-self:flex-end;">
+        <div class="fg fc2"><label>📅 Prochain RDV</label>
+          <div class="rdv-chips" id="cr-rdv-delays"></div>
+          <div class="rdv-chips" id="cr-rdv-hours"></div>
+          <div style="display:flex;gap:6px;">
+            <input type="date" id="cr-next-date" style="flex:1;padding:7px 9px;border:1.5px solid #ddd;border-radius:var(--r);font-size:13px;font-family:inherit;outline:none;"/>
+            <input type="time" id="cr-next-heure" step="900" style="flex:1;padding:7px 9px;border:1.5px solid #ddd;border-radius:var(--r);font-size:13px;font-family:inherit;outline:none;"/>
+          </div>
+        </div>
+        <div class="fg fc2">
           <button class="btn btn-p btn-bl" id="btn-cr-save">💾 Sauvegarder CR</button>
         </div>
       </div>
@@ -576,7 +593,16 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <div class="fg"><label>Email</label><input type="email" id="cf-email" placeholder="contact@exemple.fr"/></div>
         <div class="fg"><label>Latitude</label><input type="number" id="cf-lat" step="any" placeholder="50.6292"/></div>
         <div class="fg"><label>Longitude</label><input type="number" id="cf-lng" step="any" placeholder="3.0573"/></div>
-        <div class="fg"><label>Prochaine visite</label><input type="date" id="cf-next-visit"/></div>
+        <div class="fg"><label>Prochain RDV</label><input type="date" id="cf-next-visit"/></div>
+        <div class="fg"><label>Heure RDV</label><input type="time" id="cf-rdv-heure" step="900"/></div>
+        <div class="fg"><label>Cadence de visite</label><select id="cf-cadence">
+          <option value="">— Aucune —</option>
+          <option value="2">Toutes les 2 semaines</option>
+          <option value="4">Toutes les 4 semaines</option>
+          <option value="6">Toutes les 6 semaines</option>
+          <option value="8">Toutes les 8 semaines</option>
+          <option value="12">Toutes les 12 semaines</option>
+        </select></div>
         <div class="fg"><label>Objectif CA annuel (€)</label><input type="number" id="cf-obj-ca" step="1000" min="0" placeholder="0"/></div>
       </div>
       <div class="geo-row">
@@ -619,6 +645,10 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <p>La charge saisie dans un CR met à jour la fiche client automatiquement.</p>
       </div>
       <div class="help-sec">
+        <h4>📅 Rendez-vous en 2 taps</h4>
+        <p>Dans la fiche client ou en fin de CR : un tap sur un <strong>chip de délai</strong> (+1 sem … +2 mois, ou la cadence du client) puis un tap sur l'<strong>heure</strong> (8h–11h / 13h–16h). Si le client a une <strong>cadence de visite</strong> (réglable dans sa fiche), l'app te suggère automatiquement la prochaine date après chaque CR. Bouton <strong>📆 Outlook</strong> : télécharge un fichier .ics avec adresse, briefing (dernier CR + actions ouvertes) et rappels — ouvre-le pour l'ajouter à ton calendrier Outlook. « Semaine → Outlook » exporte tous les RDV des 7 prochains jours d'un coup.</p>
+      </div>
+      <div class="help-sec">
         <h4>📤 File Salesforce</h4>
         <p>Chaque CR génère un <strong>bloc texte prêt à coller dans Salesforce</strong>. Le badge rouge de la section « Salesforce & Pipeline » compte les visites non loggées. Ouvre la file, 📋 Copier, colle dans Salesforce, ✓ Loggé — dix visites traitées en dix minutes.</p>
       </div>
@@ -635,7 +665,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <p>En mode démo, les données sont stockées <strong>localement dans le navigateur</strong> : vider le cache = perte des données. Pense à l'« Export Excel complet » régulièrement en sauvegarde.</p>
       </div>
       <div class="help-footer">
-        <strong>SPK Sales Area Manager v6</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
+        <strong>SPK Sales Area Manager v7</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
         © Benjamin Rouquette 2026 — Tous droits réservés / All rights reserved
       </div>
     </div>
@@ -913,12 +943,12 @@ function seedDemoLocal(){
   const ad=(d,n)=>{const dt=new Date(d);dt.setDate(dt.getDate()+n);return dt.toISOString().slice(0,10);};
   const t=now.toISOString().slice(0,10);
   const sf=(id,f,v)=>{const c=clients.find(x=>x.id===id);if(c)c[f]=v;};
-  sf('d1','prochaine_visite',ad(t,1));  sf('d1','objectif_ca',800000);
-  sf('d2','prochaine_visite',ad(t,-3)); sf('d2','objectif_ca',2000000);
-  sf('d3','prochaine_visite',ad(t,7));  sf('d3','objectif_ca',1000000);
-  sf('d7','prochaine_visite',ad(t,12)); sf('d7','objectif_ca',1500000);
-  sf('d8','prochaine_visite',ad(t,-1)); sf('d8','objectif_ca',900000);
-  sf('d10','prochaine_visite',ad(t,4));
+  sf('d1','prochaine_visite',ad(t,1));  sf('d1','objectif_ca',800000);  sf('d1','rdv_heure','09:00'); sf('d1','cadence',4);
+  sf('d2','prochaine_visite',ad(t,-3)); sf('d2','objectif_ca',2000000); sf('d2','rdv_heure','14:00'); sf('d2','cadence',4);
+  sf('d3','prochaine_visite',ad(t,7));  sf('d3','objectif_ca',1000000); sf('d3','rdv_heure','10:00'); sf('d3','cadence',6);
+  sf('d7','prochaine_visite',ad(t,12)); sf('d7','objectif_ca',1500000); sf('d7','rdv_heure','08:00');
+  sf('d8','prochaine_visite',ad(t,-1)); sf('d8','objectif_ca',900000);  sf('d8','rdv_heure','15:00'); sf('d8','cadence',8);
+  sf('d10','prochaine_visite',ad(t,4)); sf('d10','rdv_heure','11:00');
   sf('d1','charge','vert');  sf('d1','charge_date',ad(t,-15));
   sf('d2','charge','feu');   sf('d2','charge_date',ad(t,-5));
   sf('d3','charge','jaune'); sf('d3','charge_date',ad(t,-30));
@@ -1027,6 +1057,17 @@ function mkMarker(cl){
 
 // ─── POPUP ────────────────────────────────────────────────
 function fmtDate(d){if(!d)return'—';const[y,m,day]=d.split('-');return`${day}/${m}/${y}`;}
+const JOURS=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+function fmtDateFull(d){if(!d)return'—';const dt=new Date(d+'T00:00:00');return JOURS[dt.getDay()]+' '+fmtDate(d);}
+function fmtHeure(h){return h?h.replace(':','h'):'';}
+function addDays(n){
+  const d=new Date();d.setDate(d.getDate()+n);
+  if(d.getDay()===6)d.setDate(d.getDate()+2);      // samedi → lundi
+  else if(d.getDay()===0)d.setDate(d.getDate()+1); // dimanche → lundi
+  return d.toISOString().slice(0,10);
+}
+const RDV_DELAYS=[[7,'+1 sem'],[14,'+2 sem'],[30,'+1 mois'],[42,'+6 sem'],[60,'+2 mois']];
+const RDV_HOURS=['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'];
 function lastVisitDate(id){const c=visitReports[id]||[];if(!c.length)return null;return c.reduce((l,cr)=>cr.date>l?cr.date:l,c[0].date);}
 
 function buildTasksHTML(clientId){
@@ -1047,7 +1088,7 @@ function buildPopup(cl){
   const catBadge=cl.categorie_produit?`<span class="pop-cat">${cl.categorie_produit}</span>`:'';
   const lv=lastVisitDate(cl.id);
   const lvHTML=lv?`<div style="font-size:11px;color:#888;">🗓 Dernière visite : ${fmtDate(lv)}</div>`:'';
-  const nvHTML=cl.prochaine_visite?`<div style="font-size:11px;color:var(--blue);">📅 Prochaine : <strong>${fmtDate(cl.prochaine_visite)}</strong></div>`:'';
+  const nvHTML='';
   let objHTML='';
   if(cl.objectif_ca>0){
     const pct=Math.min(Math.round(caY/cl.objectif_ca*100),999);
@@ -1075,6 +1116,8 @@ function buildPopup(cl){
     ${cl.tel?`<div style="font-size:11px;">📞 ${cl.tel}</div>`:''}
     ${cl.email?`<div style="font-size:11px;">✉️ ${cl.email}</div>`:''}
     ${lvHTML}${nvHTML}
+    <div class="pop-sep"></div>
+    <div id="prdv-${cl.id}">${buildRDVHTML(cl)}</div>
     ${chargeHTML}
     <div class="pop-ca">${fmtCA(caM)}</div>
     <div class="pop-ca-lbl">CA ${MN[cm()-1]} • Cumulé: <strong>${fmtCA(caY)}</strong></div>
@@ -1322,6 +1365,8 @@ function openCF(cl=null){
   document.getElementById('cf-lat').value=cl?cl.lat||'':'';
   document.getElementById('cf-lng').value=cl?cl.lng||'':'';
   document.getElementById('cf-next-visit').value=cl?cl.prochaine_visite||'':'';
+  document.getElementById('cf-rdv-heure').value=cl?cl.rdv_heure||'':'';
+  document.getElementById('cf-cadence').value=cl&&cl.cadence?String(cl.cadence):'';
   document.getElementById('cf-obj-ca').value=cl?cl.objectif_ca||'':'';
   document.getElementById('btn-cf-del').style.display=cl?'inline-flex':'none';
   document.getElementById('geo-st').textContent='';
@@ -1344,6 +1389,8 @@ async function saveCF(){
     lat:parseFloat(document.getElementById('cf-lat').value)||0,
     lng:parseFloat(document.getElementById('cf-lng').value)||0,
     prochaine_visite:document.getElementById('cf-next-visit').value||null,
+    rdv_heure:document.getElementById('cf-rdv-heure').value||null,
+    cadence:parseInt(document.getElementById('cf-cadence').value)||null,
     objectif_ca:parseFloat(document.getElementById('cf-obj-ca').value)||0};
   if(!await dbUpsertClient(cl))return;
   const ex=clients.findIndex(c=>c.id===id);
@@ -1479,6 +1526,11 @@ function renderCRChargeRow(){
   document.getElementById('cr-charge-row').innerHTML=Object.keys(CHARGES).map(k=>
     `<button type="button" class="charge-btn${crCharge===k?' on':''}" data-ch="${k}">${CHARGES[k].e}<small>${CHARGES[k].label}</small></button>`).join('');
 }
+function renderCRRDV(cl){
+  const cad=cl&&cl.cadence?`<span class="rdv-chip cad" data-days="${cl.cadence*7}">✓ +${cl.cadence} sem (cadence)</span>`:'';
+  document.getElementById('cr-rdv-delays').innerHTML=cad+RDV_DELAYS.map(([d,lbl])=>`<span class="rdv-chip" data-days="${d}">${lbl}</span>`).join('');
+  document.getElementById('cr-rdv-hours').innerHTML=RDV_HOURS.map(h=>`<span class="rdv-chip" data-h="${h}">${fmtHeure(h)}</span>`).join('');
+}
 function setCRType(t){
   crType=t;
   renderCRTypeRow();
@@ -1503,8 +1555,10 @@ function openCR(cl,type='activite'){
   document.getElementById('cr-sujet').value='';
   document.getElementById('cr-reaction').value='';
   document.getElementById('cr-next-date').value='';
+  document.getElementById('cr-next-heure').value='';
   setCRType(type);
   renderCRChargeRow();
+  renderCRRDV(cl);
   renderCRHistory(cl.id);
   document.getElementById('cr-modal').classList.add('show');
 }
@@ -1521,13 +1575,14 @@ function saveCR(){
     sujet:crType==='presentation'?document.getElementById('cr-sujet').value.trim():'',
     reaction:crType==='presentation'?document.getElementById('cr-reaction').value:'',
     next_date:document.getElementById('cr-next-date').value||null,
+    next_heure:document.getElementById('cr-next-heure').value||null,
     sf_logged:false};
   if(!visitReports[id])visitReports[id]=[];
   visitReports[id].unshift(cr);
   const cl=clients.find(c=>c.id===id);
   if(cl){
     cl.last_visit=date;
-    if(cr.next_date)cl.prochaine_visite=cr.next_date;
+    if(cr.next_date){cl.prochaine_visite=cr.next_date;cl.rdv_heure=cr.next_heure||null;}
     if(crCharge){cl.charge=crCharge;cl.charge_date=date;}
     if(cr.next_date||crCharge)dbUpsertClient(cl);
   }
@@ -1595,6 +1650,128 @@ window._setCharge=function(id,k){
   updateStats();renderListView();
 };
 
+// ─── V7 : RDV ─────────────────────────────────────────────
+function buildRDVHTML(cl){
+  const has=!!cl.prochaine_visite;
+  let status;
+  if(has){
+    const pv=new Date(cl.prochaine_visite+'T00:00:00'),now=new Date();now.setHours(0,0,0,0);
+    const diff=Math.ceil((pv-now)/86400000);
+    const color=diff<0?'var(--red)':diff<=3?'var(--amber)':'var(--green)';
+    status=`<div style="font-size:12.5px;font-weight:700;color:${color};margin:2px 0;">📅 ${fmtDateFull(cl.prochaine_visite)}${cl.rdv_heure?' · '+fmtHeure(cl.rdv_heure):''}${diff<0?' — en retard !':diff===0?" — aujourd'hui":''}</div>`;
+  }else{
+    status=`<div style="font-size:11px;color:#aaa;margin:2px 0;">Aucun RDV planifié</div>`;
+  }
+  const cadChip=cl.cadence?`<span class="rdv-chip cad" onclick="window._rdvDelay('${cl.id}',${cl.cadence*7})">✓ +${cl.cadence} sem (cadence)</span>`:'';
+  const delayChips=RDV_DELAYS.map(([d,lbl])=>`<span class="rdv-chip" onclick="window._rdvDelay('${cl.id}',${d})">${lbl}</span>`).join('');
+  const dateChip=`<span class="rdv-chip" onclick="window._rdvToggleDate('${cl.id}')">📅 précis…</span>`;
+  const dateInput=`<input type="date" id="prdvd-${cl.id}" style="display:none;margin-top:3px;padding:5px 7px;border:1.5px solid var(--blue);border-radius:3px;font-size:12px;font-family:inherit;outline:none;width:100%;" onchange="window._rdvDateInput('${cl.id}',this.value)"/>`;
+  const hourChips=has?`<div class="rdv-chips">${RDV_HOURS.map(h=>`<span class="rdv-chip${cl.rdv_heure===h?' on':''}" onclick="window._rdvHour('${cl.id}','${h}')">${fmtHeure(h)}</span>`).join('')}</div>`:'';
+  const actions=has?`<div style="display:flex;gap:5px;margin-top:4px;">
+    <button class="pop-save" style="flex:1;" onclick="window._icsClient('${cl.id}')">📆 Outlook (.ics)</button>
+    <button class="pop-save" style="background:#eee;color:#888;" onclick="window._rdvClear('${cl.id}')">✕</button>
+  </div>`:'';
+  return `<div class="pop-lbl">📅 Rendez-vous</div>
+    ${status}
+    <div class="rdv-chips">${cadChip}${delayChips}${dateChip}</div>
+    ${dateInput}${hourChips}${actions}`;
+}
+function refreshRDV(id){
+  const cl=clients.find(c=>c.id===id);if(!cl)return;
+  saveCache();dbUpsertClient(cl);
+  const box=document.getElementById('prdv-'+id);
+  if(box)box.innerHTML=buildRDVHTML(cl);
+  const mk=markerMap[id];
+  if(mk)mk.setIcon(buildMarkerIcon(cl));
+  renderVisitsSection();
+}
+window._rdvDelay=function(id,days){
+  const cl=clients.find(c=>c.id===id);if(!cl)return;
+  cl.prochaine_visite=addDays(days);
+  refreshRDV(id);
+};
+window._rdvDateInput=function(id,val){
+  if(!val)return;
+  const cl=clients.find(c=>c.id===id);if(!cl)return;
+  cl.prochaine_visite=val;
+  refreshRDV(id);
+};
+window._rdvToggleDate=function(id){
+  const el=document.getElementById('prdvd-'+id);
+  if(el)el.style.display=el.style.display==='none'?'block':'none';
+};
+window._rdvHour=function(id,h){
+  const cl=clients.find(c=>c.id===id);if(!cl)return;
+  cl.rdv_heure=cl.rdv_heure===h?null:h;
+  refreshRDV(id);
+};
+window._rdvClear=function(id){
+  const cl=clients.find(c=>c.id===id);if(!cl)return;
+  cl.prochaine_visite=null;cl.rdv_heure=null;
+  refreshRDV(id);
+};
+
+// ─── V7 : EXPORT ICS (OUTLOOK) ────────────────────────────
+function icsEscape(s){return String(s||'').replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n');}
+function icsFold(line){
+  if(line.length<=74)return line;
+  let out=line.slice(0,74);let rest=line.slice(74);
+  while(rest.length){out+='\r\n '+rest.slice(0,73);rest=rest.slice(73);}
+  return out;
+}
+function icsEvent(cl){
+  const d=cl.prochaine_visite.replace(/-/g,'');
+  const heure=cl.rdv_heure||'09:00';
+  const[hh,mm]=heure.split(':').map(Number);
+  const dtstart=`${d}T${String(hh).padStart(2,'0')}${String(mm).padStart(2,'0')}00`;
+  const dtend=`${d}T${String(Math.min(hh+1,23)).padStart(2,'0')}${String(mm).padStart(2,'0')}00`;
+  const stamp=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  const lastCR=(visitReports[cl.id]||[])[0];
+  const openTasks=(clientTasks[cl.id]||[]).filter(t=>!t.done);
+  const descParts=[];
+  if(cl.contact)descParts.push('Contact : '+cl.contact);
+  if(cl.tel)descParts.push('Tél : '+cl.tel);
+  if(cl.charge&&CHARGES[cl.charge])descParts.push('Charge atelier : '+CHARGES[cl.charge].label);
+  if(lastCR)descParts.push(`Dernier CR (${fmtDate(lastCR.date)}) : ${(lastCR.points||'').slice(0,200)}`);
+  if(openTasks.length)descParts.push('Actions ouvertes : '+openTasks.map(t=>t.text).join(' · '));
+  descParts.push('— SPK Sales Area Manager');
+  const lines=[
+    'BEGIN:VEVENT',
+    `UID:spk-${cl.id}-${d}@spk-sam.surge.sh`,
+    `DTSTAMP:${stamp}`,
+    `DTSTART:${dtstart}`,
+    `DTEND:${dtend}`,
+    icsFold(`SUMMARY:${icsEscape('RDV SPK — '+cl.nom+(cl.ville?' ('+cl.ville+')':''))}`),
+    icsFold(`LOCATION:${icsEscape([cl.cp,cl.ville,'France'].filter(Boolean).join(' '))}`),
+    icsFold(`DESCRIPTION:${icsEscape(descParts.join('\n'))}`),
+    'BEGIN:VALARM','TRIGGER:-PT18H','ACTION:DISPLAY','DESCRIPTION:RDV SPK demain','END:VALARM',
+    'BEGIN:VALARM','TRIGGER:-PT1H','ACTION:DISPLAY','DESCRIPTION:RDV SPK dans 1h','END:VALARM',
+    'END:VEVENT'
+  ];
+  return lines.join('\r\n');
+}
+function downloadICS(filename,events){
+  const cal=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//SPK Sales Area Manager//FR','METHOD:PUBLISH',...events,'END:VCALENDAR'].join('\r\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([cal],{type:'text/calendar;charset=utf-8'}));
+  a.download=filename;document.body.appendChild(a);a.click();a.remove();
+}
+window._icsClient=function(id){
+  const cl=clients.find(c=>c.id===id);
+  if(!cl||!cl.prochaine_visite){toast('Aucun RDV planifié','e');return;}
+  downloadICS(`rdv_${cl.nom.toLowerCase().replace(/[^a-z0-9]+/g,'_')}.ics`,[icsEvent(cl)]);
+  toast('RDV exporté — ouvre le fichier pour l\'ajouter à Outlook ✓','s');
+};
+function exportWeekICS(){
+  const today=new Date().toISOString().slice(0,10);
+  const limit=addDays(7);
+  const list=clients.filter(cl=>cl.prochaine_visite&&cl.prochaine_visite>=today&&cl.prochaine_visite<=limit)
+    .sort((a,b)=>(a.prochaine_visite+(a.rdv_heure||'')).localeCompare(b.prochaine_visite+(b.rdv_heure||'')));
+  if(!list.length){toast('Aucun RDV dans les 7 prochains jours','e');return;}
+  downloadICS('rdv_semaine_spk.ics',list.map(icsEvent));
+  toast(`${list.length} RDV exporté(s) — ouvre le fichier pour Outlook ✓`,'s');
+}
+
 // ─── V6 : HELPERS ─────────────────────────────────────────
 function escHTML(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 async function copyText(t){
@@ -1620,7 +1797,7 @@ function genSFVisit(cl,cr){
   else if((cr.type||'activite')==='eclair')lines.push('Compte-rendu : Visite de suivi. Pas de nouveau projet évoqué.');
   if(cr.actions)lines.push(`Prochaines actions : ${cr.actions}`);
   if(cr.opportunite)lines.push(`Opportunité détectée : ${cr.opportunite}`);
-  if(cr.next_date)lines.push(`Prochaine visite prévue : ${fmtDate(cr.next_date)}`);
+  if(cr.next_date)lines.push(`Prochaine visite prévue : ${fmtDate(cr.next_date)}${cr.next_heure?' à '+fmtHeure(cr.next_heure):''}`);
   return lines.join('\n');
 }
 function genSFOpp(cl,o){
@@ -1877,7 +2054,7 @@ function renderVisitsSection(){
       <div class="sb-i-dot" style="background:${ov?'#E2001A':soon?'#f59e0b':'#16a34a'};margin-top:4px;"></div>
       <div class="sb-i-body">
         <div class="sb-i-name">${cl.nom}</div>
-        <div class="sb-i-sub ${ov?'red':soon?'amber':''}">${lbl} — ${cl.ville}</div>
+        <div class="sb-i-sub ${ov?'red':soon?'amber':''}">${lbl}${cl.rdv_heure?' · '+fmtHeure(cl.rdv_heure):''} — ${cl.ville}</div>
       </div></div>`;
   }).join('');
 }
@@ -1886,7 +2063,7 @@ function focusClientOnMap(clientId){
   const cl=clients.find(c=>c.id===clientId);if(!cl||!cl.lat||!cl.lng)return;
   if(listView)toggleView();
   const mk=markerMap[clientId];
-  if(mk){map.setView([cl.lat,cl.lng],12);setTimeout(()=>{mk.openPopup();wirePopup(cl,mk);},150);}
+  if(mk){map.setView([cl.lat,cl.lng],12);setTimeout(()=>{mk.setPopupContent(buildPopup(cl));mk.openPopup();wirePopup(cl,mk);},150);}
 }
 window.focusClientOnMap=focusClientOnMap;
 
@@ -2008,6 +2185,21 @@ function init(){
     crCharge=crCharge===b.dataset.ch?null:b.dataset.ch;
     renderCRChargeRow();
   });
+  document.getElementById('cr-rdv-delays').addEventListener('click',e=>{
+    const c=e.target.closest('.rdv-chip');if(!c)return;
+    document.getElementById('cr-next-date').value=addDays(parseInt(c.dataset.days));
+    c.parentElement.querySelectorAll('.rdv-chip').forEach(x=>x.classList.toggle('on',x===c));
+  });
+  document.getElementById('cr-rdv-hours').addEventListener('click',e=>{
+    const c=e.target.closest('.rdv-chip');if(!c)return;
+    const inp=document.getElementById('cr-next-heure');
+    const same=inp.value===c.dataset.h;
+    inp.value=same?'':c.dataset.h;
+    c.parentElement.querySelectorAll('.rdv-chip').forEach(x=>x.classList.toggle('on',x===c&&!same));
+  });
+
+  // Export ICS semaine
+  document.getElementById('btn-ics-week').addEventListener('click',exportWeekICS);
 
   // Help
   document.getElementById('btn-help').addEventListener('click',()=>document.getElementById('help-modal').classList.add('show'));
