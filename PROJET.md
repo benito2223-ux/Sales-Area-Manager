@@ -109,6 +109,13 @@ Sales Area Manager/
 - Répartition par type de client
 - Charge secteur (répartition 🔴🟡🟢🔥, vue filtrée)
 
+### v9 — Synchronisation cloud (juillet 2026)
+- **Sync multi-appareils iPad ↔ iPhone** via Supabase. Architecture **snapshot JSONB privé par utilisateur** : table `public.user_data (user_id, data jsonb, updated_at)` — l'app reste local-first et mirrore l'état complet (via `buildBackup()`) dans le cloud à chaque modif (débounce 1,5 s dans `saveCache`).
+- **Opt-in, ouverture instantanée préservée** : l'app s'ouvre toujours directement en mode local ; « ☁️ Activer la synchronisation » (section Sauvegarde) déclenche login/signup une fois. À la connexion : cloud non vide → charge le cloud ; cloud vide → pousse le local.
+- **Confidentialité stricte** : RLS `auth.uid() = user_id` sur les 4 opérations (select/insert/update/delete). Vérifié : un client anonyme voit 0 ligne. Chaque commercial ne voit que ses données.
+- **Nettoyage schéma** : suppression des anciennes tables `clients`/`ca_history`/`client_notes` (vides, policies permissives `USING(true)`) et de la fonction orpheline `update_updated_at`. Advisor sécurité clean (reste un WARN mineur : protection mots-de-passe-fuités, réglage auth optionnel).
+- Réécriture de la couche données : `loadAllData`/`dbUpsert*` par-table remplacés par le module snapshot (`pushSnapshot`, `enableSyncAfterLogin`, `schedulePush`).
+
 ### v8 — Fiche client plein écran (juillet 2026)
 - **Fiche complète à 4 onglets** (bouton « 📇 Ouvrir la fiche complète » dans le popup) : Synthèse (charge, CA + graphique, objectif, RDV, cadence, opportunités) · Contacts · Activité · Technique. Plein écran sur mobile.
 - **Contacts multiples** par client (`cl.contacts[]` : nom, rôle, tél, email, principal ⭐) — rôles : Acheteur, Chef d'atelier, Méthodes, BE, Direction, Qualité, Production. Le contact principal alimente `cl.contact/tel/email` (compat popup, CR, export).

@@ -448,7 +448,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
   </button>
   <div class="nav-logo-crop"><img src="logo_spk.png" alt="SPK"/></div>
   <span class="nav-title">Sales Area Manager</span>
-  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v8</span>
+  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v9</span>
   <div class="nav-right">
     <button id="btn-help" title="Aide & notice d'utilisation" aria-label="Aide">?</button>
     <span id="offline-badge">✈ Hors-ligne</span>
@@ -495,6 +495,11 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <div id="backup-status" style="font-size:11px;margin-bottom:8px;"></div>
       <button class="btn btn-p btn-bl btn-sm" id="btn-backup" style="margin-bottom:5px;">💾 Sauvegarder mes données</button>
       <div class="upload-zone" id="upload-restore" style="padding:9px;"><p style="margin:0;"><strong>♻️ Restaurer</strong></p><p class="hint">Fichier .json de sauvegarde</p><input type="file" accept=".json,application/json" id="file-restore"/></div>
+      <div id="sync-block" style="margin-top:10px;padding-top:10px;border-top:1px solid #f0f2f6;">
+        <div id="sync-status" style="font-size:11px;margin-bottom:7px;line-height:1.5;"></div>
+        <button class="btn btn-o btn-bl btn-sm" id="btn-sync-toggle">☁️ Activer la synchronisation</button>
+        <p style="font-size:10px;color:#aaa;margin-top:5px;line-height:1.4;">Synchronise tes données entre iPad et iPhone. Chaque compte est privé.</p>
+      </div>
     </div>
     <div class="sb-section">
       <h3><svg class="ico" viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>Statistiques</h3>
@@ -520,7 +525,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <button class="btn btn-o btn-bl btn-sm" id="btn-tour-toggle" style="margin-bottom:5px;">🚗 Démarrer une tournée</button>
       <button class="btn btn-o btn-bl btn-sm" id="btn-monthly-report">📊 Rapport mensuel (Excel)</button>
     </div>
-    <div class="sb-copyright">SPK Sales Area Manager v8<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
+    <div class="sb-copyright">SPK Sales Area Manager v9<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
   </div>
 
   <div id="map-container"><div id="map"></div><div id="map-watermark">© Benjamin Rouquette 2026 — Tous droits réservés</div></div>
@@ -739,11 +744,16 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         </ul>
       </div>
       <div class="help-sec">
+        <h4>☁️ Synchronisation iPad ↔ iPhone</h4>
+        <p>Dans la section <strong>Sauvegarde</strong> : « ☁️ Activer la synchronisation » → crée un compte (email + mot de passe) une seule fois. Ensuite tes données se synchronisent automatiquement dans le cloud à chaque modification. Connecte-toi avec le <strong>même compte sur ton iPhone</strong> : tu retrouves tout. <strong>Chaque compte est strictement privé</strong> — personne d'autre ne voit tes données.</p>
+        <p style="color:#888;">L'app continue de fonctionner hors-ligne : les changements partent dans le cloud dès le réseau revenu.</p>
+      </div>
+      <div class="help-sec">
         <h4>📲 Installer sur l'écran d'accueil</h4>
         <p>Sur iPad/iPhone : ouvre l'app dans <strong>Safari</strong>, touche <strong>Partager</strong> (carré avec flèche) → <strong>« Sur l'écran d'accueil »</strong>. L'app s'ouvre alors en plein écran comme une vraie appli, et ses données sont mieux protégées.</p>
       </div>
       <div class="help-footer">
-        <strong>SPK Sales Area Manager v8</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
+        <strong>SPK Sales Area Manager v9</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
         © Benjamin Rouquette 2026 — Tous droits réservés / All rights reserved
       </div>
     </div>
@@ -928,25 +938,25 @@ async function doAuth(){
   }
   currentUser=result.data.user;
   document.getElementById('auth-modal').classList.remove('show');
-  await loadAllData();
+  await enableSyncAfterLogin();
   await renderApp();
 }
 
 async function checkAuth(){
-  const {data:{session}}=await sb.auth.getSession();
-  if(session){currentUser=session.user;await loadAllData();}
-  else{await startDemoMode();}
-  await renderApp();
-  sb.auth.onAuthStateChange(async(_,sess)=>{
-    if(sess&&!currentUser){currentUser=sess.user;await loadAllData();await renderApp();}
-    if(!sess&&currentUser){currentUser=null;await startDemoMode();await renderApp();}
-  });
-}
-
-async function startDemoMode(){
-  currentUser=null;
+  // Ouverture instantanée : on affiche d'abord les données locales
   loadFromCache();
-  if(!clients.length){seedDemoLocal();saveCache();}
+  const {data:{session}}=await sb.auth.getSession();
+  currentUser=session?session.user:null;
+  if(!clients.length&&!currentUser){seedDemoLocal();saveCache();}
+  await renderApp();
+  // Si une session existe, on active la synchro et on réconcilie avec le cloud
+  if(currentUser){await enableSyncAfterLogin();await renderApp();}
+  sb.auth.onAuthStateChange(async(_,sess)=>{
+    const was=currentUser;
+    currentUser=sess?sess.user:null;
+    if(currentUser&&!was){await enableSyncAfterLogin();await renderApp();}
+    if(!currentUser&&was){syncEnabled=false;renderSyncUI();await renderApp();}
+  });
 }
 
 function showAuthModal(){
@@ -954,26 +964,7 @@ function showAuthModal(){
   document.getElementById('auth-modal').classList.add('show');
 }
 
-// ─── DATA LOADING ─────────────────────────────────────────
-async function loadAllData(){
-  if(!currentUser){loadFromCache();return;}
-  if(!isOnline){loadFromCache();return;}
-  try{
-    const [cr,hr,nr]=await Promise.all([
-      sb.from('clients').select('*').order('nom'),
-      sb.from('ca_history').select('*'),
-      sb.from('client_notes').select('*')
-    ]);
-    if(cr.error) throw new Error('clients: '+cr.error.message);
-    if(hr.error) throw new Error('ca_history: '+hr.error.message);
-    if(nr.error) throw new Error('notes: '+nr.error.message);
-    clients=cr.data||[];
-    caHistory={};(hr.data||[]).forEach(r=>{if(!caHistory[r.client_id])caHistory[r.client_id]=[];caHistory[r.client_id].push({mois:r.mois,annee:r.annee,ca:parseFloat(r.ca)||0});});
-    clientNotes={};(nr.data||[]).forEach(r=>{clientNotes[r.client_id]=r.note;});
-    saveCache();
-  }catch(e){toast('Erreur chargement — mode cache : '+e.message,'e');loadFromCache();}
-}
-
+// ─── PERSISTANCE LOCALE ───────────────────────────────────
 function loadFromCache(){
   try{
     const c=localStorage.getItem('spk_c'),h=localStorage.getItem('spk_h'),n=localStorage.getItem('spk_n');
@@ -989,33 +980,64 @@ function saveCache(){
   localStorage.setItem('spk_vr',JSON.stringify(visitReports));
   localStorage.setItem('spk_tk',JSON.stringify(clientTasks));
   localStorage.setItem('spk_op',JSON.stringify(opportunities));
+  localStorage.setItem('spk_updated_at',new Date().toISOString());
+  if(syncEnabled&&!suppressSync)schedulePush();
 }
 
-// ─── SUPABASE WRITES ──────────────────────────────────────
-async function dbUpsertClient(cl){
-  if(!currentUser){const i=clients.findIndex(c=>c.id===cl.id);if(i>=0)clients[i]=cl;else clients.push(cl);saveCache();return true;}
-  if(!isOnline){toast('Hors-ligne : impossible de sauvegarder','e');return false;}
-  const {error}=await sb.from('clients').upsert({...cl,created_by:currentUser.id},{onConflict:'id'});
-  if(error){toast('Erreur sync: '+error.message,'e');return false;}
-  return true;
+// ─── SYNC CLOUD (snapshot JSONB privé par utilisateur) ────
+// Chaque utilisateur possède une ligne user_data protégée par RLS.
+// Les données restent locales (source de vérité en session) et sont
+// mirrorées dans le cloud à chaque modification (débounce 1,5 s).
+let syncEnabled=false, suppressSync=false, syncTimer=null;
+function renderSyncUI(){
+  const st=document.getElementById('sync-status'), btn=document.getElementById('btn-sync-toggle');
+  if(!st||!btn)return;
+  if(currentUser){
+    const last=localStorage.getItem('spk_last_sync');
+    const ago=last?Math.round((Date.now()-new Date(last).getTime())/60000):null;
+    st.innerHTML=`<span style="color:var(--green);font-weight:700;">☁️ Synchronisé</span><br><span style="color:#888;font-size:10px;">${currentUser.email}${ago!=null?' · maj '+(ago<1?'à l\'instant':'il y a '+ago+' min'):''}</span>`;
+    btn.textContent='Se déconnecter';
+  }else{
+    st.innerHTML='<span style="color:#888;">Non synchronisé — données locales uniquement</span>';
+    btn.textContent='☁️ Activer la synchronisation';
+  }
 }
-async function dbDeleteClient(id){
-  if(!currentUser){clients=clients.filter(c=>c.id!==id);saveCache();return true;}
-  if(!isOnline){toast('Hors-ligne : impossible de supprimer','e');return false;}
-  const {error}=await sb.from('clients').delete().eq('id',id);
-  if(error){toast('Erreur: '+error.message,'e');return false;}
-  return true;
+function setSyncBusy(txt){const st=document.getElementById('sync-status');if(st)st.innerHTML=`<span style="color:var(--blue);font-weight:700;">${txt}</span>`;}
+async function pushSnapshot(){
+  if(!currentUser||!isOnline)return;
+  setSyncBusy('⏳ Synchro en cours…');
+  const payload={user_id:currentUser.id,data:buildBackup(),updated_at:new Date().toISOString()};
+  const {error}=await sb.from('user_data').upsert(payload,{onConflict:'user_id'});
+  if(error){const st=document.getElementById('sync-status');if(st)st.innerHTML='<span style="color:var(--red);font-weight:700;">⚠️ Erreur synchro</span>';return;}
+  localStorage.setItem('spk_last_sync',new Date().toISOString());
+  renderSyncUI();
 }
-async function dbUpsertCA(clientId,mois,annee,ca){
-  if(!currentUser){saveCache();return;}
-  if(!isOnline)return;
-  await sb.from('ca_history').upsert({client_id:clientId,mois,annee,ca},{onConflict:'client_id,mois,annee'});
+function schedulePush(){clearTimeout(syncTimer);syncTimer=setTimeout(pushSnapshot,1500);}
+async function enableSyncAfterLogin(){
+  syncEnabled=true;renderSyncUI();
+  if(!isOnline){toast('Hors-ligne — synchro au retour du réseau','e');return;}
+  setSyncBusy('⏳ Chargement cloud…');
+  const {data,error}=await sb.from('user_data').select('data').eq('user_id',currentUser.id).maybeSingle();
+  if(error){toast('Erreur sync : '+error.message,'e');renderSyncUI();return;}
+  const cloud=data&&data.data;
+  if(cloud&&Array.isArray(cloud.clients)&&cloud.clients.length){
+    suppressSync=true;
+    clients=cloud.clients||[];caHistory=cloud.caHistory||{};clientNotes=cloud.clientNotes||{};
+    visitReports=cloud.visitReports||{};clientTasks=cloud.clientTasks||{};opportunities=cloud.opportunities||{};
+    saveCache();suppressSync=false;
+    localStorage.setItem('spk_last_sync',new Date().toISOString());
+    toast('Données cloud chargées ✓','s');
+  }else{
+    await pushSnapshot();
+    toast('Synchronisation activée ✓','s');
+  }
+  renderSyncUI();
 }
-async function dbUpsertNote(clientId,note){
-  if(!currentUser){saveCache();return;}
-  if(!isOnline)return;
-  await sb.from('client_notes').upsert({client_id:clientId,note,updated_by:currentUser.id},{onConflict:'client_id'});
-}
+// Compat : les écritures locales déclenchent la synchro via saveCache→schedulePush
+async function dbUpsertClient(cl){return true;}
+async function dbDeleteClient(id){return true;}
+async function dbUpsertCA(){return;}
+async function dbUpsertNote(){return;}
 
 // ─── DEMO DATA ────────────────────────────────────────────
 const DEMO_CLIENTS=[
@@ -1090,18 +1112,8 @@ function seedDemoLocal(){
 
 async function seedDemoIfEmpty(){
   if(clients.length>0)return;
-  if(!currentUser){seedDemoLocal();saveCache();return;}
-  // Logged-in: seed to Supabase
-  const now=new Date();
-  for(const cl of DEMO_CLIENTS){
-    await sb.from('clients').upsert(cl,{onConflict:'id',ignoreDuplicates:true});
-    const p=DEMO_CA[cl.id]||Array(12).fill(0);
-    for(let m2=0;m2<12;m2++){
-      let mo=now.getMonth()+1-11+m2,yr=now.getFullYear();while(mo<=0){mo+=12;yr--;}
-      await sb.from('ca_history').upsert({client_id:cl.id,mois:mo,annee:yr,ca:p[m2]},{onConflict:'client_id,mois,annee',ignoreDuplicates:true});
-    }
-  }
-  await loadAllData();
+  // Données démo uniquement en mode local (pas connecté)
+  if(!currentUser){seedDemoLocal();saveCache();}
 }
 
 // ─── MAP ─────────────────────────────────────────────────
@@ -2572,13 +2584,13 @@ async function renderApp(){
   renderFilters();renderMarkers();updateStats();
   renderAlertsSection();renderVisitsSection();
   renderSFBadge();renderPipelineMini();
-  checkBackupReminder();
+  checkBackupReminder();renderSyncUI();
 }
 
 // ─── INIT ─────────────────────────────────────────────────
 function init(){
   // Online/offline detection
-  window.addEventListener('online',()=>{isOnline=true;document.getElementById('offline-badge').style.display='none';loadAllData().then(()=>{renderFilters();renderMarkers();updateStats();renderListView();});});
+  window.addEventListener('online',()=>{isOnline=true;document.getElementById('offline-badge').style.display='none';if(syncEnabled)pushSnapshot();});
   window.addEventListener('offline',()=>{isOnline=false;document.getElementById('offline-badge').style.display='inline-block';});
   if(!isOnline)document.getElementById('offline-badge').style.display='inline-block';
 
@@ -2587,7 +2599,12 @@ function init(){
   document.getElementById('auth-email').addEventListener('keydown',e=>{if(e.key==='Enter')doAuth();});
   document.getElementById('auth-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doAuth();});
   document.getElementById('btn-login').addEventListener('click',showAuthModal);
-  document.getElementById('btn-logout').addEventListener('click',async()=>{await sb.auth.signOut();currentUser=null;clients=[];caHistory={};clientNotes={};await startDemoMode();await renderApp();});
+  document.getElementById('btn-logout').addEventListener('click',async()=>{await sb.auth.signOut();renderSyncUI();});
+  // Bouton synchro (sidebar)
+  document.getElementById('btn-sync-toggle').addEventListener('click',async()=>{
+    if(currentUser){if(confirm('Se déconnecter ? Tes données restent sur cet appareil.'))await sb.auth.signOut();}
+    else showAuthModal();
+  });
 
   // View toggle
   document.getElementById('btn-view-toggle').addEventListener('click',toggleView);
