@@ -448,7 +448,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
   </button>
   <div class="nav-logo-crop"><img src="logo_spk.png" alt="SPK"/></div>
   <span class="nav-title">Sales Area Manager</span>
-  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v9</span>
+  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v9.1</span>
   <div class="nav-right">
     <button id="btn-help" title="Aide & notice d'utilisation" aria-label="Aide">?</button>
     <span id="offline-badge">✈ Hors-ligne</span>
@@ -525,7 +525,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <button class="btn btn-o btn-bl btn-sm" id="btn-tour-toggle" style="margin-bottom:5px;">🚗 Démarrer une tournée</button>
       <button class="btn btn-o btn-bl btn-sm" id="btn-monthly-report">📊 Rapport mensuel (Excel)</button>
     </div>
-    <div class="sb-copyright">SPK Sales Area Manager v9<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
+    <div class="sb-copyright">SPK Sales Area Manager v9.1<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
   </div>
 
   <div id="map-container"><div id="map"></div><div id="map-watermark">© Benjamin Rouquette 2026 — Tous droits réservés</div></div>
@@ -745,7 +745,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       </div>
       <div class="help-sec">
         <h4>☁️ Synchronisation iPad ↔ iPhone</h4>
-        <p>Dans la section <strong>Sauvegarde</strong> : « ☁️ Activer la synchronisation » → crée un compte (email + mot de passe) une seule fois. Ensuite tes données se synchronisent automatiquement dans le cloud à chaque modification. Connecte-toi avec le <strong>même compte sur ton iPhone</strong> : tu retrouves tout. <strong>Chaque compte est strictement privé</strong> — personne d'autre ne voit tes données.</p>
+        <p>Dans la section <strong>Sauvegarde</strong> : « ☁️ Activer la synchronisation » → crée un compte (email + mot de passe) une seule fois, <strong>connexion immédiate, sans email à confirmer</strong>. Ensuite tes données se synchronisent automatiquement dans le cloud à chaque modification. Connecte-toi avec le <strong>même compte sur ton iPhone</strong> : tu retrouves tout. <strong>Chaque compte est strictement privé</strong> — personne d'autre ne voit tes données.</p>
         <p style="color:#888;">L'app continue de fonctionner hors-ligne : les changements partent dans le cloud dès le réseau revenu.</p>
       </div>
       <div class="help-sec">
@@ -753,7 +753,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <p>Sur iPad/iPhone : ouvre l'app dans <strong>Safari</strong>, touche <strong>Partager</strong> (carré avec flèche) → <strong>« Sur l'écran d'accueil »</strong>. L'app s'ouvre alors en plein écran comme une vraie appli, et ses données sont mieux protégées.</p>
       </div>
       <div class="help-footer">
-        <strong>SPK Sales Area Manager v9</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
+        <strong>SPK Sales Area Manager v9.1</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
         © Benjamin Rouquette 2026 — Tous droits réservés / All rights reserved
       </div>
     </div>
@@ -931,11 +931,14 @@ async function doAuth(){
   } else {
     result=await sb.auth.signInWithPassword({email,password:pass});
   }
-  loading.style.display='none';
-  if(result.error){err.textContent=result.error.message;err.style.display='block';return;}
+  if(result.error){loading.style.display='none';err.textContent=result.error.message;err.style.display='block';return;}
+  // Auto-confirmation activée : si l'inscription ne renvoie pas de session, on connecte directement
   if(authTab==='signup'&&!result.data.session){
-    err.style.color='var(--green)';err.textContent='Compte créé ! Vérifiez vos emails pour confirmer.';err.style.display='block';return;
+    const si=await sb.auth.signInWithPassword({email,password:pass});
+    if(si.error){loading.style.display='none';err.textContent='Compte créé. Connecte-toi pour continuer.';err.style.display='block';switchAuthTab('login');return;}
+    result=si;
   }
+  loading.style.display='none';
   currentUser=result.data.user;
   document.getElementById('auth-modal').classList.remove('show');
   await enableSyncAfterLogin();

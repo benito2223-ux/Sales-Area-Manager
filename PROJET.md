@@ -109,6 +109,10 @@ Sales Area Manager/
 - Répartition par type de client
 - Charge secteur (répartition 🔴🟡🟢🔥, vue filtrée)
 
+### v9.1 — Inscription sans confirmation email (juillet 2026)
+- Trigger `public.auto_confirm_user()` (BEFORE INSERT sur `auth.users`) qui met `email_confirmed_at=now()` → l'inscription retourne une session immédiatement, sans étape de confirmation par email.
+- Filet de sécurité côté app : si un `signUp` ne renvoie pas de session, `doAuth` tente automatiquement un `signInWithPassword`.
+
 ### v9 — Synchronisation cloud (juillet 2026)
 - **Sync multi-appareils iPad ↔ iPhone** via Supabase. Architecture **snapshot JSONB privé par utilisateur** : table `public.user_data (user_id, data jsonb, updated_at)` — l'app reste local-first et mirrore l'état complet (via `buildBackup()`) dans le cloud à chaque modif (débounce 1,5 s dans `saveCache`).
 - **Opt-in, ouverture instantanée préservée** : l'app s'ouvre toujours directement en mode local ; « ☁️ Activer la synchronisation » (section Sauvegarde) déclenche login/signup une fois. À la connexion : cloud non vide → charge le cloud ; cloud vide → pousse le local.
