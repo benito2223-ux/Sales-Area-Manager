@@ -4,7 +4,7 @@
 **Client** : CeramTec  
 **URL de démo** : https://spk-SAM.surge.sh  
 **Repo GitHub** : https://github.com/benito2223-ux/Sales-Area-Manager  
-**Dernière mise à jour** : Avril 2026
+**Dernière mise à jour** : Juillet 2026 (v9.2)
 
 ---
 
@@ -108,6 +108,16 @@ Sales Area Manager/
 - CA cumulé année (vue filtrée)
 - Répartition par type de client
 - Charge secteur (répartition 🔴🟡🟢🔥, vue filtrée)
+
+### v9.2 — Audit pré-production (juillet 2026)
+- **Sécurité** : `.surgeignore` — le CSV de prospection et PROJET.md ne sont plus publiés sur Surge (fuite corrigée).
+- **Modal de connexion** : croix de fermeture + clic sur le fond (l'utilisateur n'est plus piégé).
+- **Popup client scrollable** (`max-height:62vh`) — plus de contenu inaccessible hors écran, surtout iPhone.
+- **Mobile** : le drawer se ferme au clic sur une alerte / « À visiter » ; navbar allégée (badge version + libellé Connexion masqués).
+- **Tournée** : Waze navigue vers le **premier** arrêt ; avertissement au-delà de 10 étapes Google Maps.
+- **Sync** : confirmation en cas de conflit local ↔ cloud ; garde-fou données démo (confirmation avant push, bouton « Vider les données de démo », flag `spk_demo`).
+- **Alertes** : baisse CA calculée sur les 3 derniers mois complets ; pas d'alerte visite si un RDV futur est planifié.
+- **Robustesse** : try/catch sur `saveCache` (quota localStorage), échappement HTML systématique (popup, liste, CR, alertes, tournée), destruction des instances Chart.js, fenêtre « Semaine → Outlook » = 7 jours exacts.
 
 ### v9.1 — Inscription sans confirmation email (juillet 2026)
 - Trigger `public.auto_confirm_user()` (BEFORE INSERT sur `auth.users`) qui met `email_confirmed_at=now()` → l'inscription retourne une session immédiatement, sans étape de confirmation par email.

@@ -136,7 +136,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 
 /* POPUP */
 .leaflet-popup-content-wrapper{border-radius:4px!important;box-shadow:var(--shm)!important;border-top:4px solid var(--blue)!important;font-family:'Open Sans',sans-serif!important;}
-.leaflet-popup-content{margin:12px 14px!important;font-size:13px!important;line-height:1.55!important;}
+.leaflet-popup-content{margin:12px 14px!important;font-size:13px!important;line-height:1.55!important;max-height:62vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .pop-h{font-family:'Open Sans Condensed',sans-serif;font-weight:700;font-size:15px;color:var(--blue);margin-bottom:2px;}
 .pop-type{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:var(--r);color:var(--white);margin-right:4px;margin-bottom:6px;}
 .pop-cat{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;border:1px solid #ddd;color:#555;margin-bottom:6px;}
@@ -280,8 +280,11 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
   #map-container,#list-panel{width:100%;}
 
   /* Navbar */
+  #navbar{gap:8px;padding:0 10px;}
   #demo-badge{font-size:10px;padding:1px 6px;}
   #btn-view-toggle{font-size:11px;padding:4px 8px;}
+  .ver-badge{display:none;}
+  .login-txt{display:none;}
 
   /* Modals: bottom sheet style */
   .modal-ov{align-items:flex-end;}
@@ -307,7 +310,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
   /* Popup: prevent overflow */
   .leaflet-popup{max-width:calc(100vw - 32px)!important;}
   .leaflet-popup-content-wrapper{max-width:calc(100vw - 40px)!important;}
-  .leaflet-popup-content{width:calc(100vw - 72px)!important;max-width:290px!important;}
+  .leaflet-popup-content{width:calc(100vw - 72px)!important;max-width:290px!important;max-height:56vh;}
 
   /* Sidebar scroll */
   #sidebar{-webkit-overflow-scrolling:touch;}
@@ -448,14 +451,14 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
   </button>
   <div class="nav-logo-crop"><img src="logo_spk.png" alt="SPK"/></div>
   <span class="nav-title">Sales Area Manager</span>
-  <span style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v9.1</span>
+  <span class="ver-badge" style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v9.2</span>
   <div class="nav-right">
     <button id="btn-help" title="Aide & notice d'utilisation" aria-label="Aide">?</button>
     <span id="offline-badge">✈ Hors-ligne</span>
     <span id="demo-badge" style="display:none;font-size:11px;font-weight:700;background:#f59e0b;color:#fff;padding:2px 8px;border-radius:10px;">MODE DÉMO</span>
     <button id="btn-view-toggle" style="display:none;">📋 Vue Liste</button>
     <span id="nav-user" style="font-size:12px;color:#666;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-    <button id="btn-login" class="btn btn-sm" style="display:none;">🔐 Connexion</button>
+    <button id="btn-login" class="btn btn-sm" style="display:none;">🔐<span class="login-txt"> Connexion</span></button>
     <button id="btn-logout" class="btn btn-sm btn-o" style="display:none;">Déconnexion</button>
   </div>
 </nav>
@@ -495,6 +498,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <div id="backup-status" style="font-size:11px;margin-bottom:8px;"></div>
       <button class="btn btn-p btn-bl btn-sm" id="btn-backup" style="margin-bottom:5px;">💾 Sauvegarder mes données</button>
       <div class="upload-zone" id="upload-restore" style="padding:9px;"><p style="margin:0;"><strong>♻️ Restaurer</strong></p><p class="hint">Fichier .json de sauvegarde</p><input type="file" accept=".json,application/json" id="file-restore"/></div>
+      <button class="btn btn-o btn-bl btn-sm" id="btn-clear-demo" style="display:none;margin-top:6px;color:var(--red);border-color:var(--red);">🗑 Vider les données de démo</button>
       <div id="sync-block" style="margin-top:10px;padding-top:10px;border-top:1px solid #f0f2f6;">
         <div id="sync-status" style="font-size:11px;margin-bottom:7px;line-height:1.5;"></div>
         <button class="btn btn-o btn-bl btn-sm" id="btn-sync-toggle">☁️ Activer la synchronisation</button>
@@ -525,7 +529,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <button class="btn btn-o btn-bl btn-sm" id="btn-tour-toggle" style="margin-bottom:5px;">🚗 Démarrer une tournée</button>
       <button class="btn btn-o btn-bl btn-sm" id="btn-monthly-report">📊 Rapport mensuel (Excel)</button>
     </div>
-    <div class="sb-copyright">SPK Sales Area Manager v9.1<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
+    <div class="sb-copyright">SPK Sales Area Manager v9.2<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
   </div>
 
   <div id="map-container"><div id="map"></div><div id="map-watermark">© Benjamin Rouquette 2026 — Tous droits réservés</div></div>
@@ -610,7 +614,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 <!-- AUTH MODAL -->
 <div class="modal-ov" id="auth-modal">
   <div class="modal" style="max-width:380px;">
-    <div class="modal-hdr"><h2>SPK Sales Area Manager</h2></div>
+    <div class="modal-hdr"><h2>SPK Sales Area Manager</h2><button class="modal-x" id="auth-close">×</button></div>
     <div class="modal-body">
       <div class="auth-tabs">
         <div class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Connexion</div>
@@ -753,7 +757,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <p>Sur iPad/iPhone : ouvre l'app dans <strong>Safari</strong>, touche <strong>Partager</strong> (carré avec flèche) → <strong>« Sur l'écran d'accueil »</strong>. L'app s'ouvre alors en plein écran comme une vraie appli, et ses données sont mieux protégées.</p>
       </div>
       <div class="help-footer">
-        <strong>SPK Sales Area Manager v9.1</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
+        <strong>SPK Sales Area Manager v9.2</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
         © Benjamin Rouquette 2026 — Tous droits réservés / All rights reserved
       </div>
     </div>
@@ -873,7 +877,7 @@ let listView=false, sortCol='nom', sortDir=1;
 let tourMode=false, tourClients=[], markerMap={};
 let crCurrentClientId=null, crType='activite', crCharge=null;
 let oppCurrentClientId=null;
-let map, markersLayer;
+let map, markersLayer, popupChart=null;
 
 // ─── ICONS ────────────────────────────────────────────────
 const ICONS = {
@@ -950,7 +954,7 @@ async function checkAuth(){
   loadFromCache();
   const {data:{session}}=await sb.auth.getSession();
   currentUser=session?session.user:null;
-  if(!clients.length&&!currentUser){seedDemoLocal();saveCache();}
+  if(!clients.length&&!currentUser&&!localStorage.getItem('spk_demo_off')){seedDemoLocal();saveCache();}
   await renderApp();
   // Si une session existe, on active la synchro et on réconcilie avec le cloud
   if(currentUser){await enableSyncAfterLogin();await renderApp();}
@@ -977,14 +981,27 @@ function loadFromCache(){
   }catch(e){}
 }
 function saveCache(){
-  localStorage.setItem('spk_c',JSON.stringify(clients));
-  localStorage.setItem('spk_h',JSON.stringify(caHistory));
-  localStorage.setItem('spk_n',JSON.stringify(clientNotes));
-  localStorage.setItem('spk_vr',JSON.stringify(visitReports));
-  localStorage.setItem('spk_tk',JSON.stringify(clientTasks));
-  localStorage.setItem('spk_op',JSON.stringify(opportunities));
-  localStorage.setItem('spk_updated_at',new Date().toISOString());
+  try{
+    localStorage.setItem('spk_c',JSON.stringify(clients));
+    localStorage.setItem('spk_h',JSON.stringify(caHistory));
+    localStorage.setItem('spk_n',JSON.stringify(clientNotes));
+    localStorage.setItem('spk_vr',JSON.stringify(visitReports));
+    localStorage.setItem('spk_tk',JSON.stringify(clientTasks));
+    localStorage.setItem('spk_op',JSON.stringify(opportunities));
+    localStorage.setItem('spk_updated_at',new Date().toISOString());
+  }catch(e){toast('⚠️ Sauvegarde locale impossible (stockage plein ?) — exporte tes données !','e');}
   if(syncEnabled&&!suppressSync)schedulePush();
+}
+function wipeAllData(){
+  clients=[];caHistory={};clientNotes={};visitReports={};clientTasks={};opportunities={};
+  localStorage.removeItem('spk_demo');localStorage.setItem('spk_demo_off','1');
+  saveCache();
+  renderFilters();renderMarkers();updateStats();renderListView();
+  renderAlertsSection();renderVisitsSection();renderSFBadge();renderPipelineMini();renderDemoBtn();
+}
+function renderDemoBtn(){
+  const b=document.getElementById('btn-clear-demo');
+  if(b)b.style.display=localStorage.getItem('spk_demo')?'':'none';
 }
 
 // ─── SYNC CLOUD (snapshot JSONB privé par utilisateur) ────
@@ -1024,16 +1041,34 @@ async function enableSyncAfterLogin(){
   if(error){toast('Erreur sync : '+error.message,'e');renderSyncUI();return;}
   const cloud=data&&data.data;
   if(cloud&&Array.isArray(cloud.clients)&&cloud.clients.length){
-    suppressSync=true;
-    clients=cloud.clients||[];caHistory=cloud.caHistory||{};clientNotes=cloud.clientNotes||{};
-    visitReports=cloud.visitReports||{};clientTasks=cloud.clientTasks||{};opportunities=cloud.opportunities||{};
-    saveCache();suppressSync=false;
-    localStorage.setItem('spk_last_sync',new Date().toISOString());
-    toast('Données cloud chargées ✓','s');
+    // Conflit possible : données réelles des deux côtés → on demande
+    const localReal=clients.length&&!localStorage.getItem('spk_demo');
+    let useCloud=true;
+    if(localReal&&JSON.stringify(cloud.clients)!==JSON.stringify(clients)){
+      useCloud=confirm(`Des données existent dans le CLOUD (${cloud.clients.length} clients) ET sur CET APPAREIL (${clients.length} clients), et elles diffèrent.\n\nOK = charger le CLOUD (remplace les données de cet appareil)\nAnnuler = garder CET APPAREIL (remplacera le cloud)`);
+    }
+    if(useCloud){
+      suppressSync=true;
+      clients=cloud.clients||[];caHistory=cloud.caHistory||{};clientNotes=cloud.clientNotes||{};
+      visitReports=cloud.visitReports||{};clientTasks=cloud.clientTasks||{};opportunities=cloud.opportunities||{};
+      localStorage.removeItem('spk_demo');
+      saveCache();suppressSync=false;
+      localStorage.setItem('spk_last_sync',new Date().toISOString());
+      toast('Données cloud chargées ✓','s');
+    }else{
+      await pushSnapshot();
+      toast('Données de cet appareil envoyées dans le cloud ✓','s');
+    }
   }else{
+    if(localStorage.getItem('spk_demo')&&clients.length){
+      if(!confirm('Tes données actuelles sont les données de DÉMONSTRATION.\n\nOK = les envoyer quand même dans le cloud\nAnnuler = vider la démo et partir de zéro')){
+        wipeAllData();
+      }
+    }
     await pushSnapshot();
     toast('Synchronisation activée ✓','s');
   }
+  renderDemoBtn();
   renderSyncUI();
 }
 // Compat : les écritures locales déclenchent la synchro via saveCache→schedulePush
@@ -1059,6 +1094,7 @@ const DEMO_CLIENTS=[
 const DEMO_CA={d1:[45000,48000,52000,50000,55000,60000,58000,62000,65000,63000,70000,75000],d2:[120000,115000,130000,125000,140000,135000,150000,145000,160000,155000,170000,180000],d3:[75000,72000,80000,78000,85000,82000,90000,88000,95000,92000,100000,105000],d4:[30000,32000,35000,33000,38000,40000,42000,41000,45000,44000,48000,52000],d5:[25000,26000,28000,27000,30000,32000,31000,33000,35000,34000,38000,40000],d6:[500,600,800,750,900,1000,1100,950,1200,1100,1400,1500],d7:[95000,90000,100000,98000,110000,105000,115000,112000,125000,120000,135000,140000],d8:[55000,58000,60000,62000,65000,63000,70000,68000,72000,75000,78000,82000],d9:[40000,42000,45000,44000,48000,50000,52000,51000,55000,54000,58000,62000],d10:[20000,21000,22000,23000,25000,24000,27000,26000,29000,28000,31000,33000],d11:[0,0,0,0,0,0,0,0,0,5000,8000,12000]};
 
 function seedDemoLocal(){
+  localStorage.setItem('spk_demo','1');
   clients=DEMO_CLIENTS.map(c=>({...c}));
   caHistory={};clientNotes={};visitReports={};clientTasks={};opportunities={};
   const now=new Date();
@@ -1115,8 +1151,8 @@ function seedDemoLocal(){
 
 async function seedDemoIfEmpty(){
   if(clients.length>0)return;
-  // Données démo uniquement en mode local (pas connecté)
-  if(!currentUser){seedDemoLocal();saveCache();}
+  // Données démo uniquement en mode local (pas connecté), et pas après un vidage volontaire
+  if(!currentUser&&!localStorage.getItem('spk_demo_off')){seedDemoLocal();saveCache();}
 }
 
 // ─── MAP ─────────────────────────────────────────────────
@@ -1205,7 +1241,14 @@ function addDays(n){
 }
 const RDV_DELAYS=[[7,'+1 sem'],[14,'+2 sem'],[30,'+1 mois'],[42,'+6 sem'],[60,'+2 mois']];
 const RDV_HOURS=['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'];
-function lastVisitDate(id){const c=visitReports[id]||[];if(!c.length)return null;return c.reduce((l,cr)=>cr.date>l?cr.date:l,c[0].date);}
+function lastVisitDate(id){
+  const c=visitReports[id]||[];
+  const fromCR=c.length?c.reduce((l,cr)=>cr.date>l?cr.date:l,c[0].date):null;
+  const cl=clients.find(x=>x.id===id);
+  const lv=(cl&&cl.last_visit)||null;
+  if(fromCR&&lv)return fromCR>lv?fromCR:lv;
+  return fromCR||lv;
+}
 
 function buildTasksHTML(clientId){
   const today=new Date().toISOString().slice(0,10);
@@ -1213,7 +1256,7 @@ function buildTasksHTML(clientId){
     const late=!tk.done&&tk.dueDate&&tk.dueDate<today;
     return`<div class="pop-tk">
       <input type="checkbox" ${tk.done?'checked':''} onchange="window._toggleTask('${clientId}','${tk.id}')"/>
-      <span class="tk-lbl${tk.done?' done':''}">${tk.text}</span>
+      <span class="tk-lbl${tk.done?' done':''}">${escHTML(tk.text)}</span>
       ${tk.dueDate?`<span class="tk-due${late?' late':''}">${fmtDate(tk.dueDate)}</span>`:''}
       <button class="tk-x" onclick="window._deleteTask('${clientId}','${tk.id}')">×</button>
     </div>`;}).join('')||'<div style="font-size:11px;color:#aaa;">Aucune action</div>';
@@ -1225,7 +1268,6 @@ function buildPopup(cl){
   const catBadge=cl.categorie_produit?`<span class="pop-cat">${cl.categorie_produit}</span>`:'';
   const lv=lastVisitDate(cl.id);
   const lvHTML=lv?`<div style="font-size:11px;color:#888;">🗓 Dernière visite : ${fmtDate(lv)}</div>`:'';
-  const nvHTML='';
   let objHTML='';
   if(cl.objectif_ca>0){
     const pct=Math.min(Math.round(caY/cl.objectif_ca*100),999);
@@ -1238,8 +1280,8 @@ function buildPopup(cl){
   const crs=visitReports[cl.id]||[];
   const lastCR=crs[0];
   const crPrev=lastCR?`<div style="font-size:11px;background:#f8f9fb;border-radius:3px;padding:5px 7px;">
-    <span style="color:var(--blue);font-weight:700;">${CR_TYPES[lastCR.type||'activite'].lbl} · ${fmtDate(lastCR.date)}</span>${lastCR.contact?' — '+lastCR.contact:''}
-    ${lastCR.points?`<div style="color:#555;font-size:10px;margin-top:2px;">${lastCR.points.slice(0,90)}${lastCR.points.length>90?'…':''}</div>`:''}
+    <span style="color:var(--blue);font-weight:700;">${CR_TYPES[lastCR.type||'activite'].lbl} · ${fmtDate(lastCR.date)}</span>${lastCR.contact?' — '+escHTML(lastCR.contact):''}
+    ${lastCR.points?`<div style="color:#555;font-size:10px;margin-top:2px;">${escHTML(lastCR.points.slice(0,90))}${lastCR.points.length>90?'…':''}</div>`:''}
   </div>`:'<div style="font-size:11px;color:#aaa;">Aucun compte-rendu</div>';
   const oppsOpen=(opportunities[cl.id]||[]).filter(o=>o.etape!=='Gagnée'&&o.etape!=='Perdue');
   const oppSum=oppsOpen.reduce((s,o)=>s+(o.montant||0),0);
@@ -1247,12 +1289,12 @@ function buildPopup(cl){
     <div class="pop-lbl">🏭 Charge de travail ${cl.charge_date?`<span style="font-weight:400;color:#999;">(maj ${fmtDate(cl.charge_date)})</span>`:''}</div>
     <div class="charge-row">${Object.keys(CHARGES).map(k=>`<button class="charge-btn${cl.charge===k?' on':''}" data-chk="${k}" onclick="window._setCharge('${cl.id}','${k}')">${CHARGES[k].e}<small>${CHARGES[k].label}</small></button>`).join('')}</div>`;
   return `<div id="pp-${cl.id}">
-    <div class="pop-h">${cl.nom}</div>
+    <div class="pop-h">${escHTML(cl.nom)}</div>
     <span class="pop-type" style="background:${color};">${cl.type}</span>${catBadge}
-    <div class="pop-sub">📍 ${cl.ville}${cl.dept?' ('+cl.dept+')':''} — ${cl.contact||'—'}</div>
-    ${cl.tel?`<div style="font-size:11px;">📞 ${cl.tel}</div>`:''}
-    ${cl.email?`<div style="font-size:11px;">✉️ ${cl.email}</div>`:''}
-    ${lvHTML}${nvHTML}
+    <div class="pop-sub">📍 ${escHTML(cl.ville)}${cl.dept?' ('+escHTML(cl.dept)+')':''} — ${escHTML(cl.contact)||'—'}</div>
+    ${cl.tel?`<div style="font-size:11px;">📞 ${escHTML(cl.tel)}</div>`:''}
+    ${cl.email?`<div style="font-size:11px;">✉️ ${escHTML(cl.email)}</div>`:''}
+    ${lvHTML}
     <button class="btn btn-p btn-bl btn-sm" style="margin-top:8px;" onclick="window._openFiche('${cl.id}')">📇 Ouvrir la fiche complète</button>
     <div class="pop-sep"></div>
     <div id="prdv-${cl.id}">${buildRDVHTML(cl)}</div>
@@ -1307,7 +1349,7 @@ function buildPopup(cl){
 function wirePopup(cl,mk){
   setTimeout(()=>{
     const canvas=document.getElementById('pc-'+cl.id);
-    if(canvas){const d=last12(cl.id);new Chart(canvas.getContext('2d'),{type:'bar',data:{labels:d.map(x=>x.label),datasets:[{data:d.map(x=>x.ca),backgroundColor:'rgba(27,94,166,.55)',borderColor:'#1B5EA6',borderWidth:1,borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:8},maxRotation:45},grid:{display:false}},y:{ticks:{font:{size:9},callback:v=>v>=1000?(v/1000)+'k':v},grid:{color:'#eee'}}}}});}
+    if(canvas){const d=last12(cl.id);if(popupChart){try{popupChart.destroy();}catch(e){}}popupChart=new Chart(canvas.getContext('2d'),{type:'bar',data:{labels:d.map(x=>x.label),datasets:[{data:d.map(x=>x.ca),backgroundColor:'rgba(27,94,166,.55)',borderColor:'#1B5EA6',borderWidth:1,borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:8},maxRotation:45},grid:{display:false}},y:{ticks:{font:{size:9},callback:v=>v>=1000?(v/1000)+'k':v},grid:{color:'#eee'}}}}});}
     // CA save
     const caSave=document.getElementById('pcs-'+cl.id);
     if(caSave)caSave.addEventListener('click',async()=>{
@@ -1452,13 +1494,13 @@ function renderListView(){
     const hasNote=!!clientNotes[cl.id];
     const tr=document.createElement('tr');
     if(hasNote)tr.classList.add('has-note');
-    const catHtml=cl.categorie_produit?`<span class="tbl-cat">${cl.categorie_produit}</span>`:'<span style="color:#ccc;font-size:11px;">—</span>';
+    const catHtml=cl.categorie_produit?`<span class="tbl-cat">${escHTML(cl.categorie_produit)}</span>`:'<span style="color:#ccc;font-size:11px;">—</span>';
     tr.innerHTML=`
-      <td><strong>${cl.nom}</strong>${cl.charge&&CHARGES[cl.charge]?' <span title="'+CHARGES[cl.charge].label+'">'+CHARGES[cl.charge].e+'</span>':''}</td>
+      <td><strong>${escHTML(cl.nom)}</strong>${cl.charge&&CHARGES[cl.charge]?' <span title="'+CHARGES[cl.charge].label+'">'+CHARGES[cl.charge].e+'</span>':''}</td>
       <td><span class="tbl-type" style="background:${TYPE_COLORS[cl.type]||'#888'};">${cl.type}</span></td>
       <td>${catHtml}</td>
-      <td>${cl.ville||'—'}</td>
-      <td style="font-size:12px;">${cl.contact||'—'}</td>
+      <td>${escHTML(cl.ville)||'—'}</td>
+      <td style="font-size:12px;">${escHTML(cl.contact)||'—'}</td>
       <td style="font-weight:700;">${fmtCA(caM)}</td>
       <td style="color:#666;">${fmtCA(caY)}</td>
       <td><div class="tbl-actions">
@@ -1606,7 +1648,8 @@ async function importClients(file){
       await dbUpsertClient(cl);
       if(ex)Object.assign(ex,cl);else clients.push(cl);n++;
     }
-    saveCache();renderFilters();renderMarkers();updateStats();renderListView();toast(`${n} client(s) importé(s)`,'s');
+    if(n>0)localStorage.removeItem('spk_demo');
+    saveCache();renderFilters();renderMarkers();updateStats();renderListView();renderDemoBtn();toast(`${n} client(s) importé(s)`,'s');
   }catch(err){toast('Erreur import: '+err.message,'e');}};
   r.readAsArrayBuffer(file);
 }
@@ -1692,11 +1735,10 @@ function restoreBackup(file){
       visitReports=d.visitReports||{};
       clientTasks=d.clientTasks||{};
       opportunities=d.opportunities||{};
+      localStorage.removeItem('spk_demo');
       saveCache();
-      // Sync cloud si connecté
-      if(currentUser&&isOnline){clients.forEach(c=>dbUpsertClient(c));}
       renderFilters();renderMarkers();updateStats();renderListView();
-      renderAlertsSection();renderVisitsSection();renderSFBadge();renderPipelineMini();
+      renderAlertsSection();renderVisitsSection();renderSFBadge();renderPipelineMini();renderDemoBtn();
       toast(`Restauré : ${nbC} clients ✓`,'s');
     }catch(err){toast('Erreur restauration : '+err.message,'e');}
   };
@@ -1723,7 +1765,7 @@ function renderBackupStatus(){
 function checkBackupReminder(){
   renderBackupStatus();
   const d=daysSinceBackup();
-  if((d===null||d>=7)&&clients.length){
+  if((d===null||d>=7)&&clients.length&&!localStorage.getItem('spk_demo')){
     setTimeout(()=>toast(d===null?'💾 Pense à sauvegarder tes données !':`💾 ${d} j sans sauvegarde — pense à sauvegarder`,'e'),1500);
   }
 }
@@ -1759,7 +1801,7 @@ function openFiche(cl){
   ficheClientId=cl.id;
   ensureArrays(cl);
   document.getElementById('fiche-name').textContent=cl.nom;
-  document.getElementById('fiche-sub').innerHTML=`<span class="pop-type" style="background:${TYPE_COLORS[cl.type]||'#888'};">${cl.type}</span> 📍 ${cl.ville}${cl.dept?' ('+cl.dept+')':''}`;
+  document.getElementById('fiche-sub').innerHTML=`<span class="pop-type" style="background:${TYPE_COLORS[cl.type]||'#888'};">${cl.type}</span> 📍 ${escHTML(cl.ville)}${cl.dept?' ('+escHTML(cl.dept)+')':''}`;
   switchFicheTab('synthese');
   document.getElementById('fiche-modal').classList.add('show');
 }
@@ -1812,7 +1854,7 @@ function renderFicheSynthese(cl){
       <button class="fiche-addbtn" style="margin-top:8px;" onclick="window._ficheOpps()">Gérer les opportunités →</button>
     </div>`;
   const cnv=document.getElementById('fiche-ca-chart');
-  if(cnv){const d=last12(cl.id);new Chart(cnv.getContext('2d'),{type:'bar',data:{labels:d.map(x=>x.label),datasets:[{data:d.map(x=>x.ca),backgroundColor:'rgba(27,94,166,.55)',borderColor:'#1B5EA6',borderWidth:1,borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:8},maxRotation:45},grid:{display:false}},y:{ticks:{font:{size:9},callback:v=>v>=1000?(v/1000)+'k':v},grid:{color:'#eee'}}}}});}
+  if(cnv){const d=last12(cl.id);if(ficheChart){try{ficheChart.destroy();}catch(e){}}ficheChart=new Chart(cnv.getContext('2d'),{type:'bar',data:{labels:d.map(x=>x.label),datasets:[{data:d.map(x=>x.ca),backgroundColor:'rgba(27,94,166,.55)',borderColor:'#1B5EA6',borderWidth:1,borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:8},maxRotation:45},grid:{display:false}},y:{ticks:{font:{size:9},callback:v=>v>=1000?(v/1000)+'k':v},grid:{color:'#eee'}}}}});}
 }
 
 function renderFicheContacts(cl){
@@ -2064,11 +2106,11 @@ function renderCRHistory(clientId){
   list.innerHTML=crs.slice(0,8).map(cr=>`
     <div class="cr-item">
       <button class="cr-i-del" onclick="window.deleteCR('${clientId}','${cr.id}')">×</button>
-      <div class="cr-i-date">${CR_TYPES[cr.type||'activite'].lbl} · ${fmtDate(cr.date)}${cr.contact?' — '+cr.contact:''}${cr.charge&&CHARGES[cr.charge]?' · '+CHARGES[cr.charge].e:''}${cr.sf_logged?'':' <span style="color:var(--amber);font-size:10px;">SF ⏳</span>'}</div>
-      ${cr.sujet?`<div class="cr-i-body"><strong>Présenté :</strong> ${cr.sujet}${cr.reaction?' — '+cr.reaction:''}</div>`:''}
-      ${cr.points?`<div class="cr-i-body"><strong>Points :</strong> ${cr.points}</div>`:''}
-      ${cr.actions?`<div class="cr-i-body"><strong>Actions :</strong> ${cr.actions}</div>`:''}
-      ${cr.opportunite?`<div class="cr-i-body" style="color:var(--green);"><strong>Opportunité :</strong> ${cr.opportunite}</div>`:''}
+      <div class="cr-i-date">${CR_TYPES[cr.type||'activite'].lbl} · ${fmtDate(cr.date)}${cr.contact?' — '+escHTML(cr.contact):''}${cr.charge&&CHARGES[cr.charge]?' · '+CHARGES[cr.charge].e:''}${cr.sf_logged?'':' <span style="color:var(--amber);font-size:10px;">SF ⏳</span>'}</div>
+      ${cr.sujet?`<div class="cr-i-body"><strong>Présenté :</strong> ${escHTML(cr.sujet)}${cr.reaction?' — '+cr.reaction:''}</div>`:''}
+      ${cr.points?`<div class="cr-i-body"><strong>Points :</strong> ${escHTML(cr.points)}</div>`:''}
+      ${cr.actions?`<div class="cr-i-body"><strong>Actions :</strong> ${escHTML(cr.actions)}</div>`:''}
+      ${cr.opportunite?`<div class="cr-i-body" style="color:var(--green);"><strong>Opportunité :</strong> ${escHTML(cr.opportunite)}</div>`:''}
       ${cr.next_date?`<div class="cr-i-body" style="color:var(--blue);"><strong>Prochaine visite :</strong> ${fmtDate(cr.next_date)}</div>`:''}
     </div>`).join('');
 }
@@ -2224,7 +2266,8 @@ window._icsClient=function(id){
 };
 function exportWeekICS(){
   const today=new Date().toISOString().slice(0,10);
-  const limit=addDays(7);
+  const dl=new Date();dl.setDate(dl.getDate()+7);
+  const limit=dl.toISOString().slice(0,10);
   const list=clients.filter(cl=>cl.prochaine_visite&&cl.prochaine_visite>=today&&cl.prochaine_visite<=limit)
     .sort((a,b)=>(a.prochaine_visite+(a.rdv_heure||'')).localeCompare(b.prochaine_visite+(b.rdv_heure||'')));
   if(!list.length){toast('Aucun RDV dans les 7 prochains jours','e');return;}
@@ -2439,7 +2482,7 @@ function renderTourPanel(){
   }
   row.innerHTML=tourClients.map((id,i)=>{
     const cl=clients.find(c=>c.id===id);
-    return`<div class="tour-chip"><span class="tc-n">${i+1}</span><span>${cl?cl.nom:'?'}</span><button class="tc-x" onclick="window._tourRemove('${id}')">×</button></div>`;
+    return`<div class="tour-chip"><span class="tc-n">${i+1}</span><span>${cl?escHTML(cl.nom):'?'}</span><button class="tc-x" onclick="window._tourRemove('${id}')">×</button></div>`;
   }).join('');
 }
 window._tourRemove=function(id){tourClients=tourClients.filter(x=>x!==id);renderTourPanel();renderMarkers();};
@@ -2447,12 +2490,16 @@ window._tourRemove=function(id){tourClients=tourClients.filter(x=>x!==id);render
 function openTourInMaps(service){
   if(!tourClients.length){toast('Aucun client dans la tournée','e');return;}
   const pts=tourClients.map(id=>clients.find(c=>c.id===id)).filter(c=>c&&c.lat&&c.lng);
-  if(pts.length<2){toast('Ajoutez au moins 2 clients avec coordonnées','e');return;}
+  if(!pts.length){toast('Aucun client avec coordonnées dans la tournée','e');return;}
   let url;
   if(service==='waze'){
-    const last=pts[pts.length-1];
-    url=`https://waze.com/ul?ll=${last.lat},${last.lng}&navigate=yes`;
+    // Waze ne gère pas les étapes multiples : on navigue vers le PREMIER arrêt
+    const first=pts[0];
+    url=`https://waze.com/ul?ll=${first.lat},${first.lng}&navigate=yes`;
+    if(pts.length>1)toast('Waze : navigation vers le 1er arrêt (pas d\'étapes multiples)','s');
   }else{
+    if(pts.length<2){toast('Ajoutez au moins 2 clients pour un itinéraire Google Maps','e');return;}
+    if(pts.length>11)toast('⚠️ Google Maps limite ~10 étapes — la tournée peut être tronquée','e');
     const origin=`${pts[0].lat},${pts[0].lng}`;
     const dest=`${pts[pts.length-1].lat},${pts[pts.length-1].lng}`;
     const wp=pts.slice(1,-1).map(c=>`${c.lat},${c.lng}`).join('/');
@@ -2464,16 +2511,20 @@ function openTourInMaps(service){
 // ─── ALERTS ───────────────────────────────────────────────
 function computeAlerts(){
   const today=new Date();today.setHours(0,0,0,0);
+  const todayStr=new Date().toISOString().slice(0,10);
   const alerts=[];
   clients.forEach(cl=>{
     const lv=lastVisitDate(cl.id);
     const days=lv?Math.floor((today-new Date(lv))/86400000):null;
     const thresh=cl.type==='Lead'?30:60;
-    if(days===null||days>thresh){
+    // Pas d'alerte visite si un RDV futur est déjà planifié
+    const hasFutureRDV=cl.prochaine_visite&&cl.prochaine_visite>=todayStr;
+    if((days===null||days>thresh)&&!hasFutureRDV){
       alerts.push({id:cl.id,nom:cl.nom,msg:days===null?'Jamais visité':`${days}j sans visite`,
         color:days!==null&&days>90?'#E2001A':'#f59e0b'});
     }
-    const h=last12(cl.id).slice(-3);
+    // Baisse CA : sur les 3 derniers mois COMPLETS (le mois en cours fausserait le calcul)
+    const h=last12(cl.id).slice(-4,-1);
     if(h.length===3&&h[0].ca>0&&h[2].ca<h[1].ca&&h[1].ca<h[0].ca){
       alerts.push({id:cl.id,nom:cl.nom,msg:'CA en baisse 2 mois consécutifs',color:'#E2001A'});
     }
@@ -2492,7 +2543,7 @@ function renderAlertsSection(){
     ?alerts.map(a=>`<div class="sb-i" onclick="focusClientOnMap('${a.id}')">
         <div class="sb-i-dot" style="background:${a.color};margin-top:4px;"></div>
         <div class="sb-i-body">
-          <div class="sb-i-name">${a.nom}</div>
+          <div class="sb-i-name">${escHTML(a.nom)}</div>
           <div class="sb-i-sub ${a.color==='#E2001A'?'red':'amber'}">${a.msg}</div>
         </div></div>`).join('')
     :'<p style="font-size:12px;color:#aaa;">Aucune alerte 👍</p>';
@@ -2513,14 +2564,17 @@ function renderVisitsSection(){
     return`<div class="sb-i" onclick="focusClientOnMap('${cl.id}')">
       <div class="sb-i-dot" style="background:${ov?'#E2001A':soon?'#f59e0b':'#16a34a'};margin-top:4px;"></div>
       <div class="sb-i-body">
-        <div class="sb-i-name">${cl.nom}</div>
-        <div class="sb-i-sub ${ov?'red':soon?'amber':''}">${lbl}${cl.rdv_heure?' · '+fmtHeure(cl.rdv_heure):''} — ${cl.ville}</div>
+        <div class="sb-i-name">${escHTML(cl.nom)}</div>
+        <div class="sb-i-sub ${ov?'red':soon?'amber':''}">${lbl}${cl.rdv_heure?' · '+fmtHeure(cl.rdv_heure):''} — ${escHTML(cl.ville)}</div>
       </div></div>`;
   }).join('');
 }
 
 function focusClientOnMap(clientId){
   const cl=clients.find(c=>c.id===clientId);if(!cl||!cl.lat||!cl.lng)return;
+  // Mobile : fermer le drawer pour voir la carte
+  document.getElementById('sidebar').classList.remove('sb-open');
+  document.getElementById('sidebar-backdrop').classList.remove('show');
   if(listView)toggleView();
   const mk=markerMap[clientId];
   if(mk){map.setView([cl.lat,cl.lng],12);setTimeout(()=>{mk.setPopupContent(buildPopup(cl));mk.openPopup();wirePopup(cl,mk);},150);}
@@ -2587,7 +2641,7 @@ async function renderApp(){
   renderFilters();renderMarkers();updateStats();
   renderAlertsSection();renderVisitsSection();
   renderSFBadge();renderPipelineMini();
-  checkBackupReminder();renderSyncUI();
+  checkBackupReminder();renderSyncUI();renderDemoBtn();
 }
 
 // ─── INIT ─────────────────────────────────────────────────
@@ -2602,6 +2656,8 @@ function init(){
   document.getElementById('auth-email').addEventListener('keydown',e=>{if(e.key==='Enter')doAuth();});
   document.getElementById('auth-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doAuth();});
   document.getElementById('btn-login').addEventListener('click',showAuthModal);
+  document.getElementById('auth-close').addEventListener('click',()=>document.getElementById('auth-modal').classList.remove('show'));
+  document.getElementById('auth-modal').addEventListener('click',e=>{if(e.target===document.getElementById('auth-modal'))document.getElementById('auth-modal').classList.remove('show');});
   document.getElementById('btn-logout').addEventListener('click',async()=>{await sb.auth.signOut();renderSyncUI();});
   // Bouton synchro (sidebar)
   document.getElementById('btn-sync-toggle').addEventListener('click',async()=>{
@@ -2636,6 +2692,11 @@ function init(){
 
   // Sauvegarde / restauration
   document.getElementById('btn-backup').addEventListener('click',doBackup);
+  document.getElementById('btn-clear-demo').addEventListener('click',()=>{
+    if(!confirm('Supprimer TOUTES les données actuelles (démonstration) ?\n\nL\'app repartira vide, prête pour tes vrais clients. Irréversible.'))return;
+    wipeAllData();
+    toast('Données de démo supprimées — l\'app est prête ✓','s');
+  });
   document.getElementById('file-restore').addEventListener('change',e=>{if(e.target.files.length){restoreBackup(e.target.files[0]);e.target.value='';}});
   const uz=document.getElementById('upload-restore');
   uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('dragover');});
