@@ -1,0 +1,8 @@
+# Données confidentielles — ne jamais commiter
+*.csv
+
+# Config locale Claude
+.claude/
+
+# Sauvegardes locales
+sauvegarde_spk_*.json
