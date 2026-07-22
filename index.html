@@ -281,7 +281,8 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
   #map-container,#list-panel{width:100%;}
 
   /* Navbar */
-  #navbar{gap:8px;padding:0 10px;}
+  #navbar{gap:4px;padding:0 8px;}
+  #btn-help,#btn-devnotes{width:26px;height:26px;font-size:12px;}
   #demo-badge{font-size:10px;padding:1px 6px;}
   #btn-view-toggle{font-size:11px;padding:4px 8px;}
   .ver-badge{display:none;}
@@ -498,6 +499,22 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 .photo-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
 .photo-actions .btn{flex:1;min-width:120px;justify-content:center;}
 
+/* V9.5 — DEV NOTES */
+#btn-devnotes{position:relative;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--blue);background:var(--white);color:var(--blue);font-size:14px;cursor:pointer;flex-shrink:0;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+#btn-devnotes:hover{background:var(--blue-bg);}
+.nav-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;border-radius:50%;min-width:15px;height:15px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 2px;}
+.dn-add{display:flex;flex-direction:column;gap:6px;}
+.dn-add textarea{width:100%;padding:7px 9px;border:1.5px solid #ddd;border-radius:var(--r);font-size:13px;font-family:inherit;outline:none;resize:vertical;min-height:44px;}
+.dn-add textarea:focus{border-color:var(--blue);}
+.dn-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid #f2f2f2;}
+.dn-item:last-child{border-bottom:none;}
+.dn-item input[type=checkbox]{margin-top:3px;width:15px;height:15px;cursor:pointer;flex-shrink:0;accent-color:var(--blue);}
+.dn-txt{flex:1;font-size:13px;line-height:1.5;}
+.dn-item.done .dn-txt{text-decoration:line-through;color:#bbb;}
+.dn-date{font-size:10px;color:#aaa;white-space:nowrap;margin-top:2px;}
+.dn-x{background:none;border:none;cursor:pointer;color:#ccc;font-size:15px;line-height:1;flex-shrink:0;}
+.dn-x:hover{color:var(--red);}
+
 @media(max-width:767px){
   #nav-tabs{order:1;}
   .nav-title{display:none;}
@@ -521,8 +538,9 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
     <button class="nav-tab on" id="tab-home" data-tab="home">🏠<span class="nt-txt"> Visites</span></button>
     <button class="nav-tab" id="tab-map" data-tab="map">🗺<span class="nt-txt"> Carte</span></button>
   </div>
-  <span class="ver-badge" style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v9.4</span>
+  <span class="ver-badge" style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v9.5</span>
   <div class="nav-right">
+    <button id="btn-devnotes" title="Notes de développement" aria-label="Notes de développement">🛠<span class="nav-badge" id="dn-badge" style="display:none;"></span></button>
     <button id="btn-help" title="Aide & notice d'utilisation" aria-label="Aide">?</button>
     <span id="offline-badge">✈ Hors-ligne</span>
     <span id="demo-badge" style="display:none;font-size:11px;font-weight:700;background:#f59e0b;color:#fff;padding:2px 8px;border-radius:10px;">MODE DÉMO</span>
@@ -599,7 +617,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <button class="btn btn-o btn-bl btn-sm" id="btn-tour-toggle" style="margin-bottom:5px;">🚗 Démarrer une tournée</button>
       <button class="btn btn-o btn-bl btn-sm" id="btn-monthly-report">📊 Rapport mensuel (Excel)</button>
     </div>
-    <div class="sb-copyright">SPK Sales Area Manager v9.4<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
+    <div class="sb-copyright">SPK Sales Area Manager v9.5<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
   </div>
 
   <div id="home-view">
@@ -893,9 +911,31 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <p>Sur iPad/iPhone : ouvre l'app dans <strong>Safari</strong>, touche <strong>Partager</strong> (carré avec flèche) → <strong>« Sur l'écran d'accueil »</strong>. L'app s'ouvre alors en plein écran comme une vraie appli, et ses données sont mieux protégées.</p>
       </div>
       <div class="help-footer">
-        <strong>SPK Sales Area Manager v9.4</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
+        <strong>SPK Sales Area Manager v9.5</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
         © Benjamin Rouquette 2026 — Tous droits réservés / All rights reserved
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- DEV NOTES MODAL -->
+<div class="modal-ov" id="devnotes-modal">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-hdr">
+      <h2>🛠 Notes de développement</h2>
+      <button class="modal-x" id="devnotes-close">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:12px;color:#888;margin-bottom:10px;">Note ici tout ce que tu veux qu'on ajoute ou corrige dans l'app — tu colleras la liste à Claude à la prochaine session.</p>
+      <div class="dn-add">
+        <textarea id="dn-input" rows="2" placeholder="Ex : ajouter un filtre par département…"></textarea>
+        <button class="btn btn-p btn-sm" id="btn-dn-add" style="align-self:flex-end;">+ Ajouter</button>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0 8px;">
+        <span id="dn-count" style="font-size:12px;color:#666;"></span>
+        <button class="btn btn-o btn-sm" id="btn-dn-copy">📋 Copier tout</button>
+      </div>
+      <div id="dn-list"></div>
     </div>
   </div>
 </div>
@@ -2647,7 +2687,7 @@ function exportWeekICS(){
 
 // ─── V6 : HELPERS ─────────────────────────────────────────
 function escHTML(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-async function copyText(t){
+async function copyText(t,msg='Copié — prêt à coller dans Salesforce ✓'){
   try{await navigator.clipboard.writeText(t);}
   catch(e){
     const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0;';
@@ -2655,7 +2695,46 @@ async function copyText(t){
     try{document.execCommand('copy');}catch(_){}
     ta.remove();
   }
-  toast('Copié — prêt à coller dans Salesforce ✓','s');
+  toast(msg,'s');
+}
+
+// ─── V9.5 : NOTES DE DÉVELOPPEMENT (carnet perso, toutes apps) ────
+let devNotes=[];
+function loadDevNotes(){try{devNotes=JSON.parse(localStorage.getItem('spk_devnotes')||'[]');}catch(e){devNotes=[];}}
+function saveDevNotes(){localStorage.setItem('spk_devnotes',JSON.stringify(devNotes));renderDevNotesBadge();}
+function renderDevNotesBadge(){
+  const n=devNotes.filter(x=>!x.done).length;
+  const b=document.getElementById('dn-badge');if(!b)return;
+  b.style.display=n?'flex':'none';
+  if(n)b.textContent=n;
+}
+function renderDevNotesList(){
+  const sorted=devNotes.slice().sort((a,b)=>(a.done===b.done)?b.created.localeCompare(a.created):(a.done?1:-1));
+  document.getElementById('dn-count').textContent=`${devNotes.filter(x=>!x.done).length} note(s) à traiter`;
+  document.getElementById('dn-list').innerHTML=sorted.length?sorted.map(n=>`
+    <div class="dn-item${n.done?' done':''}">
+      <input type="checkbox" ${n.done?'checked':''} onchange="window._dnToggle('${n.id}')"/>
+      <span class="dn-txt">${escHTML(n.text)}</span>
+      <span class="dn-date">${fmtDate(n.created.slice(0,10))}</span>
+      <button class="dn-x" onclick="window._dnDel('${n.id}')">×</button>
+    </div>`).join(''):'<div style="font-size:12px;color:#aaa;text-align:center;padding:14px 0;">Aucune note pour l\'instant</div>';
+}
+function openDevNotes(){renderDevNotesList();document.getElementById('devnotes-modal').classList.add('show');}
+window._dnToggle=function(id){const n=devNotes.find(x=>x.id===id);if(n){n.done=!n.done;saveDevNotes();renderDevNotesList();}};
+window._dnDel=function(id){devNotes=devNotes.filter(x=>x.id!==id);saveDevNotes();renderDevNotesList();};
+function addDevNote(){
+  const inp=document.getElementById('dn-input');
+  const txt=inp.value.trim();if(!txt)return;
+  devNotes.unshift({id:'dn'+Date.now(),text:txt,done:false,created:new Date().toISOString()});
+  inp.value='';
+  saveDevNotes();renderDevNotesList();
+}
+function copyDevNotes(){
+  const pending=devNotes.filter(x=>!x.done);
+  if(!pending.length){toast('Aucune note à copier','e');return;}
+  const lines=[`Notes de dev — SPK Sales Area Manager (${fmtDate(new Date().toISOString().slice(0,10))})`,''];
+  pending.forEach((n,i)=>lines.push(`${i+1}. ${n.text}`));
+  copyText(lines.join('\n'),'Notes copiées — colle-les à Claude ✓');
 }
 
 // ─── V6 : GÉNÉRATEUR SALESFORCE ───────────────────────────
@@ -3173,6 +3252,15 @@ function init(){
 
   // Photo capture / annotation
   initPhotoModule();
+
+  // Notes de développement (carnet perso)
+  loadDevNotes();renderDevNotesBadge();
+  document.getElementById('btn-devnotes').addEventListener('click',openDevNotes);
+  document.getElementById('devnotes-close').addEventListener('click',()=>document.getElementById('devnotes-modal').classList.remove('show'));
+  document.getElementById('devnotes-modal').addEventListener('click',e=>{if(e.target===document.getElementById('devnotes-modal'))document.getElementById('devnotes-modal').classList.remove('show');});
+  document.getElementById('btn-dn-add').addEventListener('click',addDevNote);
+  document.getElementById('dn-input').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))addDevNote();});
+  document.getElementById('btn-dn-copy').addEventListener('click',copyDevNotes);
 
   checkAuth();
 }

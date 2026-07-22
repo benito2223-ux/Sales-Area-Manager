@@ -4,7 +4,7 @@
 **Client** : CeramTec  
 **URL de démo** : https://spk-SAM.surge.sh  
 **Repo GitHub** : https://github.com/benito2223-ux/Sales-Area-Manager  
-**Dernière mise à jour** : Juillet 2026 (v9.3)
+**Dernière mise à jour** : Juillet 2026 (v9.5)
 
 ---
 
@@ -108,6 +108,13 @@ Sales Area Manager/
 - CA cumulé année (vue filtrée)
 - Répartition par type de client
 - Charge secteur (répartition 🔴🟡🟢🔥, vue filtrée)
+
+### v9.5 — Notes de développement (juillet 2026)
+- **Carnet perso** accessible via 🛠 dans la navbar (toujours visible, quel que soit l'onglet) : liste de notes libres avec case à cocher, badge du nombre de notes en attente, bouton **📋 Copier tout** qui génère un bloc texte prêt à coller à Claude en début de session suivante. Stockage `localStorage` (`spk_devnotes`), indépendant des données clients — carnet personnel à l'appareil, pas synchronisé au cloud.
+- **Pattern voué à être répliqué à l'identique** sur les autres applications développées avec Claude (même bouton, même comportement, même format de copie).
+
+### v9.4 — Icônes PWA (logo SAM officiel)
+- icon-180/192/512.png régénérées depuis LOGO_SAM.png ; favicon ajouté.
 
 ### v9.3 — Mode Visite : écran d'accueil, photos annotées (juillet 2026)
 - **Écran d'accueil "Mode Visite"** : l'app s'ouvre directement sur les RDV du jour en grandes cartes tapables (heure, client, ville), plus les visites en retard et une recherche pour un client hors planning. La carte devient un onglet secondaire (`🗺 Carte`) accessible depuis la navbar.
