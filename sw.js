@@ -1,13 +1,16 @@
 // SPK SAM — Service Worker offline-first
 // Précache l'app + les librairies CDN pour un démarrage sans réseau (atelier).
-const CACHE = 'spk-sam-v9-3';
+const CACHE = 'spk-sam-v9-4';
 
 // Ressources de l'app (même origine)
 const APP_ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './logo_spk.png'
+  './logo_spk.png',
+  './icon-180.png',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 // Librairies externes (CDN) — mises en cache au premier chargement en ligne
