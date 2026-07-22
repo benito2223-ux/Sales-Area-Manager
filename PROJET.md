@@ -4,7 +4,7 @@
 **Client** : CeramTec  
 **URL de démo** : https://spk-SAM.surge.sh  
 **Repo GitHub** : https://github.com/benito2223-ux/Sales-Area-Manager  
-**Dernière mise à jour** : Juillet 2026 (v9.2)
+**Dernière mise à jour** : Juillet 2026 (v9.3)
 
 ---
 
@@ -108,6 +108,13 @@ Sales Area Manager/
 - CA cumulé année (vue filtrée)
 - Répartition par type de client
 - Charge secteur (répartition 🔴🟡🟢🔥, vue filtrée)
+
+### v9.3 — Mode Visite : écran d'accueil, photos annotées (juillet 2026)
+- **Écran d'accueil "Mode Visite"** : l'app s'ouvre directement sur les RDV du jour en grandes cartes tapables (heure, client, ville), plus les visites en retard et une recherche pour un client hors planning. La carte devient un onglet secondaire (`🗺 Carte`) accessible depuis la navbar.
+- **Page de visite plein écran** : un tap sur une carte ouvre le CR en plein écran (pas un modal coincé dans un popup), avec date auto-remplie, contact pré-rempli, et un **bloc contexte** (dernière visite, actions ouvertes, charge atelier) en haut. Le bouton "+ CR" du popup carte garde le comportement modal classique (compat inchangée).
+- **Photos annotées (éphémères)** : bouton 📷 dans le CR → capture ou galerie → annotation sur canvas (stylo couleur, texte, annuler, tout effacer) → soit **📋 Copier l'image** directement dans le presse-papier (colle dans Teams/Copilot), soit **✓ Garder pour ce CR** (vignette locale, comptage `photos_count` inclus dans le résumé Salesforce). Aucune image n'est persistée en base — seul le nombre de photos prises est mémorisé.
+- **Saisie manuscrite / vocale** : aucun développement nécessaire — Scribble (Apple Pencil) et la dictée clavier iOS fonctionnent nativement dans tous les champs texte existants.
+- Champ "Points discutés" élargi et reformulé pour la prise de notes technique (conditions de coupe, mesures, résultats d'essais).
 
 ### v9.2 — Audit pré-production (juillet 2026)
 - **Sécurité** : `.surgeignore` — le CSV de prospection et PROJET.md ne sont plus publiés sur Surge (fuite corrigée).

@@ -441,6 +441,71 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 .opp-notes{font-size:11px;color:#777;white-space:pre-wrap;margin-top:2px;}
 .opp-acts{display:flex;gap:6px;margin-top:6px;align-items:center;flex-wrap:wrap;}
 .opp-acts select{padding:3px 5px;font-size:11px;border:1.5px solid #ddd;border-radius:3px;font-family:inherit;outline:none;}
+
+/* V9.3 — NAV TABS */
+#nav-tabs{display:flex;gap:2px;background:#f0f3f8;border-radius:6px;padding:2px;flex-shrink:0;}
+.nav-tab{border:none;background:none;padding:6px 12px;font-size:12.5px;font-weight:700;color:#888;border-radius:5px;cursor:pointer;font-family:inherit;transition:all .15s;}
+.nav-tab.on{background:var(--white);color:var(--blue);box-shadow:0 1px 3px rgba(0,0,0,.12);}
+.nav-tab:hover:not(.on){color:var(--blue);}
+
+/* V9.3 — HOME VIEW ("Mode Visite") */
+#home-view{display:none;flex:1;overflow-y:auto;background:#f4f6f9;-webkit-overflow-scrolling:touch;}
+#home-view.show{display:block;}
+.hv-inner{max-width:640px;margin:0 auto;padding:20px 18px 40px;}
+.hv-hdr{margin-bottom:22px;}
+.hv-greet{font-family:'Open Sans Condensed',sans-serif;font-size:26px;font-weight:700;color:var(--blue);}
+.hv-date{font-size:13px;color:#888;margin-top:2px;text-transform:capitalize;}
+.hv-section{margin-bottom:26px;}
+.hv-section h3{font-family:'Open Sans Condensed',sans-serif;font-size:15px;color:#555;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.visit-card{display:flex;align-items:center;gap:12px;background:var(--white);border-radius:8px;padding:14px 16px;margin-bottom:10px;box-shadow:var(--sh);cursor:pointer;transition:transform .12s,box-shadow .12s;border-left:5px solid var(--blue);}
+.visit-card:hover{transform:translateY(-1px);box-shadow:var(--shm);}
+.visit-card.overdue{border-left-color:var(--red);}
+.vc-time{font-family:'Open Sans Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--blue);min-width:56px;text-align:center;}
+.visit-card.overdue .vc-time{color:var(--red);font-size:13px;}
+.vc-body{flex:1;min-width:0;}
+.vc-name{font-size:15px;font-weight:700;color:#222;}
+.vc-sub{font-size:12px;color:#888;margin-top:2px;}
+.vc-type{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:10px;color:#fff;margin-right:5px;}
+.vc-chevron{color:#ccc;font-size:20px;}
+.hv-empty{font-size:13px;color:#aaa;text-align:center;padding:18px 0;}
+#hv-search-results .visit-card{padding:10px 14px;}
+#hv-search-results:empty{display:none;}
+
+/* V9.3 — CR CONTEXT BLOCK (page mode) */
+#cr-context{background:#f8f9fb;border-radius:6px;padding:10px 12px;margin-bottom:14px;font-size:12px;color:#555;line-height:1.7;}
+#cr-context b{color:var(--blue);}
+.modal-back{background:none;border:none;color:var(--blue);font-size:13px;font-weight:700;cursor:pointer;padding:4px 6px 4px 0;font-family:inherit;}
+
+/* V9.3 — CR PAGE MODE (plein écran, écran d'accueil "Mode Visite") */
+.modal-cr{max-width:580px;}
+#cr-modal.page-mode{align-items:stretch;justify-content:stretch;}
+#cr-modal.page-mode .modal{width:100%;max-width:100%;height:100vh;max-height:100vh;border-radius:0;display:flex;flex-direction:column;}
+#cr-modal.page-mode .modal-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+
+/* V9.3 — PHOTOS */
+.photo-strip{display:flex;gap:7px;flex-wrap:wrap;margin-top:4px;}
+.photo-thumb{position:relative;width:58px;height:58px;border-radius:5px;overflow:hidden;border:1.5px solid #ddd;}
+.photo-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.photo-thumb .pt-x{position:absolute;top:1px;right:1px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:16px;height:16px;font-size:11px;line-height:1;cursor:pointer;}
+#photo-modal .modal{max-width:640px;}
+.photo-toolbar{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #eee;}
+.pt-lbl{font-size:13px;}
+.pt-color{width:24px;height:24px;border-radius:50%;border:2px solid #ddd;cursor:pointer;padding:0;}
+.pt-color.on{border-color:#333;box-shadow:0 0 0 2px #fff,0 0 0 3px #333;}
+.photo-canvas-wrap{width:100%;text-align:center;background:#111;border-radius:4px;overflow:hidden;touch-action:none;}
+#photo-canvas{max-width:100%;display:block;margin:0 auto;touch-action:none;cursor:crosshair;}
+.photo-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.photo-actions .btn{flex:1;min-width:120px;justify-content:center;}
+
+@media(max-width:767px){
+  #nav-tabs{order:1;}
+  .nav-title{display:none;}
+  .nt-txt{display:none;}
+  .nav-tab{padding:7px 10px;font-size:15px;}
+  .hv-inner{padding:16px 14px 90px;}
+  .hv-greet{font-size:22px;}
+  .photo-actions .btn{min-width:100%;}
+}
 </style>
 </head>
 <body>
@@ -451,7 +516,11 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
   </button>
   <div class="nav-logo-crop"><img src="logo_spk.png" alt="SPK"/></div>
   <span class="nav-title">Sales Area Manager</span>
-  <span class="ver-badge" style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v9.2</span>
+  <div id="nav-tabs">
+    <button class="nav-tab on" id="tab-home" data-tab="home">🏠<span class="nt-txt"> Visites</span></button>
+    <button class="nav-tab" id="tab-map" data-tab="map">🗺<span class="nt-txt"> Carte</span></button>
+  </div>
+  <span class="ver-badge" style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v9.3</span>
   <div class="nav-right">
     <button id="btn-help" title="Aide & notice d'utilisation" aria-label="Aide">?</button>
     <span id="offline-badge">✈ Hors-ligne</span>
@@ -529,9 +598,33 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <button class="btn btn-o btn-bl btn-sm" id="btn-tour-toggle" style="margin-bottom:5px;">🚗 Démarrer une tournée</button>
       <button class="btn btn-o btn-bl btn-sm" id="btn-monthly-report">📊 Rapport mensuel (Excel)</button>
     </div>
-    <div class="sb-copyright">SPK Sales Area Manager v9.2<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
+    <div class="sb-copyright">SPK Sales Area Manager v9.3<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
   </div>
 
+  <div id="home-view">
+    <div class="hv-inner">
+      <div class="hv-hdr">
+        <div class="hv-greet" id="hv-greet"></div>
+        <div class="hv-date" id="hv-date"></div>
+      </div>
+      <div class="hv-section">
+        <h3 id="hv-today-title">Aujourd'hui</h3>
+        <div id="hv-today-list"></div>
+      </div>
+      <div class="hv-section" id="hv-overdue-section" style="display:none;">
+        <h3 style="color:var(--red);">⚠️ En retard</h3>
+        <div id="hv-overdue-list"></div>
+      </div>
+      <div class="hv-section">
+        <h3>🔍 Autre client (visite non planifiée)</h3>
+        <div class="search-wrap" style="padding:0;background:none;border:none;">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" id="hv-search" placeholder="Nom, ville…"/>
+        </div>
+        <div id="hv-search-results"></div>
+      </div>
+    </div>
+  </div>
   <div id="map-container"><div id="map"></div><div id="map-watermark">© Benjamin Rouquette 2026 — Tous droits réservés</div></div>
   <div id="list-panel">
     <div class="list-toolbar">
@@ -562,13 +655,15 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 
 <!-- CR MODAL -->
 <div class="modal-ov" id="cr-modal">
-  <div class="modal" style="max-width:580px;">
+  <div class="modal modal-cr">
     <div class="modal-hdr">
-      <h2>📋 Compte-rendu de visite</h2>
+      <button class="modal-back" id="cr-back" style="display:none;">← Retour</button>
+      <h2 id="cr-modal-title">📋 Compte-rendu de visite</h2>
       <button class="modal-x" id="cr-close">×</button>
     </div>
     <div class="modal-body">
       <div id="cr-modal-client" style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px;"></div>
+      <div id="cr-context" style="display:none;"></div>
       <div class="crt-row" id="cr-type-row"></div>
       <div class="fgrid">
         <div class="fg"><label>Date visite *</label><input type="date" id="cr-date"/></div>
@@ -576,9 +671,14 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <div class="fg fc2"><label>🏭 Charge de travail atelier</label><div class="charge-row" id="cr-charge-row"></div></div>
         <div class="fg fc2" id="cr-f-sujet" style="display:none;"><label>Sujet / support présenté</label><input type="text" id="cr-sujet" placeholder="Nouvelle nuance, gamme, application…"/></div>
         <div class="fg fc2" id="cr-f-reaction" style="display:none;"><label>Réaction client</label><select id="cr-reaction"><option value="">— Non évaluée —</option><option>❄️ Froid</option><option>🌤 Tiède</option><option>🔥 Chaud</option></select></div>
-        <div class="fg fc2" id="cr-f-points"><label id="cr-points-label">Points discutés</label><textarea class="pop-ta" id="cr-points" placeholder="Sujets abordés lors de la visite…" style="height:72px;"></textarea></div>
+        <div class="fg fc2" id="cr-f-points"><label id="cr-points-label">Points discutés</label><textarea class="pop-ta" id="cr-points" placeholder="Sujets, mesures, conditions de coupe, résultats d'essais…" style="height:90px;"></textarea></div>
         <div class="fg fc2" id="cr-f-actions"><label>Prochaines actions</label><textarea class="pop-ta" id="cr-actions" placeholder="À faire suite à cette visite…" style="height:60px;"></textarea></div>
         <div class="fg fc2" id="cr-f-opp"><label>Opportunité détectée</label><textarea class="pop-ta" id="cr-opp" placeholder="Projet, besoin, potentiel…" style="height:50px;"></textarea></div>
+        <div class="fg fc2">
+          <label>📷 Photos</label>
+          <div id="cr-photo-strip" class="photo-strip"></div>
+          <button type="button" class="btn btn-o btn-sm" id="btn-cr-add-photo" style="margin-top:6px;">📷 Ajouter une photo</button>
+        </div>
         <div class="fg fc2"><label>📅 Prochain RDV</label>
           <div class="rdv-chips" id="cr-rdv-delays"></div>
           <div class="rdv-chips" id="cr-rdv-hours"></div>
@@ -594,6 +694,41 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <div id="cr-history" style="display:none;border-top:1px solid #eee;padding-top:12px;margin-top:4px;">
         <p style="font-size:11px;font-weight:700;color:#555;margin-bottom:8px;">Historique des visites</p>
         <div id="cr-history-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PHOTO CAPTURE / ANNOTATION MODAL -->
+<div class="modal-ov" id="photo-modal">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-hdr">
+      <h2>📷 Photo</h2>
+      <button class="modal-x" id="photo-close">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="file" accept="image/*" id="photo-input" style="display:none;"/>
+      <div id="photo-empty" style="text-align:center;padding:30px 10px;">
+        <p style="font-size:13px;color:#777;margin-bottom:12px;">Prends une photo ou choisis-en une dans ta galerie.</p>
+        <button class="btn btn-p btn-bl" id="btn-photo-pick">📷 Choisir / prendre une photo</button>
+      </div>
+      <div id="photo-editor" style="display:none;">
+        <div class="photo-toolbar">
+          <span class="pt-lbl">✏️</span>
+          <button type="button" class="pt-color on" data-color="#E2001A" style="background:#E2001A;"></button>
+          <button type="button" class="pt-color" data-color="#1B5EA6" style="background:#1B5EA6;"></button>
+          <button type="button" class="pt-color" data-color="#16a34a" style="background:#16a34a;"></button>
+          <button type="button" class="pt-color" data-color="#000000" style="background:#000;"></button>
+          <button type="button" class="btn btn-o btn-sm" id="btn-photo-text">🔤 Texte</button>
+          <button type="button" class="btn btn-o btn-sm" id="btn-photo-undo">↩️ Annuler</button>
+          <button type="button" class="btn btn-o btn-sm" id="btn-photo-clear">🗑 Effacer tout</button>
+        </div>
+        <div class="photo-canvas-wrap"><canvas id="photo-canvas"></canvas></div>
+        <div class="photo-actions">
+          <button type="button" class="btn btn-p" id="btn-photo-copy">📋 Copier l'image</button>
+          <button type="button" class="btn btn-o" id="btn-photo-keep">✓ Garder pour ce CR</button>
+          <button type="button" class="btn btn-o" id="btn-photo-cancel" style="color:var(--red);border-color:var(--red);">✕ Annuler</button>
+        </div>
       </div>
     </div>
   </div>
@@ -757,7 +892,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <p>Sur iPad/iPhone : ouvre l'app dans <strong>Safari</strong>, touche <strong>Partager</strong> (carré avec flèche) → <strong>« Sur l'écran d'accueil »</strong>. L'app s'ouvre alors en plein écran comme une vraie appli, et ses données sont mieux protégées.</p>
       </div>
       <div class="help-footer">
-        <strong>SPK Sales Area Manager v9.2</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
+        <strong>SPK Sales Area Manager v9.3</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
         © Benjamin Rouquette 2026 — Tous droits réservés / All rights reserved
       </div>
     </div>
@@ -875,9 +1010,11 @@ let activeTypeFilter='Tous', activeSizeFilter='Tous', searchQuery='';
 let currentUser=null, isOnline=navigator.onLine;
 let listView=false, sortCol='nom', sortDir=1;
 let tourMode=false, tourClients=[], markerMap={};
-let crCurrentClientId=null, crType='activite', crCharge=null;
+let crCurrentClientId=null, crType='activite', crCharge=null, crPageMode=false, crPhotos=[];
 let oppCurrentClientId=null;
 let map, markersLayer, popupChart=null;
+let currentTab='home';
+let photoOrig=null, photoUndoStack=[], photoColor='#E2001A', photoTextMode=false, photoDrawing=false, photoLastPt=null;
 
 // ─── ICONS ────────────────────────────────────────────────
 const ICONS = {
@@ -1457,6 +1594,88 @@ function updateStats(){
     html+=`<div style="margin-top:9px;padding-top:7px;border-top:1px solid #eee;"><label style="font-size:11px;font-weight:600;color:#888;">🏭 Charge secteur</label><div style="display:flex;gap:12px;font-size:12px;margin-top:4px;">${Object.keys(CHARGES).map(k=>cd[k]?`<span title="${CHARGES[k].label}">${CHARGES[k].e} <b>${cd[k]}</b></span>`:'').join('')}</div></div>`;
   }
   document.getElementById('stats-content').innerHTML=html;
+}
+
+// ─── V9.3 : HOME VIEW ("MODE VISITE") ─────────────────────
+const JOURS_FULL=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+function switchTab(tab){
+  currentTab=tab;
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+  const home=document.getElementById('home-view');
+  const sidebar=document.getElementById('sidebar');
+  const mapC=document.getElementById('map-container');
+  const listP=document.getElementById('list-panel');
+  const viewBtn=document.getElementById('btn-view-toggle');
+  const hamburger=document.getElementById('btn-sidebar-toggle');
+  if(tab==='home'){
+    home.classList.add('show');
+    sidebar.style.display='none';
+    mapC.style.display='none';
+    listP.classList.remove('show');
+    viewBtn.style.display='none';
+    hamburger.style.display='none';
+    renderHomeView();
+  }else{
+    home.classList.remove('show');
+    sidebar.style.display='';
+    hamburger.style.display='';
+    viewBtn.style.display='inline-block';
+    mapC.style.display=listView?'none':'flex';
+    listP.classList.toggle('show',listView);
+    if(listView)renderListView();else{renderMarkers();setTimeout(()=>map&&map.invalidateSize(),80);}
+  }
+  document.getElementById('sidebar').classList.remove('sb-open');
+  document.getElementById('sidebar-backdrop').classList.remove('show');
+}
+function greetingWord(){
+  const h=new Date().getHours();
+  return h<12?'Bonjour':h<18?'Bon après-midi':'Bonsoir';
+}
+function hvCard(cl,opts={}){
+  const overdue=!!opts.overdue;
+  const timeLbl=overdue
+    ?(()=>{const days=Math.floor((new Date().setHours(0,0,0,0)-new Date(cl.prochaine_visite).setHours(0,0,0,0))/86400000);return`−${days}j`;})()
+    :(cl.rdv_heure?fmtHeure(cl.rdv_heure):'—');
+  return`<div class="visit-card${overdue?' overdue':''}" onclick="window._hvOpen('${cl.id}')">
+    <div class="vc-time">${timeLbl}</div>
+    <div class="vc-body">
+      <div class="vc-name">${escHTML(cl.nom)}</div>
+      <div class="vc-sub"><span class="vc-type" style="background:${TYPE_COLORS[cl.type]||'#888'};">${cl.type}</span>${escHTML(cl.ville)}</div>
+    </div>
+    <div class="vc-chevron">›</div>
+  </div>`;
+}
+function renderHomeView(){
+  const todayISO=new Date().toISOString().slice(0,10);
+  const now=new Date();
+  document.getElementById('hv-greet').textContent=`${greetingWord()} 👋`;
+  document.getElementById('hv-date').textContent=`${JOURS_FULL[now.getDay()]} ${now.getDate()} ${MNF[now.getMonth()].toLowerCase()} ${now.getFullYear()}`;
+  const today=clients.filter(cl=>cl.prochaine_visite===todayISO).sort((a,b)=>(a.rdv_heure||'99').localeCompare(b.rdv_heure||'99'));
+  document.getElementById('hv-today-title').textContent=today.length?`Aujourd'hui — ${today.length} visite${today.length>1?'s':''} prévue${today.length>1?'s':''}`:"Aujourd'hui";
+  document.getElementById('hv-today-list').innerHTML=today.length
+    ?today.map(cl=>hvCard(cl)).join('')
+    :'<div class="hv-empty">Aucune visite planifiée aujourd\'hui.</div>';
+  const overdue=clients.filter(cl=>cl.prochaine_visite&&cl.prochaine_visite<todayISO).sort((a,b)=>a.prochaine_visite.localeCompare(b.prochaine_visite));
+  const os=document.getElementById('hv-overdue-section');
+  if(overdue.length){
+    os.style.display='';
+    document.getElementById('hv-overdue-list').innerHTML=overdue.map(cl=>hvCard(cl,{overdue:true})).join('');
+  }else{os.style.display='none';}
+  document.getElementById('hv-search').value='';
+  document.getElementById('hv-search-results').innerHTML='';
+}
+window._hvOpen=function(id){
+  const cl=clients.find(c=>c.id===id);if(cl)openCR(cl,'activite',true);
+};
+function wireHomeSearch(){
+  const inp=document.getElementById('hv-search');
+  inp.addEventListener('input',()=>{
+    const q=inp.value.toLowerCase().trim();
+    const res=document.getElementById('hv-search-results');
+    if(!q){res.innerHTML='';return;}
+    const matches=clients.filter(cl=>(cl.nom+' '+cl.ville).toLowerCase().includes(q)).slice(0,8);
+    res.innerHTML=matches.length?matches.map(cl=>hvCard(cl)).join(''):'<div class="hv-empty">Aucun résultat</div>';
+  });
 }
 
 // ─── LIST VIEW ────────────────────────────────────────────
@@ -2041,9 +2260,23 @@ function setCRType(t){
   document.getElementById('cr-points').placeholder=t==='eclair'?'Une ligne suffit — le CR Salesforce sera généré automatiquement':'Sujets abordés lors de la visite…';
 }
 
-function openCR(cl,type='activite'){
+function buildCRContext(cl){
+  const lv=lastVisitDate(cl.id);
+  const openTasks=(clientTasks[cl.id]||[]).filter(t=>!t.done);
+  const ch=cl.charge&&CHARGES[cl.charge];
+  const parts=[];
+  parts.push(`<div>🗓 Dernière visite : <b>${lv?fmtDate(lv):'jamais'}</b></div>`);
+  if(openTasks.length)parts.push(`<div>📌 ${openTasks.length} action(s) ouverte(s) : ${escHTML(openTasks.slice(0,3).map(t=>t.text).join(' · '))}</div>`);
+  if(ch)parts.push(`<div>🏭 Charge atelier : <b>${ch.e} ${ch.label}</b></div>`);
+  return parts.join('');
+}
+
+function openCR(cl,type='activite',pageMode=false){
   crCurrentClientId=cl.id;
   crCharge=cl.charge&&CHARGES[cl.charge]?cl.charge:null;
+  crPageMode=pageMode;
+  crPhotos=[];
+  renderPhotoStrip();
   document.getElementById('cr-modal-client').textContent=cl.nom+(cl.ville?' — '+cl.ville:'');
   document.getElementById('cr-date').value=new Date().toISOString().slice(0,10);
   document.getElementById('cr-contact').value=cl.contact||'';
@@ -2058,7 +2291,27 @@ function openCR(cl,type='activite'){
   renderCRChargeRow();
   renderCRRDV(cl);
   renderCRHistory(cl.id);
+  const ctx=document.getElementById('cr-context');
+  const modal=document.getElementById('cr-modal');
+  const backBtn=document.getElementById('cr-back');
+  const closeBtn=document.getElementById('cr-close');
+  if(pageMode){
+    ctx.innerHTML=buildCRContext(cl);ctx.style.display='block';
+    document.getElementById('cr-modal-title').textContent='📝 '+cl.nom;
+    modal.classList.add('page-mode');
+    backBtn.style.display='';closeBtn.style.display='none';
+  }else{
+    ctx.style.display='none';
+    document.getElementById('cr-modal-title').textContent='📋 Compte-rendu de visite';
+    modal.classList.remove('page-mode');
+    backBtn.style.display='none';closeBtn.style.display='';
+  }
   document.getElementById('cr-modal').classList.add('show');
+}
+function closeCR(){
+  document.getElementById('cr-modal').classList.remove('show');
+  if(crPageMode){switchTab('home');}
+  crPageMode=false;
 }
 
 function saveCR(){
@@ -2074,6 +2327,7 @@ function saveCR(){
     reaction:crType==='presentation'?document.getElementById('cr-reaction').value:'',
     next_date:document.getElementById('cr-next-date').value||null,
     next_heure:document.getElementById('cr-next-heure').value||null,
+    photos_count:crPhotos.length,
     sf_logged:false};
   if(!visitReports[id])visitReports[id]=[];
   visitReports[id].unshift(cr);
@@ -2086,7 +2340,8 @@ function saveCR(){
   }
   saveCache();
   toast('CR sauvegardé ✓ — dispo dans la file Salesforce','s');
-  document.getElementById('cr-modal').classList.remove('show');
+  crPhotos=[];
+  closeCR();
   renderMarkers();renderAlertsSection();renderVisitsSection();renderSFBadge();updateStats();renderListView();
 }
 
@@ -2113,6 +2368,120 @@ function renderCRHistory(clientId){
       ${cr.opportunite?`<div class="cr-i-body" style="color:var(--green);"><strong>Opportunité :</strong> ${escHTML(cr.opportunite)}</div>`:''}
       ${cr.next_date?`<div class="cr-i-body" style="color:var(--blue);"><strong>Prochaine visite :</strong> ${fmtDate(cr.next_date)}</div>`:''}
     </div>`).join('');
+}
+
+// ─── V9.3 : PHOTO CAPTURE / ANNOTATION (éphémère) ─────────
+function renderPhotoStrip(){
+  const el=document.getElementById('cr-photo-strip');if(!el)return;
+  el.innerHTML=crPhotos.map((p,i)=>`<div class="photo-thumb"><img src="${p.dataURL}"><button class="pt-x" onclick="window._crPhotoDel(${i})">×</button></div>`).join('');
+}
+window._crPhotoDel=function(i){crPhotos.splice(i,1);renderPhotoStrip();};
+
+function initPhotoModule(){
+  const fileInput=document.getElementById('photo-input');
+  const canvas=document.getElementById('photo-canvas');
+  const ctx=canvas.getContext('2d');
+  const MAXDIM=1280;
+
+  function resetEditor(){
+    document.getElementById('photo-empty').style.display='';
+    document.getElementById('photo-editor').style.display='none';
+    photoOrig=null;photoUndoStack=[];photoTextMode=false;photoDrawing=false;
+    document.getElementById('btn-photo-text').classList.remove('on');
+    fileInput.value='';
+  }
+  function openPhotoModal(){resetEditor();document.getElementById('photo-modal').classList.add('show');}
+  function closePhotoModal(){document.getElementById('photo-modal').classList.remove('show');resetEditor();}
+
+  function loadImageToCanvas(file){
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=new Image();
+      img.onload=()=>{
+        let w=img.width,h=img.height;
+        if(w>MAXDIM||h>MAXDIM){const scale=MAXDIM/Math.max(w,h);w=Math.round(w*scale);h=Math.round(h*scale);}
+        canvas.width=w;canvas.height=h;
+        ctx.drawImage(img,0,0,w,h);
+        photoOrig=canvas.toDataURL('image/jpeg',0.9);
+        photoUndoStack=[photoOrig];
+        document.getElementById('photo-empty').style.display='none';
+        document.getElementById('photo-editor').style.display='block';
+      };
+      img.src=e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+  function pushUndo(){photoUndoStack.push(canvas.toDataURL('image/jpeg',0.92));if(photoUndoStack.length>15)photoUndoStack.shift();}
+  function redrawFrom(dataURL){const img=new Image();img.onload=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0);};img.src=dataURL;}
+  function undo(){if(photoUndoStack.length<=1)return;photoUndoStack.pop();redrawFrom(photoUndoStack[photoUndoStack.length-1]);}
+  function clearAll(){if(!photoOrig)return;redrawFrom(photoOrig);photoUndoStack=[photoOrig];}
+  function getPos(e){
+    const rect=canvas.getBoundingClientRect();
+    const scaleX=canvas.width/rect.width,scaleY=canvas.height/rect.height;
+    return{x:(e.clientX-rect.left)*scaleX,y:(e.clientY-rect.top)*scaleY};
+  }
+  function startDraw(e){
+    if(!photoOrig)return;
+    if(photoTextMode){
+      const pos=getPos(e);
+      const txt=prompt('Texte à ajouter sur la photo :');
+      if(txt){pushUndo();ctx.fillStyle=photoColor;ctx.font=`bold ${Math.round(canvas.width*0.045)}px Arial`;ctx.fillText(txt,pos.x,pos.y);}
+      photoTextMode=false;document.getElementById('btn-photo-text').classList.remove('on');
+      return;
+    }
+    e.preventDefault();pushUndo();photoDrawing=true;photoLastPt=getPos(e);
+  }
+  function moveDraw(e){
+    if(!photoDrawing)return;
+    e.preventDefault();
+    const pos=getPos(e);
+    ctx.strokeStyle=photoColor;ctx.lineWidth=Math.max(3,canvas.width*0.006);ctx.lineCap='round';ctx.lineJoin='round';
+    ctx.beginPath();ctx.moveTo(photoLastPt.x,photoLastPt.y);ctx.lineTo(pos.x,pos.y);ctx.stroke();
+    photoLastPt=pos;
+  }
+  function endDraw(){photoDrawing=false;}
+
+  canvas.addEventListener('pointerdown',startDraw);
+  canvas.addEventListener('pointermove',moveDraw);
+  window.addEventListener('pointerup',endDraw);
+
+  document.getElementById('btn-cr-add-photo').addEventListener('click',openPhotoModal);
+  document.getElementById('photo-close').addEventListener('click',closePhotoModal);
+  document.getElementById('photo-modal').addEventListener('click',e=>{if(e.target===document.getElementById('photo-modal'))closePhotoModal();});
+  document.getElementById('btn-photo-pick').addEventListener('click',()=>fileInput.click());
+  fileInput.addEventListener('change',e=>{if(e.target.files.length)loadImageToCanvas(e.target.files[0]);});
+  document.querySelectorAll('.pt-color').forEach(b=>b.addEventListener('click',()=>{
+    photoColor=b.dataset.color;
+    document.querySelectorAll('.pt-color').forEach(x=>x.classList.toggle('on',x===b));
+  }));
+  document.getElementById('btn-photo-text').addEventListener('click',e=>{
+    photoTextMode=!photoTextMode;
+    e.currentTarget.classList.toggle('on',photoTextMode);
+  });
+  document.getElementById('btn-photo-undo').addEventListener('click',undo);
+  document.getElementById('btn-photo-clear').addEventListener('click',clearAll);
+  document.getElementById('btn-photo-cancel').addEventListener('click',closePhotoModal);
+  document.getElementById('btn-photo-keep').addEventListener('click',()=>{
+    if(!photoOrig)return;
+    crPhotos.push({dataURL:canvas.toDataURL('image/jpeg',0.82)});
+    renderPhotoStrip();closePhotoModal();
+    toast('Photo ajoutée au CR ✓','s');
+  });
+  document.getElementById('btn-photo-copy').addEventListener('click',()=>{
+    if(!photoOrig)return;
+    canvas.toBlob(async blob=>{
+      if(!blob)return;
+      try{
+        if(!navigator.clipboard||!window.ClipboardItem)throw new Error('unsupported');
+        await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);
+        toast('Image copiée — colle-la dans Teams / Copilot ✓','s');
+      }catch(err){
+        const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='photo_spk.jpg';
+        document.body.appendChild(a);a.click();a.remove();
+        toast('Copie image non supportée sur ce navigateur — téléchargée à la place','e');
+      }
+    },'image/png');
+  });
 }
 
 // ─── TASKS ────────────────────────────────────────────────
@@ -2300,6 +2669,7 @@ function genSFVisit(cl,cr){
   else if((cr.type||'activite')==='eclair')lines.push('Compte-rendu : Visite de suivi. Pas de nouveau projet évoqué.');
   if(cr.actions)lines.push(`Prochaines actions : ${cr.actions}`);
   if(cr.opportunite)lines.push(`Opportunité détectée : ${cr.opportunite}`);
+  if(cr.photos_count)lines.push(`📷 ${cr.photos_count} photo(s) prise(s) pendant la visite (partagée(s) séparément)`);
   if(cr.next_date)lines.push(`Prochaine visite prévue : ${fmtDate(cr.next_date)}${cr.next_heure?' à '+fmtHeure(cr.next_heure):''}`);
   return lines.join('\n');
 }
@@ -2642,6 +3012,7 @@ async function renderApp(){
   renderAlertsSection();renderVisitsSection();
   renderSFBadge();renderPipelineMini();
   checkBackupReminder();renderSyncUI();renderDemoBtn();
+  switchTab(currentTab);
 }
 
 // ─── INIT ─────────────────────────────────────────────────
@@ -2712,8 +3083,9 @@ function init(){
 
   // CR modal
   document.getElementById('btn-cr-save').addEventListener('click',saveCR);
-  document.getElementById('cr-close').addEventListener('click',()=>document.getElementById('cr-modal').classList.remove('show'));
-  document.getElementById('cr-modal').addEventListener('click',e=>{if(e.target===document.getElementById('cr-modal'))document.getElementById('cr-modal').classList.remove('show');});
+  document.getElementById('cr-close').addEventListener('click',closeCR);
+  document.getElementById('cr-back').addEventListener('click',closeCR);
+  document.getElementById('cr-modal').addEventListener('click',e=>{if(e.target===document.getElementById('cr-modal')&&!crPageMode)closeCR();});
   document.getElementById('cr-type-row').addEventListener('click',e=>{
     const t=e.target.closest('.crt-chip');if(t)setCRType(t.dataset.crt);
   });
@@ -2791,6 +3163,15 @@ function init(){
     sidebar.classList.contains('sb-open')?closeSidebar():openSidebar();
   });
   backdrop.addEventListener('click',closeSidebar);
+
+  // Nav tabs (Visites / Carte)
+  document.getElementById('nav-tabs').addEventListener('click',e=>{
+    const b=e.target.closest('.nav-tab');if(b)switchTab(b.dataset.tab);
+  });
+  wireHomeSearch();
+
+  // Photo capture / annotation
+  initPhotoModule();
 
   checkAuth();
 }
