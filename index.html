@@ -454,6 +454,14 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 #home-view{display:none;flex:1;overflow-y:auto;background:#f4f6f9;-webkit-overflow-scrolling:touch;}
 #home-view.show{display:block;}
 .hv-inner{max-width:640px;margin:0 auto;padding:20px 18px 40px;}
+
+/* Desktop/tablette large : le contenu flottait sans limite visuelle sur le même fond gris
+   que le vide autour (donnait l'impression d'une page à moitié chargée) — on lui donne
+   une vraie carte visible, centrée, au lieu de le laisser flotter à plat. */
+@media(min-width:900px){
+  #home-view{padding:32px 24px;}
+  .hv-inner{max-width:760px;background:var(--white);border-radius:10px;box-shadow:var(--shm);padding:32px 40px 44px;margin:0 auto;}
+}
 .hv-hdr{margin-bottom:22px;}
 .hv-greet{font-family:'Open Sans Condensed',sans-serif;font-size:26px;font-weight:700;color:var(--blue);}
 .hv-date{font-size:13px;color:#888;margin-top:2px;text-transform:capitalize;}
@@ -470,6 +478,9 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
 .vc-type{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:10px;color:#fff;margin-right:5px;}
 .vc-chevron{color:#ccc;font-size:20px;}
 .hv-empty{font-size:13px;color:#aaa;text-align:center;padding:18px 0;}
+.hv-empty-cta{text-align:center;padding:20px 16px;background:#f8f9fb;border-radius:8px;}
+.hv-empty-cta p{font-size:13px;color:#777;margin-bottom:4px;}
+.hv-empty-cta .hv-empty-sub{font-size:12px;color:#999;margin-bottom:12px;}
 #hv-search-results .visit-card{padding:10px 14px;}
 #hv-search-results:empty{display:none;}
 
@@ -538,7 +549,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
     <button class="nav-tab on" id="tab-home" data-tab="home">🏠<span class="nt-txt"> Visites</span></button>
     <button class="nav-tab" id="tab-map" data-tab="map">🗺<span class="nt-txt"> Carte</span></button>
   </div>
-  <span class="ver-badge" style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v9.6</span>
+  <span class="ver-badge" style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v9.7</span>
   <div class="nav-right">
     <button id="btn-devnotes" title="Notes de développement" aria-label="Notes de développement">🛠<span class="nav-badge" id="dn-badge" style="display:none;"></span></button>
     <button id="btn-help" title="Aide & notice d'utilisation" aria-label="Aide">?</button>
@@ -617,7 +628,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <button class="btn btn-o btn-bl btn-sm" id="btn-tour-toggle" style="margin-bottom:5px;">🚗 Démarrer une tournée</button>
       <button class="btn btn-o btn-bl btn-sm" id="btn-monthly-report">📊 Rapport mensuel (Excel)</button>
     </div>
-    <div class="sb-copyright">SPK Sales Area Manager v9.6<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
+    <div class="sb-copyright">SPK Sales Area Manager v9.7<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
   </div>
 
   <div id="home-view">
@@ -638,7 +649,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <h3>🔍 Autre client (visite non planifiée)</h3>
         <div class="search-wrap" style="padding:0;background:none;border:none;">
           <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-          <input type="text" id="hv-search" placeholder="Nom, ville…"/>
+          <input type="text" id="hv-search" placeholder="Nom, ville…" autocomplete="off" name="hv-search-client"/>
         </div>
         <div id="hv-search-results"></div>
       </div>
@@ -911,7 +922,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <p>Sur iPad/iPhone : ouvre l'app dans <strong>Safari</strong>, touche <strong>Partager</strong> (carré avec flèche) → <strong>« Sur l'écran d'accueil »</strong>. L'app s'ouvre alors en plein écran comme une vraie appli, et ses données sont mieux protégées.</p>
       </div>
       <div class="help-footer">
-        <strong>SPK Sales Area Manager v9.6</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
+        <strong>SPK Sales Area Manager v9.7</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
         © Benjamin Rouquette 2026 — Tous droits réservés / All rights reserved
       </div>
     </div>
@@ -1694,9 +1705,20 @@ function renderHomeView(){
   document.getElementById('hv-date').textContent=`${JOURS_FULL[now.getDay()]} ${now.getDate()} ${MNF[now.getMonth()].toLowerCase()} ${now.getFullYear()}`;
   const today=clients.filter(cl=>cl.prochaine_visite===todayISO).sort((a,b)=>(a.rdv_heure||'99').localeCompare(b.rdv_heure||'99'));
   document.getElementById('hv-today-title').textContent=today.length?`Aujourd'hui — ${today.length} visite${today.length>1?'s':''} prévue${today.length>1?'s':''}`:"Aujourd'hui";
-  document.getElementById('hv-today-list').innerHTML=today.length
-    ?today.map(cl=>hvCard(cl)).join('')
-    :'<div class="hv-empty">Aucune visite planifiée aujourd\'hui.</div>';
+  if(today.length){
+    document.getElementById('hv-today-list').innerHTML=today.map(cl=>hvCard(cl)).join('');
+  }else{
+    const unscheduled=clients.filter(cl=>!cl.prochaine_visite).length;
+    document.getElementById('hv-today-list').innerHTML = clients.length===0
+      ? '<div class="hv-empty">Aucun client dans ta base — importe ta liste depuis l\'onglet 🗺 Carte.</div>'
+      : unscheduled>0
+        ? `<div class="hv-empty-cta">
+             <p>Aucune visite planifiée aujourd'hui.</p>
+             <p class="hv-empty-sub">${unscheduled} client${unscheduled>1?'s':''} sans prochain RDV planifié.</p>
+             <button class="btn btn-p btn-sm" onclick="window._hvGoMap()">🗺 Voir mes clients sur la carte</button>
+           </div>`
+        : '<div class="hv-empty">Aucune visite planifiée aujourd\'hui.</div>';
+  }
   const overdue=clients.filter(cl=>cl.prochaine_visite&&cl.prochaine_visite<todayISO).sort((a,b)=>a.prochaine_visite.localeCompare(b.prochaine_visite));
   const os=document.getElementById('hv-overdue-section');
   if(overdue.length){
@@ -1706,6 +1728,7 @@ function renderHomeView(){
   document.getElementById('hv-search').value='';
   document.getElementById('hv-search-results').innerHTML='';
 }
+window._hvGoMap=function(){switchTab('map');};
 window._hvOpen=function(id){
   const cl=clients.find(c=>c.id===id);if(cl)openCR(cl,'activite',true);
 };

@@ -4,7 +4,7 @@
 **Client** : CeramTec  
 **URL de démo** : https://spk-SAM.surge.sh  
 **Repo GitHub** : https://github.com/benito2223-ux/Sales-Area-Manager  
-**Dernière mise à jour** : Juillet 2026 (v9.6)
+**Dernière mise à jour** : Juillet 2026 (v9.7)
 
 ---
 
@@ -108,6 +108,11 @@ Sales Area Manager/
 - CA cumulé année (vue filtrée)
 - Répartition par type de client
 - Charge secteur (répartition 🔴🟡🟢🔥, vue filtrée)
+
+### v9.7 — Écran d'accueil : cohérence UI desktop (juillet 2026)
+- **Bug visuel corrigé** : sur grand écran (PC/Mac), le contenu de l'accueil flottait sans aucune limite visuelle sur le même fond gris que le vide environnant (jusqu'à 320 px de vide de chaque côté à 1280 px de large) — donnait l'impression d'une page cassée/à moitié chargée. Le contenu est désormais présenté dans une vraie carte (fond blanc, ombre, coins arrondis, largeur 760 px) à partir de 900 px de large.
+- **États vides plus utiles** : quand aucune visite n'est prévue aujourd'hui mais que des clients existent sans RDV planifié (cas d'un import frais, ex. les 91 clients réels de Benjamin), l'accueil affiche désormais le nombre de clients concernés + un bouton **"🗺 Voir mes clients sur la carte"** au lieu d'un message sec sans suite possible.
+- **Fix mineur** : `autocomplete="off"` sur le champ de recherche de l'accueil (le navigateur y proposait l'email du compte connecté en auto-remplissage).
 
 ### v9.6 — Import Base Clients fiabilisé + type "À qualifier" (juillet 2026)
 - **Bug corrigé** : l'import Excel n'acceptait que l'en-tête exact "Nom client" (et équivalents) — tout fichier avec des en-têtes différents échouait silencieusement (0 client importé, sans message clair). Ajout de `getCol()` (recherche insensible à la casse/aux espaces) + toast d'erreur explicite listant les colonnes détectées quand rien ne correspond.
