@@ -4,7 +4,7 @@
 **Client** : CeramTec  
 **URL de démo** : https://spk-SAM.surge.sh  
 **Repo GitHub** : https://github.com/benito2223-ux/Sales-Area-Manager  
-**Dernière mise à jour** : Juillet 2026 (v9.5)
+**Dernière mise à jour** : Juillet 2026 (v9.6)
 
 ---
 
@@ -108,6 +108,11 @@ Sales Area Manager/
 - CA cumulé année (vue filtrée)
 - Répartition par type de client
 - Charge secteur (répartition 🔴🟡🟢🔥, vue filtrée)
+
+### v9.6 — Import Base Clients fiabilisé + type "À qualifier" (juillet 2026)
+- **Bug corrigé** : l'import Excel n'acceptait que l'en-tête exact "Nom client" (et équivalents) — tout fichier avec des en-têtes différents échouait silencieusement (0 client importé, sans message clair). Ajout de `getCol()` (recherche insensible à la casse/aux espaces) + toast d'erreur explicite listant les colonnes détectées quand rien ne correspond.
+- **Nouveau type "À qualifier"** (gris, `#9ca3af`) : les clients importés sans catégorie connue (Fonte/HRSA/Hard Turning/Distributeur/Lead/New Customer) prennent ce type neutre au lieu d'être étiquetés à tort "Lead" — évite de classer de vrais comptes établis comme prospects.
+- **Import de la base réelle (91 clients)** depuis l'export SAP de Benjamin (`Liste clients Benjamin Rouquette.XLSX`, format Debitor/Name 1/Straße/PLZ/Ort — totalement différent du template attendu). Script `Sample order generator/convert_and_geocode.py` : mapping des colonnes, déduction du département FR depuis le code postal (table 01-95 + Corse 2A/2B + DOM), géocodage Nominatim (1 req/s). Bug de géocodage détecté et corrigé en cours de route : les codes postaux "Cedex" (non géographiques) faisaient matcher Nominatim sur des hameaux homonymes sans rapport — re-géocodage réussi via ville + département plutôt que le faux code postal. 91/91 adresses géocodées et vérifiées (recherche de coordonnées dupliquées entre villes différentes). Fichier prêt à importer : `Sample order generator/import_clients_geocodes.xlsx`.
 
 ### v9.5 — Notes de développement (juillet 2026)
 - **Carnet perso** accessible via 🛠 dans la navbar (toujours visible, quel que soit l'onglet) : liste de notes libres avec case à cocher, badge du nombre de notes en attente, bouton **📋 Copier tout** qui génère un bloc texte prêt à coller à Claude en début de session suivante. Stockage `localStorage` (`spk_devnotes`), indépendant des données clients — carnet personnel à l'appareil, pas synchronisé au cloud.

@@ -538,7 +538,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
     <button class="nav-tab on" id="tab-home" data-tab="home">🏠<span class="nt-txt"> Visites</span></button>
     <button class="nav-tab" id="tab-map" data-tab="map">🗺<span class="nt-txt"> Carte</span></button>
   </div>
-  <span class="ver-badge" style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v9.5</span>
+  <span class="ver-badge" style="font-size:10px;background:#e8f0fb;color:#1B5EA6;border-radius:3px;padding:1px 6px;font-weight:700;">v9.6</span>
   <div class="nav-right">
     <button id="btn-devnotes" title="Notes de développement" aria-label="Notes de développement">🛠<span class="nav-badge" id="dn-badge" style="display:none;"></span></button>
     <button id="btn-help" title="Aide & notice d'utilisation" aria-label="Aide">?</button>
@@ -617,7 +617,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
       <button class="btn btn-o btn-bl btn-sm" id="btn-tour-toggle" style="margin-bottom:5px;">🚗 Démarrer une tournée</button>
       <button class="btn btn-o btn-bl btn-sm" id="btn-monthly-report">📊 Rapport mensuel (Excel)</button>
     </div>
-    <div class="sb-copyright">SPK Sales Area Manager v9.5<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
+    <div class="sb-copyright">SPK Sales Area Manager v9.6<br>© Benjamin Rouquette 2026 — Tous droits réservés</div>
   </div>
 
   <div id="home-view">
@@ -911,7 +911,7 @@ body{font-family:'Open Sans',sans-serif;color:#1a1a1a;background:#f4f6f9;}
         <p>Sur iPad/iPhone : ouvre l'app dans <strong>Safari</strong>, touche <strong>Partager</strong> (carré avec flèche) → <strong>« Sur l'écran d'accueil »</strong>. L'app s'ouvre alors en plein écran comme une vraie appli, et ses données sont mieux protégées.</p>
       </div>
       <div class="help-footer">
-        <strong>SPK Sales Area Manager v9.5</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
+        <strong>SPK Sales Area Manager v9.6</strong> — Application de gestion commerciale terrain CeramTec SPK<br>
         © Benjamin Rouquette 2026 — Tous droits réservés / All rights reserved
       </div>
     </div>
@@ -1022,10 +1022,10 @@ const sb = supabase.createClient(SB_URL, SB_KEY);
 
 const TYPE_COLORS = {
   'Fonte':'#1B5EA6','HRSA':'#E2001A','Hard Turning':'#154d8a',
-  'Distributeur':'#2E6FAD','Lead':'#f59e0b','New Customer':'#10b981'
+  'Distributeur':'#2E6FAD','Lead':'#f59e0b','New Customer':'#10b981','À qualifier':'#9ca3af'
 };
 const CAT_COLORS = {'Fonte':'#1B5EA6','HRSA':'#E2001A','Hard Turning':'#154d8a'};
-const TYPE_LABELS = ['Fonte','HRSA','Hard Turning','Distributeur','Lead','New Customer','Tous'];
+const TYPE_LABELS = ['Fonte','HRSA','Hard Turning','Distributeur','Lead','New Customer','À qualifier','Tous'];
 const SIZE_LABELS = ['Petit','Moyen','Gros','Tous'];
 const CA_T = {petit:1000, moyen:100000};
 const CHARGES = {
@@ -1064,7 +1064,8 @@ const ICONS = {
   'Hard Turning': c=>`<svg viewBox="0 0 24 24" fill="${c}"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>`,
   'Distributeur': c=>`<svg viewBox="0 0 24 24" fill="${c}"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9 1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`,
   'Lead': c=>`<svg viewBox="0 0 24 24" fill="${c}"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`,
-  'New Customer': c=>`<svg viewBox="0 0 24 24" fill="${c}"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>`
+  'New Customer': c=>`<svg viewBox="0 0 24 24" fill="${c}"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>`,
+  'À qualifier': c=>`<svg viewBox="0 0 24 24" fill="${c}"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>`
 };
 function getIcon(type){ const c=TYPE_COLORS[type]||'#888'; return (ICONS[type]||((c)=>`<svg viewBox="0 0 24 24" fill="${c}"><circle cx="12" cy="12" r="6"/></svg>`))(c); }
 function markerSize(ca){ return ca>CA_T.moyen?50:ca>=CA_T.petit?35:24; }
@@ -1599,7 +1600,7 @@ function getFiltered(){
     return true;
   });
 }
-function typeCounts(){const c={Tous:clients.length,Fonte:0,HRSA:0,'Hard Turning':0,Distributeur:0,Lead:0,'New Customer':0};clients.forEach(cl=>{if(c[cl.type]!==undefined)c[cl.type]++;});return c;}
+function typeCounts(){const c={Tous:clients.length,Fonte:0,HRSA:0,'Hard Turning':0,Distributeur:0,Lead:0,'New Customer':0,'À qualifier':0};clients.forEach(cl=>{if(c[cl.type]!==undefined)c[cl.type]++;});return c;}
 function sizeCounts(){const m={Petit:0,Moyen:0,Gros:0};clients.forEach(cl=>{const ca=caMonth(cl.id);if(ca<CA_T.petit)m.Petit++;else if(ca<=CA_T.moyen)m.Moyen++;else m.Gros++;});return m;}
 
 // ─── SIDEBAR ──────────────────────────────────────────────
@@ -1870,8 +1871,21 @@ async function geocode(){
 
 // ─── XLS IMPORT / EXPORT ─────────────────────────────────
 function normalizeType(raw){
-  const m={'fonte':'Fonte','casting':'Fonte','hrsa':'HRSA','hard turning':'Hard Turning','tournage':'Hard Turning','distributeur':'Distributeur','distributor':'Distributeur','lead':'Lead','prospect':'Lead','new customer':'New Customer','nouveau client':'New Customer','nouveau':'New Customer'};
-  const l=(raw||'').toLowerCase().trim();return m[l]||(Object.keys(m).find(k=>l.includes(k))&&m[Object.keys(m).find(k=>l.includes(k))])||raw||'Lead';
+  const m={'fonte':'Fonte','casting':'Fonte','hrsa':'HRSA','hard turning':'Hard Turning','tournage':'Hard Turning','distributeur':'Distributeur','distributor':'Distributeur','lead':'Lead','prospect':'Lead','new customer':'New Customer','nouveau client':'New Customer','nouveau':'New Customer','à qualifier':'À qualifier','a qualifier':'À qualifier','non catégorisé':'À qualifier'};
+  const l=(raw||'').toLowerCase().trim();return m[l]||(Object.keys(m).find(k=>l.includes(k))&&m[Object.keys(m).find(k=>l.includes(k))])||raw||'À qualifier';
+}
+// Recherche une valeur de colonne insensible à la casse/aux espaces (compat en-têtes légèrement différents)
+function getCol(row,...names){
+  for(const n of names){
+    if(row[n]!==undefined&&row[n]!=='')return row[n];
+  }
+  const keys=Object.keys(row);
+  for(const n of names){
+    const target=n.toLowerCase().trim();
+    const found=keys.find(k=>k.toLowerCase().trim()===target);
+    if(found&&row[found]!=='')return row[found];
+  }
+  return '';
 }
 
 function dlTpl(type){
@@ -1895,21 +1909,27 @@ async function importClients(file){
     const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''});
     let n=0;
     for(const row of rows){
-      const nom=(row['Nom client']||'').trim();if(!nom)continue;
-      const typeRaw=(row['Type (Fonte/HRSA/Hard Turning/Distributeur/Lead/New Customer)']||row['Type']||'').trim();
-      const cat=(row['Catégorie produit (Fonte/HRSA/Hard Turning)']||row['Catégorie produit']||row['Categorie']||'').trim();
+      const nom=String(getCol(row,'Nom client','Nom Client','Nom','Client')).trim();if(!nom)continue;
+      const typeRaw=String(getCol(row,'Type (Fonte/HRSA/Hard Turning/Distributeur/Lead/New Customer)','Type')).trim();
+      const cat=String(getCol(row,'Catégorie produit (Fonte/HRSA/Hard Turning)','Catégorie produit','Categorie')).trim();
       const ex=clients.find(c=>c.nom.toLowerCase()===nom.toLowerCase());
-      const cl={id:ex?ex.id:getId(),nom,contact:(row['Nom contact']||ex?.contact||'').trim(),
-        ville:(row['Ville']||ex?.ville||'').trim(),dept:(row['Département']||ex?.dept||'').trim(),
-        cp:String(row['Code postal']||ex?.cp||'').trim(),type:normalizeType(typeRaw||(ex?.type||'Lead')),
+      const cl={id:ex?ex.id:getId(),nom,contact:String(getCol(row,'Nom contact','Contact')||ex?.contact||'').trim(),
+        ville:String(getCol(row,'Ville')||ex?.ville||'').trim(),dept:String(getCol(row,'Département','Departement')||ex?.dept||'').trim(),
+        cp:String(getCol(row,'Code postal','CP')||ex?.cp||'').trim(),type:normalizeType(typeRaw||(ex?.type||'À qualifier')),
         categorie_produit:cat||(ex?.categorie_produit||''),
-        tel:String(row['Téléphone']||ex?.tel||'').trim(),email:(row['Email']||ex?.email||'').trim(),
-        lat:parseFloat(row['Latitude'])||ex?.lat||0,lng:parseFloat(row['Longitude'])||ex?.lng||0};
+        tel:String(getCol(row,'Téléphone','Telephone','Tél')||ex?.tel||'').trim(),email:String(getCol(row,'Email','E-mail')||ex?.email||'').trim(),
+        lat:parseFloat(getCol(row,'Latitude'))||ex?.lat||0,lng:parseFloat(getCol(row,'Longitude'))||ex?.lng||0};
       await dbUpsertClient(cl);
       if(ex)Object.assign(ex,cl);else clients.push(cl);n++;
     }
-    if(n>0)localStorage.removeItem('spk_demo');
-    saveCache();renderFilters();renderMarkers();updateStats();renderListView();renderDemoBtn();toast(`${n} client(s) importé(s)`,'s');
+    if(n>0){
+      localStorage.removeItem('spk_demo');
+      saveCache();renderFilters();renderMarkers();updateStats();renderListView();renderDemoBtn();
+      toast(`${n} client(s) importé(s)`,'s');
+    }else{
+      const headers=rows.length?Object.keys(rows[0]):[];
+      toast(`Aucun client importé — colonne "Nom client" introuvable. Colonnes détectées : ${headers.join(', ')||'(fichier vide)'}`,'e');
+    }
   }catch(err){toast('Erreur import: '+err.message,'e');}};
   r.readAsArrayBuffer(file);
 }

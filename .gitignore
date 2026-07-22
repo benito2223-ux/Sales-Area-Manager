@@ -1,5 +1,9 @@
 # Données confidentielles — ne jamais commiter
 *.csv
+*.xlsx
+*.xls
+client_list_dump.json
+_test_import.xlsx
 
 # Config locale Claude
 .claude/

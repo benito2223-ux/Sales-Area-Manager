@@ -1,6 +1,6 @@
 // SPK SAM — Service Worker offline-first
 // Précache l'app + les librairies CDN pour un démarrage sans réseau (atelier).
-const CACHE = 'spk-sam-v9-5';
+const CACHE = 'spk-sam-v9-6';
 
 // Ressources de l'app (même origine)
 const APP_ASSETS = [
